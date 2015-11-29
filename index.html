@@ -1,25 +1,36 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8"/>
-<title>Virtual KC85</title>
-<link rel="stylesheet" type="text/css" href="style.css"/>
-<link rel="icon" type="image/png" href="favicon.png"/>
-</head>
-<body>
-    <div class="top-padding"></div>
-    <div class="title-border"></div>
-    <div class="title">KLEINCOMPUTER KC85</div>
-    <div class="title-border"></div>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <div class="nav-bar" style="width:450px">
-    <ul class="nav-list">
-        <li class="nav-item"><a class="nav-link" style="width:150px" href="about.html" target="_blank">about</a></li>
-        <li class="nav-item"><a class="nav-link" style="width:150px" href="http://github.com/floooh/yakc" target="_blank">github</a></li>
-        <li class="nav-item"><a class="nav-link" style="width:150px" onclick="Module.requestFullScreen(false, true)" href="javascript:void(0);">fullscreen</a></li>
-        <div class="break"></div>
-    </ul>
-    </div>
+  <title>virtualkc</title>
+  <meta name="description" content="portable KC85 emulator written in C++
+">
+
+  <link rel="stylesheet" href="/virtualkc/css/main.css">
+  <link rel="canonical" href="/virtualkc/">
+</head>
+
+  <body>
+    <div class="kc-top-padding"></div>
+<div class="kc-title-border"></div>
+<div class="kc-title">KLEINCOMPUTER KC85</div>
+<div class="kc-title-border"></div>
+
+
+    <!-- the main page horizontal menu bar -->
+<div class="main-nav-bar" style="width:450px">
+<ul class="main-nav-list">
+    <li class="main-nav-item"><a class="main-nav-link" style="width:150px" href="p010_kc85.html" target="_blank">about</a></li>
+    <li class="main-nav-item"><a class="main-nav-link" style="width:150px" href="http://github.com/floooh/yakc" target="_blank">github</a></li>
+    <li class="main-nav-item"><a class="main-nav-link" style="width:150px" onclick="Module.requestFullScreen(false, true)" href="javascript:void(0);">fullscreen</a></li>
+    <div style="clear:both"></div>
+</ul>
+</div>
+
+
 
     <div class="game-border">
     <canvas class="game" id="canvas" hidden oncontextmenu="event.preventDefault()" width="640" height="512"></canvas>
@@ -27,5 +38,7 @@
 
     <script type="text/javascript" src="emsc.js"></script>
     <script async type="text/javascript" src="yakc_app.js"></script>
-</body>
+
+  </body>
 </html>
+

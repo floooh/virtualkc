@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The KC85</title>
+  <meta name="description" content="portable KC85 emulator written in C++
+">
+
+  <link rel="stylesheet" href="/virtualkc/css/main.css">
+  <link rel="canonical" href="/virtualkc/p010_kc85.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+    <div class="kc-top-padding"></div>
+    <div class="kc-title-border"></div>
+    <div class="kc-title">KLEINCOMPUTER KC85</div>
+    <div class="kc-title-border"></div>
+</header>
+
+
+
+
+    <ul class="navigation">
+    
+        
+    
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p010_kc85.html">The KC85</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p020_emulator.html">The Emulator</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p030_examples.html">Examples</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p040_hardwaredocs.html">HW Docs</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p050_caosdocs.html">CAOS Docs</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p060_links.html">Links</a>
+        </li>
+        
+    
+</ul>
+
+
+
+    <div class="page-content">
+        <div>
+
+  <article>
+    <h2>The KC85 Computer Series</h2>
+
+<p>The KC85 was a series of 8-bit computers built in Eastern
+Germany from the mid-80&#39;s until the fall of the Iron Curtain in 1989. </p>
+
+<p>KC means &#39;Kleincomputer&#39; or &#39;Small Computer&#39;, this was an umbrella name
+for 6 different computer models with partially very different hardware 
+designs and from 2 different manufacturers:</p>
+
+<ul>
+<li><strong>KC85/2 (originally HC-900), KC85/3, KC85/4</strong>: this is the KC &#39;main-line&#39; built 
+by the &#39;VEB Mikroelektronikkombinat Mühlhausen&#39;</li>
+<li><strong>KC85/1 (originally Z9001), KC87</strong>: the Z9001 and its successor the KC87
+were built by &#39;Robotron Dresden&#39;, they had a different hardware architecture
+and were incompatible with the KC85/2-based mainline</li>
+<li><strong>KC Compact</strong>: this was a Amstrad CPC clone from Mühlhausen and came out too
+late to make any impact</li>
+</ul>
+
+<p>Following, I will concentrate on the computers spawned by the HC-900: the
+KC85/2, KC85/3 and KC85/4.</p>
+
+<p>(TODO: photos)</p>
+
+<h3>Hardware Specs</h3>
+
+<p>All computers of the KC85/2 line had a U880 CPU (an &#39;unlicensed&#39; Z80 clone),
+running at 1.75MHz (KC85/2 and /3) or 1.77MHz (KC85/4). There were no 
+custom chips for video and audio (so more like a ZX Spectrum than a C64).</p>
+
+<p>All models could display 320x256 pixels at 16 foreground and 8 background
+colors, but with a limited color resolution: the KC85/2 and KC85/3 could 
+only assign one foreground and one background color to a block of 8x4 pixels,
+this was improved in the KC85/4 to 8x1 pixels (again, this handling of
+color information is quite similar to the ZX Spectrum).</p>
+
+<p>The different models differed most in their RAM configuration:</p>
+
+<ul>
+<li><strong>KC85/2</strong>: 16KByte general RAM, 16KByte video RAM, 4 KByte ROM </li>
+<li><strong>KC85/3</strong>: some RAM config as KC85/2, but the operating system ROM was increased 
+to 8 KByte, and a built-in 8KByte BASIC ROM was added</li>
+<li><strong>KC85/4</strong>: the 85/4 was a memory monster, it had 64 KByte general RAM, 64 KByte
+video RAM (2 16-KByte pages for pixels, and 2 16-KByte pages for colors) and
+20 KByte ROM (8+4 KByte operating system, and 8 KByte BASIC)</li>
+</ul>
+
+<p>The KC85/4 has much improved video capabilities due to its massive 64 KByte
+video RAM divided into 4 independent memory banks:</p>
+
+<ul>
+<li>the color resolution was improved to 8x1 pixels</li>
+<li>the CPU could write to &#39;hidden&#39; memory banks, making true double-buffering
+possible</li>
+<li>a special high-color mode allowed to assign per-pixel colors, but only
+with 4 different colors</li>
+<li>the video memory layout was 90 degrees rotated (writing to continuous 
+addresses in video memory would fill vertical columns on screen), this
+greatly simplified video memory addressing and common tasks like vertical
+scrolling</li>
+</ul>
+
+<p>The video-scanout was not programmable in any way though, so fancy scrolling 
+tricks were not possible, all rendering had to be done &#39;manually&#39; with the CPU.</p>
+
+<h3>Modular Hardware and Software</h3>
+
+<p>The KC85/2 based series has a fairly unique modular hardware and software
+concept. On the hardware side, the base device offered 2 slots for expansion
+modules, and additional slots could be added by stacking &#39;bus-driver&#39; devices
+on top of the base device, each adding 4 more slots. Theoretically, up to 4
+MByte RAM could be added through expansion slots (although I think in practice
+this was impossible because the signals would become too weak and noisy).</p>
+
+<p>The most popular expansion modules were 16 and 64 KByte RAM modules, 
+ROM modules for BASIC, FORTH and assembly development (each only 8 Kbyte big), 
+serial and parallel interface modules, and &#39;pass-through&#39; modules for hobbyists to
+interface with their hardware.</p>
+
+<p>On the software side, the built-in operating system named &#39;CAOS&#39; (for Cassette-
+Aided-Operating-System) was also designed with modularity and extensibility
+in mind. All shell commands of the operating system had a specific
+header in memory (2 bytes &#39;7F 7F&#39;, followed by the command name, followed by 
+a 01, followed by the machine code to execute). User-written programs could
+expose their functionality through such standardized command headers. The 
+operating system could build the list of available commands by scanning the
+RAM for the magic &#39;7F 7F&#39; headers.</p>
+
+<p>This expansibility on the hardware and software side allowed for a very 
+nice working environment, it was possible to switch between different
+development environments like BASIC and FORTH by bank-switching their ROM-
+modules in and out, or one could extend existing development environments
+by adding custom-commands to them.</p>
+
+  </article>
+
+</div>
+
+    </div>
+
+  </body>
+
+</html>
