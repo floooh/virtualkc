@@ -77,7 +77,250 @@
         <div>
 
   <article>
-    <p>(TODO: describe the emulator&#39;s architecture and features)</p>
+    <p><strong>YAKC</strong> means &#39;Yet Another KC emulator&#39;. I might come up with a better name some day.</p>
+
+<p>The <a href="https://github.com/floooh/yakc">github repo is here</a></p>
+
+<p>It is written in a simple C++11 (meaning no exceptions, no RTTI, minimal STL 
+usage), and aims to be fast, simple and portable. The most important 
+target platform is the web browser via emscripten, but it is also 
+possible to build native versions for OSX, Linux, Windows, Android and iOS.</p>
+
+<p>Extra care has been taken to keep the client size small for the 
+web browser platform. The compressed size for the complete emulator
+with debugging UI is under 400 kBytes (compressed), without the debugging UI
+the compressed size is under 200 kBytes.</p>
+
+<p>The emulator consists of 4 main components:</p>
+
+<ul>
+<li><strong>the &#39;core&#39;</strong>: this is the actual emulator code as a set of low-level classes
+in header files, these have no dependencies apart from the standard C and 
+C++ headers</li>
+<li><strong>debugging UI</strong>: the debugger UI overlay has been implemented with
+<a href="https://github.com/ocornut/imgui">Ocornut&#39;s imgui</a></li>
+<li><strong>application wrapper</strong>: my &#39;weekend engine&#39; <a href="https://github.com/floooh/oryol">Oryol</a> is used
+as portable application wrapper</li>
+<li><strong>build system</strong>: another of my side project, <a href="https://github.com/floooh/fips">the fips buildsystem</a> is used to build the whole thing, fips is essentially a
+layer above cmake to simplify the setup of multi-platform projects</li>
+</ul>
+
+<p>Python is used for code-generation to create the Z80 instruction decoder and
+dump binary files like ROMs and tape files into C headers.</p>
+
+<h3>Further dependencies:</h3>
+
+<p>Oryol depends on a few other 3rd party libs that are used indirectly:</p>
+
+<ul>
+<li><strong><a href="https://github.com/glfw/glfw">GLFW</a></strong>: GLFW is used as window system and
+input wrapper on OSX, Linux and Windows if the OpenGL rendering backend is
+used</li>
+<li><strong><a href="https://github.com/ginkgo/flextGL">flextgl</a></strong>: is used as OpenGL extension
+wrangler</li>
+<li><strong>Unittest++</strong>: is used for unit tests (there doesn&#39;t seem to be an official
+github repo, so here&#39;s only the link to my <a href="https://github.com/floooh/fips-unittestpp">fipsified version</a>)</li>
+</ul>
+
+<p>I also have to credit <a href="https://github.com/mamedev/mame">MAME</a> 
+and Alexander Lang&#39;s Javascript <a href="http://lanale.de/kc85_emu/KC85_Emu.html">KC emulator</a>
+for providing hints when I was stuck.</p>
+
+<h3>Emulated Features:</h3>
+
+<p>The emulator is fairly complete, but not perfect:</p>
+
+<ul>
+<li>emulates a KC85/3 and (soon) KC85/4 with switchable CAOS operating system ROMs</li>
+<li>fast and nearly complete documented Z80 emulation passing the ZEXDOC
+conformance test, instructions are emulated with their proper cycle counts</li>
+<li>expansion slot system with RAM and ROM modules</li>
+<li>internal RAM/ROM bank switching</li>
+<li>properly emulates the CTC and PIO registers and their interaction with the
+rest of the system (with a few minor exceptions)</li>
+<li>emulates the look of an old-school CRT color or black-and-white TV</li>
+<li>KCC file format loading</li>
+</ul>
+
+<p>Unsupported features:</p>
+
+<ul>
+<li>floppy disk device and the CP/M OS</li>
+<li>cassette loading/saving</li>
+<li>hardware quirks like the &#39;display snowing/needling&#39;</li>
+<li>the serial keyboard input logic is not emulated, instead the key codes
+are patched directly into the right operating system locations</li>
+<li>the Z80 emulation doesn&#39;t emulate the following features: non-maskable
+interrupts, interrupt modes 0 and 1, extra memory wait-states</li>
+</ul>
+
+<h3>The Emulator Core</h3>
+
+<p>The core classes are under <strong>yakc_core</strong>.</p>
+
+<h4>Low-level hardware components:</h4>
+
+<ul>
+<li><strong>clock</strong>: this provides a central system clock and counters</li>
+<li><strong>memory</strong>: the memory class maps the 64kByte Z80 address range to 
+host memory in 8 KByte pages. It also implements a simple bank-switching 
+logic to map memory pages in and out of the visible address range.</li>
+</ul>
+
+<h4>Z80 emulation:</h4>
+
+<ul>
+<li><strong>z80</strong>: the z80 class is the core of the emulator, it provides a
+very fast and (nearly) complete emulation of the Z80 (enough to run the
+ZEXDOC tests by Frank D. Cringle), a large part of the z80 class is
+code-generated via python </li>
+<li><strong>z80ctc</strong>: a simple and incomplete emulation of the Z80 CTC chip, 
+currently just enough to run the KC85 emulator</li>
+<li><strong>z80pio</strong>: likewise, a simple and incomplete emulation of the Z80 PIO chip,
+just enough for the KC85</li>
+<li><strong>z80int</strong>: this implements the interrupt controller device logic in a 
+&#39;daisy chain&#39;, used to prioritize interrupt requests from the CTC and PIO</li>
+<li><strong>z80dbg</strong>: this class bundles some low-level debugging functions, for 
+instance a single breakpoint, and a history ring-buffer for the PC register</li>
+</ul>
+
+<h4>KC85 emulation:</h4>
+
+<ul>
+<li><strong>kc85_video</strong>: the kc85_video class emulates the video memory scan-out logic,
+mainly a method to decode the KC85 video memory into a linear
+RGBA8 image (which is then usually copied into an OpenGL texture)</li>
+<li><strong>kc85_audio</strong>: this is a simple interface class to the KC85 sound generation
+hardware (which is just a CTC-driven oscillator connected to an internal speaker),
+it provides callbacks to control start/stop/frequency and volume of sound</li>
+<li><strong>kc85_expansion and kc85_module</strong>: these 2 classes emulate the expansion
+slot system of the KC85, only RAM and ROM expansion modules are currently
+implemented</li>
+<li><strong>kc85</strong>: this is the emulators main class which embeds, connects and 
+controls all previously described components</li>
+</ul>
+
+<h3>How the Z80 emulator works:</h3>
+
+<p>The core of the Z80 emulation is the <strong>z80::step()</strong> method, which executes
+the next instruction and returns the number of CPU cycles taken. The
+method&#39;s body is generated by a python script and is essentially a huge,
+nested switch-case statement on one or more instruction-bytes, where 
+each case-branch implements a single instruction.</p>
+
+<p>The register file is a simple struct, 8-bit register pairs and their
+16-bit combinations are grouped into unions. Memory access is wrapped
+by an embedded object of the &#39;memory&#39; class. Instructions change
+the state of the registers or memory, and potentially update the
+flags register. </p>
+
+<p>Some instructions use lookup tables for the resulting flags, some compute
+the flags (I tried out different combinations of flag lookup and 
+computation until I ended up with the fastest execution of the ZEXDOC
+test).</p>
+
+<p>The R register is incremented once per fetched instruction-byte 
+and wraps around at 0x7F.</p>
+
+<p>The increment/decrement-and-repeat instructions (e.g. LDIR, CPIR) implement
+their loops by resetting the PC to the start of the instruction as long
+as the instruction isn&#39;t done yet.</p>
+
+<p>The IN and OUT instructions simply invoke externally provided callbacks
+(these are implemented in the kc85 class).</p>
+
+<p>For interrupt handling, a simple daisy-chain protocol is implemented, which
+prioritizes interrupts between different interrupt controllers (in the
+KC85 emulation, only the CTC and PIO act as interrupt controllers).</p>
+
+<p>Non-maskable interrupts, and interrupt modes 0 and 1 are currently not
+implemented (these are not needed for the KC85).</p>
+
+<p>The Z80 emulation is quite fast. On a mid-2014 MacBookPro with 2.8 GHz i5 
+CPU, a Z80 running at 1.2 GHz can be emulated, which results in around
+150 MIPS (the fastest Z80 instructions take 4 cycles, the slowest 23 cycles).</p>
+
+<p>The emulator is running the ZEXDOC conformance test without errors, which means
+that the documented CPU flags are computed correctly, and most undocumented
+instructions have been implemented.</p>
+
+<h4>How the emulator core works:</h4>
+
+<p>The most important methods of the kc85 class are <strong>poweron()</strong>, 
+<strong>reset()</strong> and <strong>onframe()</strong>.</p>
+
+<p>The poweron() method performs power-on initialization, reset() performs 
+a &#39;soft-reset&#39;, and onframe() runs the emulator for a single 16.6ms frame. </p>
+
+<p>What happens during an emulator-frame:</p>
+
+<ul>
+<li>input is handled once per frame, this is a hack, the proper
+input handling (which is not implemented) is described 
+<a href="https://github.com/floooh/yakc/blob/master/scribble/kc85_3_kbdint.md">here</a></li>
+<li>the clock computes how many CPU cycles to run for this frame (at 60fps and
+1.75MHz Z80 speed, this results in around 29.2k CPU cycles)</li>
+<li>the instruction-loop is executed until the computed number of cycles
+is reached:
+
+<ul>
+<li>the z80::step() function is called, this executes the next instruction
+and returns the number of cycles taken</li>
+<li>the clock-timers and CTC are updated, this may cause to trigger hardware-
+lines (like the vsync), and interrupts to be triggered</li>
+<li>the z80::handle_irq() method is called to handle resulting interrupt
+requests</li>
+<li>if the emulated CPU executes an IN/OUT instruction, the kc85::in<em>cb() 
+and kc85::out</em>cb() callbacks are invoked, these callbacks
+read or write PIO/CTC registers, control expansion modules and
+memory bank switching</li>
+</ul></li>
+</ul>
+
+<p>The emulator does not directly interact with the host system, platform-specific
+things like keyboard input, video and audio output need to be handled outside
+in the wrapper application.</p>
+
+<h3>The Oryol Wrapper Application</h3>
+
+<p>The wrapper application code is in the <strong>yakc_app</strong> directory:</p>
+
+<ul>
+<li><strong>YakcApp in Main.cc</strong>: this is the Oryol application subclass which 
+initializes the required Oryol modules:
+
+<ul>
+<li><strong>Gfx</strong>: required to render the emulator video output to screen as a 
+fullscreen rectangle</li>
+<li><strong>IO and HTTP</strong>: are needed to load KCC file from a web server</li>
+<li><strong>Input</strong>: is required to get keyboard and mouse input</li>
+<li><strong>Synth</strong>: a software audio synthesizer module to generate audio via OpenAL</li>
+</ul></li>
+<li><strong>Draw</strong>: the Draw class creates all the required rendering resources and
+per-frame decodes the KC85 video memory into a texture, and render a fullscreen
+rectangle using a CRT-effect shader</li>
+<li><strong>Audio</strong>: the Audio class is triggered by callbacks from the kc85_audio
+class and forwards sound generation to the Oryol Synth module using 
+a simple square wave generator</li>
+</ul>
+
+<h3>The Debugging UI</h3>
+
+<p>The debugger UI is implemented with Ocornut&#39;s imgui and can be toggled
+by pressing TAB or double-tapping (on touch-controlled platforms).</p>
+
+<p>The UI currently has the following features:</p>
+
+<ul>
+<li>cold- and warm-start</li>
+<li>load and start KCC files</li>
+<li>boot the emulator into different configurations</li>
+<li>step-debugger, disassembler and memory editor windows</li>
+<li>inspect the PIO and CTC registers</li>
+<li>visualize the current memory map</li>
+<li>add and remove modules from expansion slots</li>
+<li>control various settings</li>
+</ul>
 
   </article>
 
