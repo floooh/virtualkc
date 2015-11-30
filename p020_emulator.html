@@ -88,7 +88,7 @@ possible to build native versions for OSX, Linux, Windows, Android and iOS.</p>
 
 <p>Extra care has been taken to keep the client size small for the 
 web browser platform. The compressed size for the complete emulator
-with debugging UI is under 400 kBytes (compressed), without the debugging UI
+with debugging UI is under 400 kBytes, without the debugging UI
 the compressed size is under 200 kBytes.</p>
 
 <p>The emulator consists of 4 main components:</p>
@@ -132,10 +132,19 @@ for providing hints when I was stuck.</p>
 <p>The emulator is fairly complete, but not perfect:</p>
 
 <ul>
-<li>emulates a KC85/3 and (soon) KC85/4 with switchable CAOS operating system ROMs</li>
+<li>emulates the KC85/2 (with support for M006 BASIC module), KC85/3 and KC85/4 with switchable CAOS operating system ROMs</li>
 <li>fast and nearly complete documented Z80 emulation passing the ZEXDOC
 conformance test, instructions are emulated with their proper cycle counts</li>
-<li>expansion slot system with RAM and ROM modules</li>
+<li>expansion slot system with support for the following RAM and ROM modules:
+
+<ul>
+<li>M022 EPANDER-RAM (16 KByte RAM)</li>
+<li>M011 64 KBYTE RAM</li>
+<li>M006 BASIC (+ HC-901 CAOS, only useful on KC85/2)</li>
+<li>M026 FORTH</li>
+<li>M027 DEVELOPMENT</li>
+<li>...more modules may be added in the future</li>
+</ul></li>
 <li>internal RAM/ROM bank switching</li>
 <li>properly emulates the CTC and PIO registers and their interaction with the
 rest of the system (with a few minor exceptions)</li>
@@ -164,7 +173,7 @@ interrupts, interrupt modes 0 and 1, extra memory wait-states</li>
 <ul>
 <li><strong>clock</strong>: this provides a central system clock and counters</li>
 <li><strong>memory</strong>: the memory class maps the 64kByte Z80 address range to 
-host memory in 8 KByte pages. It also implements a simple bank-switching 
+host memory in 2 KByte pages. It also implements a simple bank-switching 
 logic to map memory pages in and out of the visible address range.</li>
 </ul>
 
@@ -244,7 +253,7 @@ CPU, a Z80 running at 1.2 GHz can be emulated, which results in around
 that the documented CPU flags are computed correctly, and most undocumented
 instructions have been implemented.</p>
 
-<h3>How the KC85 emulator core works:</h3>
+<h3>How the KC85 emulator works:</h3>
 
 <p>The KC85 emulator wraps around the Z80 emulator components. The most important 
 methods of the kc85 class are <strong>poweron()</strong>, <strong>reset()</strong> and <strong>onframe()</strong>.</p>
