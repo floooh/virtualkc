@@ -195,8 +195,8 @@ be stacked on top of the base device.</p>
 
 <p>This means:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">CAOSE ON:   the operating system ROM at address E000 is switched on
-ROMC 0 OFF: both ROM banks at addres C000 are switched off
-RAM0 ON:    the built-in RAM at address 0000 is switched
+ROMC 0 OFF: both ROM banks at address C000 are switched off
+RAM0 ON:    the built-in RAM at address 0000 is switched on
 RAM4 ON:    the built-in RAM at address 4000 is switched on
 RAM8 0 ON:  the first of the 2 RAM banks at address 8000 is switched on
 BILD 0:     the first video memory area (out of 2) is displayed
@@ -240,8 +240,8 @@ that the memory is no longer mapped:</p>
 
 <p><img src="images/forth_module.png" alt="Forth Module"></p>
 
-<p>The modul is now in expansion slot 08, as can be seen with the <strong>MODUL</strong>
-command, but it is not switched-on yet. To function properly, the FORTH
+<p>The FORTH module is now in expansion slot 08, as can be seen with the <strong>MODUL</strong>
+command, but it is not switched-on yet. To function properly, the 
 module must be switched to address C000, this is achieved with the
 command <strong>SWITCH 08 C1</strong> (08 means &#39;expansion slot 08&#39;, the &#39;C&#39; in C1 means 
 &#39;at address C000, and the &#39;1&#39; in C1 means: &#39;active&#39;). Another MODUL
@@ -277,8 +277,8 @@ useful in the emulator.</p>
 <p>On a real KC85, the commands <strong>LOAD</strong>, <strong>SAVE</strong> and <strong>VERIFY</strong> are used
 to load and save data from and to cassettes, and verify a saved file.</p>
 
-<p>In the emulator, LOAD and VERIFY will simply wait forever. For shits and
-giggles you can try to save some data (make sure you have sound enabled):</p>
+<p>In the emulator, LOAD and VERIFY will simply wait forever. For shitz&#39;n&#39;giggles 
+you can try to save some data (make sure you have sound enabled):</p>
 
 <p><img src="images/save.png" alt="Saving"></p>
 
