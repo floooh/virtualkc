@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Exploring CAOS</title>
+  <meta name="description" content="portable KC85 emulator written in C++
+">
+
+  <link rel="stylesheet" href="/virtualkc/css/main.css">
+  <link rel="canonical" href="/virtualkc/p030_explorecaos.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+    <div class="kc-top-padding"></div>
+    <div class="kc-title-border"></div>
+    <div class="kc-title">KLEINCOMPUTER KC85</div>
+    <div class="kc-title-border"></div>
+</header>
+
+
+
+
+    <ul class="navigation">
+    
+        
+    
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p010_kc85.html">The KC85</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p020_emulator.html">The Emulator</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p030_explorecaos.html">Exploring CAOS</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p040_hardwaredocs.html">HW Docs</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p050_caosdocs.html">CAOS Docs</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p060_links.html">Links</a>
+        </li>
+        
+    
+</ul>
+
+
+
+    <div class="page-content">
+        <div>
+
+  <article>
+    <h2>Exploring CAOS</h2>
+
+<p>This is a little tour through CAOS, the operating system of the KC85 computers 
+(CAOS means Cassette-Aided-Operating-System).</p>
+
+<p>First, boot into the latest official CAOS version 4.2 from 1989 (toggle the
+debugging UI overlay by pressing the <strong>Tab</strong> key):</p>
+
+<p><img src="images/booting_42.png" alt="Booting CAOS 4.2"></p>
+
+<p>After about two seconds (yep, those little 8-bitters booted really fast),
+CAOS is displaying a list of available commands and is ready to accept input:</p>
+
+<p><img src="images/caos42.png" alt="CAOS 4.2"></p>
+
+<p>You can move the cursor freely around the screen using the <strong>[Arrow-keys]</strong>.</p>
+
+<p><strong>[Enter]</strong> tries to parse whatever is on the current line as a command.</p>
+
+<p><strong>[Shift-Backspace]</strong> clears the screen.</p>
+
+<p>The command <strong>MENU</strong> rebuilds the list of available commands.</p>
+
+<p><img src="images/menu.png" alt="Menu"></p>
+
+<h3>Color and window management</h3>
+
+<p>The <strong>COLOR</strong> command changes the foreground and background color, there
+are 15 foreground colors and 8 background colors to choose from. Note that
+all numbers are expected as hexadecimal. This is true for all CAOS commands:</p>
+
+<p><img src="images/colors.png" alt="Colors"></p>
+
+<p>The <strong>WINDOW</strong> command defines a rectangular window and assigns it an id,
+basically a very simple tmux-like terminal-session-manager. The WINDOW command 
+takes 5 parameters that define the window rectangle and a window id:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">WINDOW y h x w id
+</code></pre></div>
+<p>Where &#39;x&#39; and &#39;y&#39; are the coordinates of the top-left corners, and &#39;w&#39; and
+&#39;h&#39; are the width and height, the max width of a window is 28 hex, and
+the max height is 20 hex (which is 40/32 dezimal). The &#39;id&#39; is a number between
+0 and 9. Once windows are defined, they can be activated with </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">WINDOW id
+</code></pre></div>
+<p>The following commands split the screen in half, and define windows with 
+different background colors (if you screw up, simply Reset the KC85/4 
+using the debugger menu).</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[first press Shift-Backspace to clear the screen]
+[then press Enter to get a prompt]
+
+%WINDOW 10 10 0 28 1
+%COLOR 0 6
+[Shift-Backspace plus Enter to clear the new window]
+%WINDOW 0 10 0 28 2
+%COLOR 0 4
+[Shift-Backspace plus Enter to clear the second window]
+</code></pre></div>
+<p>There should be 2 independent windows now which can be toggled with
+the commands <strong>WINDOW 1</strong> and <strong>WINDOW 2</strong>:</p>
+
+<p><img src="images/windows.png" alt="Windows"></p>
+
+<h3>Assigning function keys</h3>
+
+<p>Typing <strong>WINDOW 1</strong> and <strong>WINDOW 2</strong> to switch between windows is tedious,
+lets assign these commands to F1 and F2:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">%KEY 1
+WINDOW 1[Enter][Shift-Escape]
+%KEY 2
+WINDOW 2[Enter][Shift-Escape]
+</code></pre></div>
+<p>It should look like this:</p>
+
+<p><img src="images/key.png" alt="Key"></p>
+
+<p>Pressing <strong>F1</strong> and <strong>F2</strong> will now switch between the 2 windows.</p>
+
+<p>The command <strong>KEYLIST</strong> shows all current function key assignments:</p>
+
+<p><img src="images/keylist.png" alt="Keylist"></p>
+
+<p>Switch back to the original window by typing <strong>WINDOW</strong> without any
+arguments, then type <strong>MENU</strong> to get the list of commands.</p>
+
+<h3>Viewing and editing memory contents</h3>
+
+<p>The command <strong>DISPLAY</strong> shows a hex-dump of the memory starting 
+at <strong>aaaa</strong> with <strong>ss</strong> number of lines at a time and <strong>n</strong> columns:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">DISPLAY aaaa [ss [n]]
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">%DISPLAY 8000 4
+...
+[Escape]
+</code></pre></div>
+<p><img src="images/display.png" alt="Display"></p>
+
+<p>The DISPLAY command will wait for keyboard input. Hit the [Escape] to 
+go back to the command prompt.</p>
+
+<p>The <strong>MODIFY</strong> command implements a simple hex-editor. Let&#39;s mess up some video
+memory starting at address 8000: Type <strong>MODIFY 8000</strong>, and enter some
+hex-numbers, then press [Enter]. Enter a <strong>dot</strong> to go back to the command
+prompt:</p>
+
+<p><img src="images/modify.png" alt="Modify"></p>
+
+<h3>Memory banks, expansion slots and modules</h3>
+
+<p>The commands <strong>SYSTEM</strong>, <strong>MODUL</strong>, <strong>JUMP</strong> and <strong>SWITCH</strong> deal with the
+hardware expansion system. Each KC85 has 2 expansion slots numbered <strong>08</strong> and 
+<strong>0C</strong>, and additional &#39;bus-drivers&#39; with 4 more expansion slots could
+be stacked on top of the base device.</p>
+
+<p>The command <strong>SYSTEM</strong> gives an overview of the built-in memory banks:</p>
+
+<p><img src="images/system.png" alt="System"></p>
+
+<p>This means:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">CAOSE ON:   the operating system ROM at address E000 is switched on
+ROMC 0 OFF: both ROM banks at addres C000 are switched off
+RAM0 ON:    the built-in RAM at address 0000 is switched
+RAM4 ON:    the built-in RAM at address 4000 is switched on
+RAM8 0 ON:  the first of the 2 RAM banks at address 8000 is switched on
+BILD 0:     the first video memory area (out of 2) is displayed
+</code></pre></div>
+<p>The <strong>SWITCH</strong> command is used to control built-in memory banks and
+expansion modules:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SWITCH mm kk
+</code></pre></div>
+<p><strong>mm</strong> is the module slot or memory bank id, and <strong>kk</strong> is a control byte.</p>
+
+<p>The following ids are used for the built-in memory banks and the
+expansion slots of the base device:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">RAM at address 0000:      mm = 00
+video memory:             mm = 01
+ROM banks:                mm = 02
+RAM at address 8000:      mm = 03
+RAM at address 4000:      mm = 04
+right expansion slot:     mm = 08
+left expansion slot:      mm = 0C
+</code></pre></div>
+<p><strong>kk</strong> encodes the on/off state (bit 0), write protection (bit 1) and starting
+address (bits 4..7).</p>
+
+<p>For instance to switch off the memory bank at address 4000:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">%SWITCH 04 00
+</code></pre></div>
+<p>The <strong>SYSTEM</strong> command, and <strong>DISPLAY</strong>ing the memory at address 4000 confirm
+that the memory is no longer mapped:</p>
+
+<p><img src="images/switch.png" alt="Switch"></p>
+
+<p>Switch it back on with:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">%SWITCH 04 43
+</code></pre></div>
+<p>The SWITCH command is also used to control modules in expansion slots.</p>
+
+<p>Insert the FORTH expansion module into slot 08 using the debugging UI 
+(on a real KC85, you must only do this when the device is powered down!):</p>
+
+<p><img src="images/expansion.png" alt="Expansion"></p>
+
+<p><img src="images/forth_module.png" alt="Forth Module"></p>
+
+<p>The modul is now in expansion slot 08, as can be seen with the <strong>MODUL</strong>
+command, but it is not switched-on yet. To function properly, the FORTH
+module must be switched to address C000, this is achieved with the
+command <strong>SWITCH 08 C1</strong> (08 means &#39;expansion slot 08&#39;, the &#39;C&#39; in C1 means 
+&#39;at address C000, and the &#39;1&#39; in C1 means: &#39;active&#39;). Another MODUL
+command confirms that the modul in slot 08 has the new control byte C1
+(the <strong>FB</strong> is the module hardware identifier):</p>
+
+<p><img src="images/switch_forth.png" alt="Forth Activate"></p>
+
+<p>When displaying the <strong>MENU</strong> again, there are now 2 new commands called
+<strong>FORTH</strong> and <strong>REFORTH</strong> (at least when you&#39;re on the KC85/4):</p>
+
+<p><img src="images/forth_menu.png" alt="Forth Menu"></p>
+
+<p>If you&#39;re <em>not</em> seeing the two new menu entries, you&#39;re on a KC85/3, where
+the BASIC ROM is blocking access to the FORTH module. In this case,
+the BASIC ROM must be switched off first with <strong>SWITCH 02 00</strong>.</p>
+
+<p>To give it a try, type <strong>FORTH</strong>, when done, return to the CAOS command
+prompt with <strong>BYE</strong>:</p>
+
+<p><img src="images/forth_demo.png" alt="Forth Demo"></p>
+
+<p>The remaining module management command <strong>JUMP</strong> is used to jump into
+an alternative operating system provided in a ROM module. In the emulator, 
+this is currently only useful with the M006 BASIC ROM module for the KC85/2.
+How this works is left as an excersice to the reader ;)</p>
+
+<h3>Cassette loading and saving, and V24 control</h3>
+
+<p>Before you get excited, all the remaining commands don&#39;t do anything
+useful in the emulator.</p>
+
+<p>On a real KC85, the commands <strong>LOAD</strong>, <strong>SAVE</strong> and <strong>VERIFY</strong> are used
+to load and save data from and to cassettes, and verify a saved file.</p>
+
+<p>In the emulator, LOAD and VERIFY will simply wait forever. For shits and
+giggles you can try to save some data (make sure you have sound enabled):</p>
+
+<p><img src="images/save.png" alt="Saving"></p>
+
+<p>It sounds cool, but the sound emulation isn&#39;t precise enough that the
+save audio signal would be any useful.</p>
+
+<p>The 2 remaining commands, <strong>V24OUT</strong> and <strong>V24DUP</strong> were used to control
+the V24-interface module. V.24 was (is?) a serial interface standard used 
+to communicate between machines, modems and printers.</p>
+
+  </article>
+
+</div>
+
+    </div>
+
+  </body>
+
+</html>
