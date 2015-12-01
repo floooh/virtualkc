@@ -115,13 +115,13 @@ basically a very simple tmux-like terminal-session-manager. The WINDOW command
 takes 5 parameters that define the window rectangle and a window id:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">WINDOW y h x w id
 </code></pre></div>
-<p>Where &#39;x&#39; and &#39;y&#39; are the coordinates of the top-left corners, and &#39;w&#39; and
-&#39;h&#39; are the width and height, the max width of a window is 28 hex, and
-the max height is 20 hex (which is 40/32 dezimal). The &#39;id&#39; is a number between
+<p>Where &#39;x&#39; and &#39;y&#39; are the coordinates of the top-left corner, and &#39;w&#39; and
+&#39;h&#39; are the window width and height. The max width of a window is 28 hex, and
+the max height is 20 hex. The &#39;id&#39; is a number between
 0 and 9. Once windows are defined, they can be activated with </p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">WINDOW id
 </code></pre></div>
-<p>The following commands split the screen in half, and define windows with 
+<p>The following commands split the screen in half into two windows with 
 different background colors (if you screw up, simply Reset the KC85/4 
 using the debugger menu).</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">[first press Shift-Backspace to clear the screen]
@@ -166,7 +166,9 @@ arguments, then type <strong>MENU</strong> to get the list of commands.</p>
 <p>The command <strong>DISPLAY</strong> shows a hex-dump of the memory starting 
 at <strong>aaaa</strong> with <strong>ss</strong> number of lines at a time and <strong>n</strong> columns:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">DISPLAY aaaa [ss [n]]
-</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">%DISPLAY 8000 4
+</code></pre></div>
+<p>For instance, to show the start of the pixel video memory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">%DISPLAY 8000 4
 ...
 [Escape]
 </code></pre></div>
@@ -184,9 +186,9 @@ prompt:</p>
 
 <h3>Memory banks, expansion slots and modules</h3>
 
-<p>The commands <strong>SYSTEM</strong>, <strong>MODUL</strong>, <strong>JUMP</strong> and <strong>SWITCH</strong> deal with the
+<p>The commands <strong>SYSTEM</strong>, <strong>MODUL</strong>, <strong>JUMP</strong> and <strong>SWITCH</strong> control the
 hardware expansion system. Each KC85 has 2 expansion slots numbered <strong>08</strong> and 
-<strong>0C</strong>, and additional &#39;bus-drivers&#39; with 4 more expansion slots could
+<strong>0C</strong>. Additional &#39;bus-driver&#39; devices with 4 more expansion slots could
 be stacked on top of the base device.</p>
 
 <p>The command <strong>SYSTEM</strong> gives an overview of the built-in memory banks:</p>
@@ -269,7 +271,7 @@ an alternative operating system provided in a ROM module. In the emulator,
 this is currently only useful with the M006 BASIC ROM module for the KC85/2.
 How this works is left as an excersice to the reader ;)</p>
 
-<h3>Cassette loading and saving, and V24 control</h3>
+<h3>Cassette loading/saving, and V24 control</h3>
 
 <p>Before you get excited, all the remaining commands don&#39;t do anything
 useful in the emulator.</p>
