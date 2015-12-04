@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CAOS Reference</title>
+  <meta name="description" content="portable KC85 emulator written in C++
+">
+
+  <link rel="stylesheet" href="/virtualkc/css/main.css">
+  <link rel="canonical" href="/virtualkc/p040_systemcalls.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+    <div class="kc-top-padding"></div>
+    <div class="kc-title-border"></div>
+    <div class="kc-title">KLEINCOMPUTER KC85</div>
+    <div class="kc-title-border"></div>
+</header>
+
+
+
+
+    <ul class="navigation">
+    
+        
+    
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p010_kc85.html">The KC85</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p020_emulator.html">The Emulator</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p030_explorecaos.html">Exploring CAOS</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p035_helloworld.html">Hello World</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p040_systemcalls.html">CAOS Reference</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p050_hwref.html">Hardware Reference</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p060_links.html">Links</a>
+        </li>
+        
+    
+</ul>
+
+
+
+    <div class="page-content">
+        <div>
+
+  <article>
+    <h1 class="no_toc" id="caos-programming-reference">CAOS Programming Reference</h1>
+<ul id="markdown-toc">
+  <li><a href="#restrictions">Restrictions</a></li>
+  <li><a href="#invoking-system-calls">Invoking System Calls</a></li>
+  <li><a href="#system-call-entry-points">System Call Entry Points</a></li>
+  <li><a href="#special-caos-entry-points">Special CAOS Entry Points</a></li>
+  <li><a href="#system-memory-locations-at-b780">System Memory Locations at B780</a></li>
+  <li><a href="#system-memory-locations-below-0200">System Memory Locations below 0200</a></li>
+  <li><a href="#interrupt-table">Interrupt Table</a></li>
+  <li><a href="#system-calls">System Calls</a>    <ul>
+      <li><a href="#crt----print-character">00 CRT – print character</a></li>
+      <li><a href="#mbo----tape-output">01 MBO – tape output</a></li>
+      <li><a href="#uot1----output-user-channel-1">02 UOT1 – output user channel 1</a></li>
+      <li><a href="#uot2----output-user-channel-2">03 UOT2 – output user channel 2</a></li>
+      <li><a href="#kbd----keyboard-input-with-cursor">04 KBD – keyboard input with cursor</a></li>
+      <li><a href="#mbi----tape-input">05 MBI – tape input</a></li>
+      <li><a href="#usin1----input-user-channel-1">06 USIN1 – input user channel 1</a></li>
+      <li><a href="#usin2----input-user-channel-2">07 USIN2 – input user channel 2</a></li>
+      <li><a href="#isro----initialize-tape-output">08 ISRO – initialize tape output</a></li>
+      <li><a href="#csro----finalize-tape-output">09 CSRO – finalize tape output</a></li>
+      <li><a href="#a-isri----initialize-tape-input">0A ISRI – initialize tape input</a></li>
+      <li><a href="#b-csri----finalize-tape-input">0B CSRI – finalize tape input</a></li>
+      <li><a href="#c-kbds----get-pressed-key-without-ack">0C KBDS – get pressed key without ack</a></li>
+      <li><a href="#d-bye----warmstart">0D BYE – warmstart</a></li>
+      <li><a href="#e-kbdz----get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</a></li>
+      <li><a href="#f-color----set-color">0F COLOR – set color</a></li>
+      <li><a href="#load----load-file">10 LOAD – load file</a></li>
+      <li><a href="#verif----verify-a-file-on-tape">11 VERIF – verify a file on tape</a></li>
+      <li><a href="#loop----return-control-to-caos">12 LOOP – return control to CAOS</a></li>
+      <li><a href="#norm----reset-io-channels">13 NORM – reset I/O channels</a></li>
+      <li><a href="#wait----waiting-loop">14 WAIT – waiting loop</a></li>
+      <li><a href="#larg----load-arguments">15 LARG – load arguments</a></li>
+      <li><a href="#intb----character-from-input-channel">16 INTB – character from input channel</a></li>
+      <li><a href="#inlin----line-input">17 INLIN – line input</a></li>
+      <li><a href="#rhex----parse-hex-number-string">18 RHEX – parse hex number string</a></li>
+      <li><a href="#errm----print-error">19 ERRM – print ERROR</a></li>
+      <li><a href="#a-hlhx----print-hl">1A HLHX – print HL</a></li>
+      <li><a href="#b-hlde----print-hl-de">1B HLDE – print HL DE</a></li>
+      <li><a href="#c-ahex----print-a">1C AHEX – print A</a></li>
+      <li><a href="#d-zsuch----find-command">1D ZSUCH – find command</a></li>
+      <li><a href="#e-sout----set-output-table">1E SOUT – set output table</a></li>
+      <li><a href="#f-sin----set-input-table">1F SIN – set input table</a></li>
+      <li><a href="#nout----reset-output-channel-to-screen">20 NOUT – reset output channel to screen</a></li>
+      <li><a href="#nin----reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</a></li>
+      <li><a href="#garg----parse-arguments">22 GARG – parse arguments</a></li>
+      <li><a href="#ostr----output-string">23 OSTR – output string</a></li>
+      <li><a href="#ochr----output-character-on-output-channel">24 OCHR – output character on output channel</a></li>
+      <li><a href="#cucp----complement-cursor">25 CUCP – complement cursor</a></li>
+      <li><a href="#modu----expansion-module-control">26 MODU – expansion module control</a></li>
+      <li><a href="#jump----jump-to-alternate-os">27 JUMP – jump to alternate OS</a></li>
+      <li><a href="#ldma----ld-hla">28 LDMA – LD (HL),A</a></li>
+      <li><a href="#ldam----ld-ahl">29 LDAM – LD A,(HL)</a></li>
+      <li><a href="#a-brkt----test-for-brk-key">2A BRKT – test for BRK key</a></li>
+      <li><a href="#b-space----output-a-space-character">2B SPACE – output a space character</a></li>
+      <li><a href="#c-crlf----output-newline">2C CRLF – output newline</a></li>
+      <li><a href="#d-home----output-home">2D HOME – output HOME</a></li>
+      <li><a href="#e-modi----call-modify">2E MODI – call MODIFY</a></li>
+      <li><a href="#f-pude----clear-pixel">2F PUDE – clear pixel</a></li>
+      <li><a href="#puse----set-a-pixel">30 PUSE – set a pixel</a></li>
+      <li><a href="#sixd----move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</a></li>
+      <li><a href="#dabr----compute-character-buffer-address">32 DABR – compute character buffer address</a></li>
+      <li><a href="#tcif----test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</a></li>
+      <li><a href="#padr----compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</a></li>
+      <li><a href="#ton----sound-output">35 TON – sound output</a></li>
+      <li><a href="#save----save-program">36 SAVE – save program</a></li>
+      <li><a href="#mbin----byte-input-from-tape">37 MBIN – byte-input from tape</a></li>
+      <li><a href="#mbout----byte-output-to-tape">38 MBOUT – byte-output to tape</a></li>
+      <li><a href="#key----assign-function-key">39 KEY – assign function key</a></li>
+      <li><a href="#a-keyli----print-function-key-assignment">3A KEYLI – print function key assignment</a></li>
+      <li><a href="#b-disp----hexascii-dump">3B DISP – hex/ascii dump</a></li>
+      <li><a href="#c-winin----initialize-a-window">3C WININ – initialize a window</a></li>
+      <li><a href="#d-winak----select-window">3D WINAK – select window</a></li>
+      <li><a href="#e-line----draw-a-line">3E LINE – draw a line</a></li>
+      <li><a href="#f-circle----draw-a-circle">3F CIRCLE – draw a circle</a></li>
+      <li><a href="#sqr----square-root">40 SQR – square root</a></li>
+      <li><a href="#mult----multiplication">41 MULT – multiplication</a></li>
+      <li><a href="#cstbt----toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</a></li>
+      <li><a href="#iniea----initialize-io-channel">43 INIEA – initialize I/O channel</a></li>
+      <li><a href="#inime----initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</a></li>
+      <li><a href="#zkout----output-string-at-hl">45 ZKOUT – output string at HL</a></li>
+      <li><a href="#menu----call-menu-system-command">46 MENU – call MENU system command</a></li>
+      <li><a href="#v24out----initialize-printer-output">47 V24OUT – initialize printer output</a></li>
+      <li><a href="#v24dup----initialize-v24-duplex">48 V24DUP – initialize V24 duplex</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="restrictions">Restrictions</h2>
+
+<ul>
+  <li>do not modify the IX register, this is needed as base pointer
+to system memory variables by keyboard and cassette loading
+interrupts</li>
+  <li>the only supported interrupt mode is IM2</li>
+</ul>
+
+<h2 id="invoking-system-calls">Invoking System Calls</h2>
+
+<p>CAOS system calls are identified by a number [SYSNR] and invoked
+through different entry points which differ in the way how the
+system call identifier and arguments are provided.</p>
+
+<h2 id="system-call-entry-points">System Call Entry Points</h2>
+
+<p>These are the entry point addresses for the jump vectors, and how they work:</p>
+
+<h3 class="no_toc" id="f003-entry-point-1">F003: Entry Point 1</h3>
+
+<p>The SYSNR is encoded as byte in the instruction stream following 
+the CALL instruction. Parameters are directly excpected in registers
+BC, DE and HL, which may be changed by the system call. The required stack 
+depth is 2.</p>
+
+<h3 class="no_toc" id="f006-entry-point-2">F006: Entry Point 2</h3>
+
+<p>The SYSNR must be provided in the system address ARGC (B780). Parameters
+are expected in BC, DE and HL. BC, DE and HL will be saved on the stack, 
+which means the system call cannot use those registers for return values.
+Required stack depth is 7.</p>
+
+<h3 class="no_toc" id="f009-entry-point-3">F009: Entry Point 3</h3>
+
+<p>Same as <em>Entry Point 2</em>, but the SYSNR is provided in register E. </p>
+
+<h3 class="no_toc" id="f00c-entry-point-4">F00C: Entry Point 4</h3>
+
+<p>Same as <em>Entry Point 3</em>, but the video memory bank (IRM) is switched on
+invocation, and switched off on return.</p>
+
+<h3 class="no_toc" id="f015-entry-point-5-since-caos-31">F015: Entry Point 5 (since CAOS 3.1)</h3>
+
+<p>Same as <em>Entry Point 3</em>, but switches on the IRM and sets the stack pointer to
+(SYSP) == B7AE before the syscall, and after the syscall, switches off the IRM
+and restores the stack pointer. The register BC will be modified.</p>
+
+<h3 class="no_toc" id="f01e-entry-point-6-since-caos-31">F01E: Entry Point 6 (since CAOS 3.1)</h3>
+
+<p>Same as <em>Entry Point 5</em>, but SYSNR is provided in address (ARGC) (B780).</p>
+
+<h2 id="special-caos-entry-points">Special CAOS Entry Points</h2>
+
+<h3 class="no_toc" id="e000-reset-entry">E000: Reset Entry</h3>
+
+<p>This address is called after a Reset. The system memory locations will
+be initialized, user memory remains unchanged.</p>
+
+<h3 class="no_toc" id="f000-power-on-entry">F000: Power-On Entry</h3>
+
+<p>This address is called on Power-On. All RAM will be cleared, all hardware
+modules will be switched-off (except a 16-KByte RAM modul in the slot 08, this
+will automatically be mapped to address 4000 on the KC85/2 and KC85/3).</p>
+
+<h3 class="no_toc" id="f00f-relative-subroutine-call">F00F: Relative Subroutine Call</h3>
+
+<p>This doesn’t invoke a system call, but implements a relative subroutine call,
+since there is no Z80 instruction for this. This is useful for 
+position-independent-code. The relative location is expected as 16-bit word
+encoded in the instruction stream following the CALL:</p>
+
+<pre><code>        RCALL SUB
+        CALL 0F00FH
+        DEFW UP-NEXT
+NEXT:   ...
+</code></pre>
+
+<p>The DE register cannot be used as subroutine argument, the required stack depth
+is 1.</p>
+
+<h3 class="no_toc" id="f018-switch-on-irm-and-set-sp-since-caos-31">F018: Switch-on IRM and set SP (since CAOS 3.1)</h3>
+
+<p>This call switches on the IRM and sets the stack pointer to (SYSP) (see <em>Entry
+Point 5</em>). Muste be used together with <strong>F01B</strong>.</p>
+
+<h3 class="no_toc" id="f01b-switch-off-irm-and-restore-sp-since-caos-31">F01B: Switch-off IRM and restore SP (since CAOS 3.1)</h3>
+
+<p>This is the counter-function to F018, it switches off the IRM and restores the
+stack pointer.</p>
+
+<p><br /></p>
+
+<h2 id="system-memory-locations-at-b780">System Memory Locations at B780</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Address</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Size</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">B780</td>
+      <td style="text-align: left">ARGC</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">syscall nr for <em>Entry Points 2 and 4</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B781</td>
+      <td style="text-align: left">ARGN</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">number of command line arguments</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B782</td>
+      <td style="text-align: left">ARG1</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">1st command line argument</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B784</td>
+      <td style="text-align: left">ARG2</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">2nd command line argument</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B786</td>
+      <td style="text-align: left">ARG3</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">3rd command line argument</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B788</td>
+      <td style="text-align: left">ARG4-9</td>
+      <td style="text-align: left">12</td>
+      <td style="text-align: left">4th to 9th command line argument</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B794</td>
+      <td style="text-align: left">ARG10</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">10th command line argument</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B796</td>
+      <td style="text-align: left">NUMNX</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">number of character in parsed hex number</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B797</td>
+      <td style="text-align: left">NUMVX</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">value of parsed hex number</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B799</td>
+      <td style="text-align: left">HCADDR</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">address of channel-selection for system I/O</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B79B</td>
+      <td style="text-align: left">WINNR</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">nr. of current window</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B79C</td>
+      <td style="text-align: left">WINON</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">current window position</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B79E</td>
+      <td style="text-align: left">WINLG</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">current window size</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A0</td>
+      <td style="text-align: left">CURSO</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">cursor position in current window</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A2</td>
+      <td style="text-align: left">STBT</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">control-byte for character rendering:<br />bit 0 set: don’t write pixels<br />bit 1 set: don’t write colors<br />bit 3 set: render control-codes as ascii</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A3</td>
+      <td style="text-align: left">COLOR</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">color byte for character rendering:<br />bits 0..2: background color<br />bits 3..6: foreground color<br />bit 7: blink flag</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A4</td>
+      <td style="text-align: left">WEND</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">start address of screen-scrolling service routine</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A6</td>
+      <td style="text-align: left">CCTL0</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">char image table 20..5F</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7A8</td>
+      <td style="text-align: left">CCTL1</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">char image table 00..1F and 60..7F</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7AA</td>
+      <td style="text-align: left">CCTL2</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">char image table A0..DF</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7AC</td>
+      <td style="text-align: left">CCTL3</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">char image table 80..9F and E0..FF</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7AE</td>
+      <td style="text-align: left">SYSP</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">initial address of system stack pointer (default 01D4)<br />default KC85/2: 01D4<br />default KC85/3, KC85/4: 01C4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7B0</td>
+      <td style="text-align: left">SUTAB</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">address of system-call table</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7B2</td>
+      <td style="text-align: left">CTAB</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">address of jump table for ASCII control code handlers</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7B9</td>
+      <td style="text-align: left">OUTAB</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">points to SYSNR table for output channel syscalls</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7BB</td>
+      <td style="text-align: left">INTAB</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">points to SYSNR table for input channel syscalls</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7BD</td>
+      <td style="text-align: left">UOUT1</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">jump into USER output channel 2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7C0</td>
+      <td style="text-align: left">UIN1</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">jump into USER input channel 2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7C3</td>
+      <td style="text-align: left">UOUT2</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">jump into USER output channel 3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7C6</td>
+      <td style="text-align: left">UOUT3</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">jump into USER input channel 3</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7D3</td>
+      <td style="text-align: left">HOR</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">X-coord for graphics functions (0..319)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7D5</td>
+      <td style="text-align: left">VERT</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">Y-coord for graphics functions (0..256)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7D6</td>
+      <td style="text-align: left">FARB</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">color-control byte for graphics functions:<br />bit 0 set: XOR<br />bit 1 set: clear<br />bits 3..7: foreground color</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7D7</td>
+      <td style="text-align: left">MIXIT</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">high-byte of IX and interrupt-table</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7DD</td>
+      <td style="text-align: left">L3TAB</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: address of jump table for ESC-code handlers</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7DF</td>
+      <td style="text-align: left">L3SIZ</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: number of entries in L3TAB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E0</td>
+      <td style="text-align: left">COUNT</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: wait-count before 1st kbd autorepeat</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E1</td>
+      <td style="text-align: left">HCPZ</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E2</td>
+      <td style="text-align: left">INTV1</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E4</td>
+      <td style="text-align: left">INTV1L</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E5</td>
+      <td style="text-align: left">INTV2</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E7</td>
+      <td style="text-align: left">INTV2L</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">B7E8</td>
+      <td style="text-align: left">HCPZ2</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>KC85/4</strong>: V24 support</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="system-memory-locations-below-0200">System Memory Locations below 0200</h2>
+
+<p>The <strong>IX</strong> register is set to <strong>01F0</strong> at Reset/Power-On.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Address</th>
+      <th style="text-align: left">Length</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">IX+1</td>
+      <td style="text-align: left">1</td>
+      <td><strong>KC85/4</strong>: backing store for port 0x84</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+2</td>
+      <td style="text-align: left">1</td>
+      <td>block number for cassette I/O</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+4</td>
+      <td style="text-align: left">1</td>
+      <td><strong>KC85/4</strong>: backing store for port 0x86</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+5</td>
+      <td style="text-align: left">2</td>
+      <td>address of cassette I/O buffer (default: B700)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+7</td>
+      <td style="text-align: left">1</td>
+      <td>cassette load control-byte:<br />bit 0 set: read<br />bit 0 clr: verify</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+8</td>
+      <td style="text-align: left">1</td>
+      <td>key status:<br />bit 0 set: new key code available, clear bit for ack<br />bit 7 set: shift-lock activated</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+9</td>
+      <td style="text-align: left">1</td>
+      <td>prolog byte for menu (default: 7FH)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+D</td>
+      <td style="text-align: left">1</td>
+      <td>key code (ASCII)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IX+E</td>
+      <td style="text-align: left">2</td>
+      <td>address of KTAB scancode/keycode conversion table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="interrupt-table">Interrupt Table</h2>
+
+<p>The <strong>I</strong> register is set to <strong>01</strong> at Reset/Power-On.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Address</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">01D4-01E1</td>
+      <td style="text-align: left">free for user interrupt-tables</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01E2</td>
+      <td style="text-align: left">interrupt SIO channel B (if V24 modul in system)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01E4</td>
+      <td style="text-align: left">interrupt PIO channel A (cassette input)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01E6</td>
+      <td style="text-align: left">interrupt PIO channel B (keyboard input)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01E8</td>
+      <td style="text-align: left">interrupt CTC channel 0 (free)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01EA</td>
+      <td style="text-align: left">interrupt CTC channel 1 (cassette output)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01EC</td>
+      <td style="text-align: left">interrupt CTC channel 2 (sound duration)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">01EE</td>
+      <td style="text-align: left">interrupt CTC channel 3 (keyboard input)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="system-calls">System Calls</h2>
+
+<h3 id="crt----print-character">00 CRT – print character</h3>
+
+<pre><code>Desc:       Print a character on screen
+In:         A - character code (ASCII)
+Out,Change: -
+Stack:      11
+</code></pre>
+
+<h3 id="mbo----tape-output">01 MBO – tape output</h3>
+
+<pre><code>Desc:      Output a data block to cassette tape
+In:        BC     - length of leading sound
+           (IX+1) - block number - 1
+           (IX+5) - L (buffer address)
+           (IX+6) - H (buffer address)
+Out:       DE     - buffer end + 1
+           (IX+2) - block number
+Change:    AF, BC, DE, HL
+Stack:     4
+</code></pre>
+
+<h3 id="uot1----output-user-channel-1">02 UOT1 – output user channel 1</h3>
+
+<pre><code>Desc:       call user function for output to user channel 1
+In:         A   - character code 
+Out:        depends on function
+Change:     depends on function
+Note:       the address of the user-provided function must be set
+            in UOUT1 (B7BE)
+</code></pre>
+
+<h3 id="uot2----output-user-channel-2">03 UOT2 – output user channel 2</h3>
+
+<pre><code>Desc:       see UOT1
+Note:       the address of the user-provided function must be set
+            in UOUT2 (B7C4)
+</code></pre>
+
+<h3 id="kbd----keyboard-input-with-cursor">04 KBD – keyboard input with cursor</h3>
+
+<pre><code>Desc:       show cursor and wait for keyboard input or return
+            code sequence from previously pressed function key
+In:         -
+Out:        A   - character code
+Change:     AF, HL
+Stack:      9
+</code></pre>
+
+<h3 id="mbi----tape-input">05 MBI – tape input</h3>
+
+<pre><code>Desc:       read a data block from cassette tape
+In:         (IX+5)  - L (buffer address)
+            (IX+6)  - H (buffer address)
+Out:        CY = 1  - read error
+            (IX+2)  - block number
+Change:     AF, BC
+Stack:      4
+</code></pre>
+
+<h3 id="usin1----input-user-channel-1">06 USIN1 – input user channel 1</h3>
+
+<pre><code>Desc:       call user function for input from user channel 1
+In:         depends on function
+Out:        depends on function
+Change:     depends on function
+Note:       the address of the user-provided function must be set
+            in UIN1 (B7C1)
+</code></pre>
+
+<h3 id="usin2----input-user-channel-2">07 USIN2 – input user channel 2</h3>
+
+<pre><code>Desc:       see USIN1
+Note:       the address of the user-provided function must be set
+            in UIN2 (B7C7)
+</code></pre>
+
+<h3 id="isro----initialize-tape-output">08 ISRO – initialize tape output</h3>
+
+<pre><code>Desc:           initialize cassette tape output, writes the 1st data block
+In,Out,Change:  see 01 MBO
+Stack:          4
+</code></pre>
+
+<h3 id="csro----finalize-tape-output">09 CSRO – finalize tape output</h3>
+
+<pre><code>Desc:           finalize cassette tape output, writes the last data block
+In,Out,Change:  see 01 MBO
+Stack:          10
+</code></pre>
+
+<h3 id="a-isri----initialize-tape-input">0A ISRI – initialize tape input</h3>
+
+<pre><code>Desc:           initialize cassette tape input, reads the 1st data block
+In,Out,Change:  see 05 MBI
+Stack:          5
+</code></pre>
+
+<h3 id="b-csri----finalize-tape-input">0B CSRI – finalize tape input</h3>
+
+<pre><code>Desc:       finalize cassette tape input.
+In,Out:     -
+Change:     AF,HL
+Stack:      1
+</code></pre>
+
+<h3 id="c-kbds----get-pressed-key-without-ack">0C KBDS – get pressed key without ack</h3>
+
+<pre><code>Desc:       gets pressed key without acknowledge
+In:         -
+Out:        CY = 1  - key pressed
+            A       - key code (ASCII, function keys are F1..FC
+Change:     AF
+Stack:      0
+</code></pre>
+
+<h3 id="d-bye----warmstart">0D BYE – warmstart</h3>
+
+<pre><code>Desc:           jumps to RESET address E000
+In,Out,Change:  -
+</code></pre>
+
+<h3 id="e-kbdz----get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</h3>
+
+<pre><code>Desc:       get pressed key with acknowledge and autorepeat
+In:         -
+Out:        CY = 1  - key pressed
+            A       - key code (ASCII, function keys are F1..FC)
+Change:     AF
+Stack:      1
+</code></pre>
+
+<h3 id="f-color----set-color">0F COLOR – set color</h3>
+
+<pre><code>Desc:       sets the current color
+In:         E - background color (0..7)
+            L - foreground color (0..1FH)
+            (ARGN) = 1  - only change foreground color
+                   = 2  - change fore- and background color
+Out:        -
+Change:     AF,L
+Stack:      1
+</code></pre>
+
+<h3 id="load----load-file">10 LOAD – load file</h3>
+
+<pre><code>Desc:       loads a file from cassette tape
+In:         (ARGN)  = 0 - load without offset
+                    = 1 - load with offset
+            (ARG1)  = loading offset
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      14
+</code></pre>
+
+<h3 id="verif----verify-a-file-on-tape">11 VERIF – verify a file on tape</h3>
+
+<pre><code>Desc:       verifies a file on cassette tape by checking
+            the data block checksums
+In,Out:     -
+Change:     AF,BC,DE,HL
+Stack:      14
+</code></pre>
+
+<h3 id="loop----return-control-to-caos">12 LOOP – return control to CAOS</h3>
+
+<pre><code>Desc:           returns control to CAOS without memory initialization,
+                can be used by menu programs if a RET instruction is
+                not possible
+In,Out,Change:  -
+</code></pre>
+
+<h3 id="norm----reset-io-channels">13 NORM – reset I/O channels</h3>
+
+<pre><code>Desc:       sets the input and output channel handler functions to 
+            CRT and KBD
+In:         -
+Out:        HL - old output pointer
+Change:     HL
+Stack:      2
+</code></pre>
+
+<h3 id="wait----waiting-loop">14 WAIT – waiting loop</h3>
+
+<pre><code>Desc:       implements a simple waiting loop without interrupts
+In:         A - t=(A) * 6ms
+Out:        -
+Change:     AF,B
+Stack:      2
+</code></pre>
+
+<h3 id="larg----load-arguments">15 LARG – load arguments</h3>
+
+<pre><code>Desc:       load arguments into registers
+In:         -
+Out:        HL - (ARG1)
+            DE - (ARG2)
+            BC - (ARG3)
+            A  - (ARGN)
+Change:     A,BC,DE,HL
+Stack:      0
+</code></pre>
+
+<h3 id="intb----character-from-input-channel">16 INTB – character from input channel</h3>
+
+<pre><code>Desc:       returns character from current input channel
+            (defined by INTAB)
+In:         -
+Out:        A - character (ASCII)
+Change:     -
+Stack:      12 (if input channel is set to keyboard)
+</code></pre>
+
+<h3 id="inlin----line-input">17 INLIN – line input</h3>
+
+<pre><code>Desc:       input a complete line until [ENTER]
+In:         -
+Out:        DE - address to start of line in video ram ascii buffer
+Change:     AF,DE
+Stack:      12
+</code></pre>
+
+<h3 id="rhex----parse-hex-number-string">18 RHEX – parse hex number string</h3>
+
+<pre><code>Desc:       converts a hex number string into a number
+In:         DE - points to number string
+Out:        DE - points to end of number string
+            (NUMNX) - length of string
+            (NUMVX) - converted number
+            CY = 1  - error, invalid characters or number string too long
+Change:     AF,DE,HL
+Stack:      0
+</code></pre>
+
+<h3 id="errm----print-error">19 ERRM – print ERROR</h3>
+
+<pre><code>Desc:           outputs the text "ERROR"
+In,Out,Change:  -
+Stack:          13
+</code></pre>
+
+<h3 id="a-hlhx----print-hl">1A HLHX – print HL</h3>
+
+<pre><code>Desc:       outputs the register HL as hex number
+In:         HL
+Out:        -
+Change:     AF
+Stack:      17
+</code></pre>
+
+<h3 id="b-hlde----print-hl-de">1B HLDE – print HL DE</h3>
+
+<pre><code>Desc:       outputs the registers HL and DE as hex numbers
+In:         HL,DE
+Out:        -
+Change:     AF
+Stack:      19
+</code></pre>
+
+<h3 id="c-ahex----print-a">1C AHEX – print A</h3>
+
+<pre><code>Desc:       outputs the register A as hex number
+In:         A
+Out:        -
+Change:     AF
+Stack:      16
+</code></pre>
+
+<h3 id="d-zsuch----find-command">1D ZSUCH – find command</h3>
+
+<pre><code>Desc:       find a menu command by name
+In:         A   - prolog byte (e.g. for CAOS menu: 7F)
+            BC  - length of search area
+            DE  - start of search string
+            HL  - start of search area
+Out:        DE      - end+1 of search string
+            HL      - end+1 of found string
+            CY=1    - if search successful
+Change:     AF,BC,DE,HL
+Stack:      2
+</code></pre>
+
+<h3 id="e-sout----set-output-table">1E SOUT – set output table</h3>
+
+<pre><code>Desc:       updates the OUTAB pointer to HL
+In:         HL - new OUTAB pointer
+Out:        HL - old OUTAB pointer
+Change:     HL
+Stack:      1
+</code></pre>
+
+<h3 id="f-sin----set-input-table">1F SIN – set input table</h3>
+
+<pre><code>Desc:       updates the INTAB pointer to HL
+In:         HL - new INTAB pointer
+Out:        HL - old INTAB pointer
+Change:     HL
+Stack:      1
+</code></pre>
+
+<h3 id="nout----reset-output-channel-to-screen">20 NOUT – reset output channel to screen</h3>
+
+<pre><code>Desc:       resets the character output handler to screen (00 CRT)
+In:         -
+Out:        HL - pointer to old handler
+Change:     HL
+Stack:      1
+</code></pre>
+
+<h3 id="nin----reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</h3>
+
+<pre><code>Desc:       resets the character input handler to keyboard (04 KBD)
+In:         -
+Out:        HL - pointer to old handler
+Change:     HL
+Stack:      1
+</code></pre>
+
+<h3 id="garg----parse-arguments">22 GARG – parse arguments</h3>
+
+<pre><code>Desc:       parse up to 10 hex numbers string
+In:         DE - address of first character
+Out:        DE - address of last character + 1
+            (ARGN)          - number of parsed numbers
+            (ARG1)..(ARG10) - parsed number values
+            CY = 1          - parsing error occured
+Change:     AF,BC,DE,HL
+Stack:      1
+Note:       valid characters are 0..9, A..F, space, end: 0
+</code></pre>
+
+<h3 id="ostr----output-string">23 OSTR – output string</h3>
+
+<pre><code>Desc:       print embedded string following the subroutine call
+In/Out:     -
+Change:     AF
+Stack:      16
+</code></pre>
+
+<h3 id="ochr----output-character-on-output-channel">24 OCHR – output character on output channel</h3>
+
+<pre><code>Desc:       write a character to device defined by OUTAB
+In:         A - character code (ASCII)
+Out:        -
+Change:     AF
+Stack:      15
+</code></pre>
+
+<h3 id="cucp----complement-cursor">25 CUCP – complement cursor</h3>
+
+<pre><code>Desc:       sets the cursor image to shift-lock mode(???)
+In:         (CURSO) - cursor position
+Out,Change  -
+Stack:      8
+</code></pre>
+
+<h3 id="modu----expansion-module-control">26 MODU – expansion module control</h3>
+
+<pre><code>Desc:       read module type or send modul control byte
+In:         A = 1   - read module type
+              = 2   - write control byte
+            L       - module slot
+            D       - control byte
+Out:        H       - module type
+            D       - current module control byte
+Change:     AF,H,C,B
+Stack:      0
+</code></pre>
+
+<h3 id="jump----jump-to-alternate-os">27 JUMP – jump to alternate OS</h3>
+
+<pre><code>Desc:       jump into a new operating system, switch off built-in ROM banks
+In:         A - module slot
+Out,Change: -
+Note:       the start address of the new operating system must be F012,
+            FF will be written as module control byte
+</code></pre>
+
+<h3 id="ldma----ld-hla">28 LDMA – LD (HL),A</h3>
+
+<pre><code>Desc:       LD (HL),A
+In:         A - value
+            HL - address
+Out,Change: -
+Note:       only useful with entry points 4 to 6
+</code></pre>
+
+<h3 id="ldam----ld-ahl">29 LDAM – LD A,(HL)</h3>
+
+<pre><code>Desc:       LD A,(HL)
+In:         HL - address
+Out:        A - value
+Change:     -
+Stack:      0
+Note:       Only useful with entry points 4 to 6
+</code></pre>
+
+<h3 id="a-brkt----test-for-brk-key">2A BRKT – test for BRK key</h3>
+
+<pre><code>Desc:       test whether the BRK key was pressed
+In:         -
+Out:        CY = 1 - key BRK was pressed
+            A - key code
+Change:     -
+Stack:      1
+</code></pre>
+
+<h3 id="b-space----output-a-space-character">2B SPACE – output a space character</h3>
+
+<pre><code>Desc:       outputs a space character via 24 OCHR
+In,Out:     -
+Change:     AF
+Stack:      15
+</code></pre>
+
+<h3 id="c-crlf----output-newline">2C CRLF – output newline</h3>
+
+<pre><code>Desc:       outputs a newline (0A + 0D)
+In,Out:     -
+Change:     AF
+Stack:      17
+</code></pre>
+
+<h3 id="d-home----output-home">2D HOME – output HOME</h3>
+
+<pre><code>Desc:       outputs the HOME character control code
+In,Out:     -
+Change:     AF
+Stack:      15
+</code></pre>
+
+<h3 id="e-modi----call-modify">2E MODI – call MODIFY</h3>
+
+<pre><code>Desc:       this calls the MODIFY system command
+In:         HL - start address
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      18
+</code></pre>
+
+<h3 id="f-pude----clear-pixel">2F PUDE – clear pixel</h3>
+
+<pre><code>Desc:       clear pixel at position (HOR),(VERT)
+In:         (HOR)   - horizontal position (0..13FH)
+            (VERT)  - vertical position (0..FFH)
+Out:        A       - color byte
+            CY = 1  - error: invalid position
+            Z  = 1  - pixel was not set
+Note:       position (0,0) is lower-left corner
+</code></pre>
+
+<h3 id="puse----set-a-pixel">30 PUSE – set a pixel</h3>
+
+<pre><code>Desc:       set pixel at position (HOR),(VERT)
+In:         (HOR)   - horizontal position (0..13FH)
+            (VERT)  - vertical position (0..FFH)
+            (FARB)  - pixel color
+                      bit 0 set: XOR
+                      bit 1 set: clear point
+                      bits 3..7: pixel color
+Out:        CY = 1  - error: invalid position
+Change:     AF
+Stack:      4
+</code></pre>
+
+<h3 id="sixd----move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</h3>
+
+<pre><code>Desc:       moves the CAOS working memory area (default location: 01F0):
+            - initialize the interrupt table
+            - initialize the IX register
+            - set interrupt mode IM2
+            - initialize the PIO and CTC
+            - initialize the cassette tape buffer
+            - initialize the menu prolog byte
+In:         A - high-byte of new memory location
+Out:        (MIXIT) - high-byte of new memory location
+Change:     AF,BC,DE,HL,IX
+Stack       6
+</code></pre>
+
+<h3 id="dabr----compute-character-buffer-address">32 DABR – compute character buffer address</h3>
+
+<pre><code>Desc:       computes the character buffer address relativ to the
+            currently set window
+In:         D   - line in current window
+            E   - column in current window
+Out:        CY = 1  - error: position outside window
+            HL      - character buffer address
+Change:     AF,BC,HL
+Stack:      2
+Note:       can be used to read-back ASCII codes from the character buffer
+</code></pre>
+
+<h3 id="tcif----test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</h3>
+
+<pre><code>Desc:       tests if cursor position is inside current window
+In:         D   - line in current window
+            E   - column in current window
+Out:        CY = 1  - position outside window
+Change:     AF
+Stack:      0
+</code></pre>
+
+<h3 id="padr----compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</h3>
+
+<pre><code>Desc:       computes the pixel- and color-buffer address from a charcter position
+In:         H   - vertical position (0..FFH ??)
+            L   - horizontal position (0..27H)
+Out:        DE  - color buffer address (only KC85/2 and KC85/3)
+            HL  - pixel buffer address
+Note:       can only be called through entry point 1 (F003)
+            HL = 00 is top-left corner
+            on KC85/4, pixel and color buffer address is identical!
+</code></pre>
+
+<h3 id="ton----sound-output">35 TON – sound output</h3>
+
+<pre><code>Desc:       emits a sound
+In:         (ARG1+0)    - sound pitch 1 (timer constant for CTC0)
+            (ARG1+1)    - CTC0 prescaler (0: prescaler=16, 1: prescaler=256)
+            (ARG2+0)    - sound pitch 2 (timer constant for CTC1)
+            (ARG2+1)    - CTC1 prescaler
+            (ARG3+0)    - volume (0..1FH), must be even on KC85/4 (?)
+            (ARG3+1)    - duration in N*20ms, or 0 to loop infinitely
+Out:        AF,BC,DE,HL
+Stack:      1
+Note:       the sound duration is controlled via CTC interrupr
+</code></pre>
+
+<h3 id="save----save-program">36 SAVE – save program</h3>
+
+<pre><code>Desc:       save a machine-code program to cassette tape
+In:         HL      - start address of filename (as 8.3 name.type)
+            (ARGN)  - number of arguments (2 or 3)
+            (ARG1)  - start address of program
+            (ARG2)  - end address of program
+            (ARG3)  - entry point address of program
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      16
+Note:       auto-start programs use (ARGN)=3
+</code></pre>
+
+<h3 id="mbin----byte-input-from-tape">37 MBIN – byte-input from tape</h3>
+
+<pre><code>Desc:       read bytes from cassette tape with name check in first block
+In:         A   - data (?)
+                  bit 3 set: INIT
+            D   - control byte
+                  bit 6 set: CLOSE
+            HL  - points to name (11 bytes), only for INIT
+Out:        -
+Change:     AF,DE,HL
+Stack:      16
+Note:       the documentation doesn't make a lot of sense for this function :/
+            only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="mbout----byte-output-to-tape">38 MBOUT – byte-output to tape</h3>
+
+<pre><code>Desc:       write bytes to cassette tape
+In:         A   - data (?)
+            D   - control byte
+                  bit 3 set: INIT
+                  bit 6 set: CLOSE
+            HL  - points to name (11 bytes), only for INIT
+Out:        -
+Change:     AF,DE,HL
+Stack:      16
+Note:       the documentation doesn't make a lot of sense for this function :/
+            only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="key----assign-function-key">39 KEY – assign function key</h3>
+
+<pre><code>Desc:       calls the KEY system command to interactively assign a function key
+In:         A   - function key number (1..0CH)
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      18
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="a-keyli----print-function-key-assignment">3A KEYLI – print function key assignment</h3>
+
+<pre><code>Desc:       calls the KEYLIST system command to output the current 
+            function key assignment
+In,Out:     -
+Change:     AF,BC,HL
+Stack:      18
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="b-disp----hexascii-dump">3B DISP – hex/ascii dump</h3>
+
+<pre><code>Desc:       calls the DISPLAY system command
+In KC85/3:  (ARGN)  - number of arguments
+            HL      - start address
+            DE      - end address
+            C       - number of lines (if ARGN &gt; 2)
+In KC85/4:  A       - number of arguments
+            HL      - start address
+            E       - number of lines (if A &gt; 1)
+            C       - number of columns (if A &gt; 2)
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      19
+Note:       key BRK: cancel
+            key STOP: change into MODIFY mode
+            only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="c-winin----initialize-a-window">3C WININ – initialize a window</h3>
+
+<pre><code>Desc:       initialize or a new window 
+In:         A   - window number (0..9)
+            HL  - top left corner
+            DE  - window size
+Out:        CY = 1: error
+Change:     AF,BC,DE,HL
+Stack:      5
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="d-winak----select-window">3D WINAK – select window</h3>
+
+<pre><code>Desc:       sets the current window 
+In:         A   - window number (0..9)
+Out:        CY = 1: error
+Change:     AF,BC,DE,HL
+Stack:      2
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="e-line----draw-a-line">3E LINE – draw a line</h3>
+
+<pre><code>Desc:       draws a pixel line from X0/Y0 to X1/Y1
+In:         (ARG1)  - X0
+            (ARG2)  - Y0
+            (ARG3)  - X1
+            (ARG4)  - Y1
+            (FARB)  - color byte:
+                      bit 0 set: XOR
+                      bit 1 set: clear pixels
+                      bits 3..7: color
+Out:        -
+Change:     AF,BC,DE,HL,AF',BC',DE',HL'
+Stack:      8
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="f-circle----draw-a-circle">3F CIRCLE – draw a circle</h3>
+
+<pre><code>Desc:       draw a circle at XM/YM and radius R
+In:         (ARG1) - XM
+            (ARG2) - YM
+            (ARG3) - R
+            (FARB) - see 3E LINE
+Out:        -
+Change:     AF,BC,DE,HL,AF',BC',DE',HL'
+Stack:      8
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="sqr----square-root">40 SQR – square root</h3>
+
+<pre><code>Desc:       compute 8-bit square root from 16-bit value
+In:         HL  - 16-bit value
+Out:        A   - 8-bit result
+Change:     AF,HL,DE
+Stack:      1
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="mult----multiplication">41 MULT – multiplication</h3>
+
+<pre><code>Desc:       multiply 2 8-bit numbers into a 16-bit result
+In:         D, C    - 8-bit factors
+Out:        BA      - 16-bit result
+Change:     AF,HL,DE,B
+Stack:      1
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="cstbt----toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</h3>
+
+<pre><code>Desc:       toggles between rendering or executing an ASCII control code
+            by inverting bit 4 of (STBT)
+In:         -
+Out:        -
+Change:     -
+Stack:      1
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="iniea----initialize-io-channel">43 INIEA – initialize I/O channel</h3>
+
+<pre><code>Desc:       initialize an I/O channel via table
+In:         HL  - start address of init table
+Out:        HL  - end of init table + 1
+Change:     HL
+Stack:      1
+Note:       only CAOS 3.1 and up
+            table structure:
+            1st byte    - I/O address
+            2nd byte    - number of init bytes
+            3rd byte    - init bytes
+            .
+            .
+            .
+            Nth byte
+</code></pre>
+
+<h3 id="inime----initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</h3>
+
+<pre><code>Desc:       initialize multiple I/O channels via table
+In:         HL  - start address of init table
+            D   - number of I/O channels
+Out:        HL  - end of init tables + 1
+Change:     D,HL,F
+Stack:      1
+Note:       only CAOS 3.1 and up
+            the I/O init table is made of multiple tables
+            as described in 43 INIEA
+</code></pre>
+
+<h3 id="zkout----output-string-at-hl">45 ZKOUT – output string at HL</h3>
+
+<pre><code>Desc:       output a null-terminated string at HL
+In:         HL  - points to null-terminated string
+Out:        HL  - points to end of string (?)
+Change:     HL,AF
+Stack:      22
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="menu----call-menu-system-command">46 MENU – call MENU system command</h3>
+
+<pre><code>Desc:       outputs the current menu and enters interactive command mode
+In:         (IX+9)  - prolog byte
+Out,Change: -
+Note:       only CAOS 3.1 and up
+</code></pre>
+
+<h3 id="v24out----initialize-printer-output">47 V24OUT – initialize printer output</h3>
+
+<pre><code>Desc:       initializes printer output
+In:         (ARG1)  - module slot with M003 module
+            (ARG2)  - channel of M003 module 
+            (ARG3)  - user output channel
+            (ARG4)  - = 1: protocol on/off at SHIFT CLEAR
+                      = 2: at SHIFT CLEAR HARDCOPY/SCREENCOPY
+            (ARG5)  - printer type
+            (ARGN)  - number of arguments
+            (INTV1)     - start addr of init table (SIO, CTC)
+            (INTV1L)    - length of init table
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      2
+Note:       CAOS 4.1 and up
+            documentation is unclear
+</code></pre>
+
+<h3 id="v24dup----initialize-v24-duplex">48 V24DUP – initialize V24 duplex</h3>
+
+<pre><code>Desc:       initializes V24 duplex routine
+In:         (ARG1)  - module slot with M003 module
+            (ARG2)  - channel of M003 module
+            (ARG3)  - user in/out channel
+            (ARGN)  - number of arguments
+            (INTV2)     - start addr of init table
+            (INTV2L)    - length of init table
+Out:        -
+Change:     AF,BC,DE,HL
+Stack:      1
+Note:       CAOS 4.1 and up
+            documentation is unclear
+</code></pre>
+
+
+  </article>
+
+</div>
+
+    </div>
+
+  </body>
+
+</html>

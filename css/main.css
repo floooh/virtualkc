@@ -116,9 +116,17 @@ pre {
   .icon > svg path {
     fill: #828282; }
 
-/**
- * Site header
- */
+table {
+  border-collapse: collapse;
+  border-spacing: 5;
+  border: 1px solid black; }
+
+th {
+  border: 1px solid #000000; }
+
+td {
+  border: 1px solid #000000; }
+
 .site-header {
   position: fixed;
   z-index: 2;
