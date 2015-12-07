@@ -133,13 +133,13 @@ td {
   width: 100%;
   border-bottom: 1px solid #e8e8e8;
   background-color: #1970c3;
-  min-height: 72px;
-  height: 72px; }
+  min-height: 32px;
+  height: 32px; }
 
 .site-title {
   font-weight: 300;
   font-size: 48px;
-  line-height: 72px;
+  line-height: 32px;
   letter-spacing: -1px;
   margin-left: 32px;
   margin-bottom: 0;
@@ -191,10 +191,10 @@ td {
   position: relative;
   min-height: 100%;
   background-color: white;
-  top: 95px;
+  top: 80px;
   bottom: 100%;
   margin-left: 200px;
-  padding-top: 20px;
+  padding-top: 15px;
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 20px;
@@ -343,17 +343,17 @@ td {
   font-family: 'kcfont';
   src: url("font.ttf"); }
 .kc-top-padding {
-  height: 10px; }
+  height: 5px; }
 
 .kc-title {
   text-align: left;
   font-family: 'kcfont';
-  font-size: 40px;
+  font-size: 32px;
   background-color: black;
   color: white;
   min-width: 500px;
   padding-left: 30px;
-  padding-top: 8px; }
+  padding-top: 2px; }
 
 .kc-title-border {
   height: 4px;
