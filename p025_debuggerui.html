@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Debugger UI</title>
+  <meta name="description" content="portable KC85 emulator written in C++
+">
+
+  <link rel="stylesheet" href="/virtualkc/css/main.css">
+  <link rel="canonical" href="/virtualkc/p025_debuggerui.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+    <div class="kc-top-padding"></div>
+    <div class="kc-title-border"></div>
+    <div class="kc-title">KLEINCOMPUTER KC85</div>
+    <div class="kc-title-border"></div>
+</header>
+
+
+
+
+    <ul class="navigation">
+    
+        
+    
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p010_kc85.html">The KC85 Computers</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p020_emulator.html">Emulator Internals</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p025_debuggerui.html">The Debugger UI</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p030_explorecaos.html">Exploring CAOS</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p035_helloworld.html">Hello World</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p040_systemcalls.html">CAOS Reference</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p050_hwref.html">Hardware Reference</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p060_links.html">Links</a>
+        </li>
+        
+    
+</ul>
+
+
+
+    <div class="page-content">
+        <div>
+
+  <article>
+    <h2 id="the-debugger-overlay-ui">The Debugger Overlay UI</h2>
+
+<p>The debugger UI is toggled by pressing the Tab key, or on devices 
+with touch interface, double-tapping the screen. This displays 
+a menu bar at the top of the screen through which all debugger
+functions are accessible.</p>
+
+<p>Please note that the debugger UI keeps changing fast, the screenshots
+below may be out-of-date soon, also keep looking for new windows :)</p>
+
+<h3 id="rebooting-into-different-configurations">Rebooting into Different Configurations</h3>
+
+<p>The emulator can be power-cycled, reset and rebootet into different
+hardware- and OS-configurations:</p>
+
+<p><img src="images/reboot.png" alt="reboot" /></p>
+
+<h3 id="the-debugger-window">The Debugger Window</h3>
+
+<p>This is the heart of the debugging UI, showing
+the current Z80 CPU state and allowing to step through the 
+disassembled instruction stream:</p>
+
+<p><img src="images/debugwindow.png" alt="debugwindow" /></p>
+
+<p>The debugging window updates once per frame following the
+CPU as it crunches through the instruction stream. </p>
+
+<p>Pressing the <strong>break</strong> checkbox at the bottom halts execution and goes into
+step-debug mode. The address field left to the break checkbox allows to set a
+single breakpoint, or alternatively you can press the <strong>B</strong> buttons left of
+each disassembled line to set a breakpoint at that address. At the moment only
+one breakpoint is supported.</p>
+
+<p>By default, the emulated Z80 CPU will skip over invalid opcodes (that’s
+what a real Z80 does). If you want to catch invalid opcodes, check the
+<strong>break on invalid opcode</strong> checkbox at the bottom of the debugger window.</p>
+
+<p>The top panel shows the current CPU state: register content, flags and special 
+state bits (IFF1, IFF2 and HALT). The current register values can be modified
+by clicking into their text fields.</p>
+
+<p>The dark-grey instructions at the top of the disassembly view 
+are the most recently executed instructions.</p>
+
+<p>The green line is the next instruction to be executed. The current breakpoint
+address is visualized with a blue-ish line (not shown in the screenshot).</p>
+
+<p>Note: the debugger window will most likely become more powerful and 
+get better usability in the future.</p>
+
+<h3 id="the-disassembler-window">The Disassembler Window</h3>
+
+<p>As the name suggests this allows to inspect disassembled instructions 
+anywhere in memory. It often makes sense to have several disassembler
+windows open during debugging sessions:</p>
+
+<p><img src="images/disassembler.png" alt="disassembler" /></p>
+
+<h3 id="the-memory-editor-window">The Memory Editor Window</h3>
+
+<p>This allows to inspect and edit memory as a hex dump. At the moment, only
+memory banks that are currently visible to the CPU can be inspected, and
+the content of ROM banks cannot be modified.</p>
+
+<p><img src="images/hexedit.png" alt="hexedit" /></p>
+
+<h3 id="scanning-for-commands">Scanning for Commands</h3>
+
+<p>This window allows to scan the CPU-visible memory for the magic command
+headers (usually 7F 7F), a list of found commands is displayed with their
+starts address, and a <strong>B</strong> button which sets a breakpoint at the start
+of the command code:</p>
+
+<p><img src="images/scancommands.png" alt="scancommands" /></p>
+
+<h3 id="the-virtual-keyboard">The Virtual Keyboard</h3>
+
+<p>Use the virtual keyboard on touchscreen devices or to enter special
+keys that don’t map to PC keyboards:</p>
+
+<p><img src="images/keyboard.png" alt="keyboard" /></p>
+
+<h3 id="the-expansion-slot-window">The Expansion Slot Window</h3>
+
+<p>This visualizes the 2 expansion slots (0x08 and 0x0C) of the base device. 
+Expansion modules can be inserted or removed by cklicking on the 
+expansion slot. Hovering the mouse over an expansion slot shows a brief
+description of the currently inserted module.</p>
+
+<p><img src="images/expansion.png" alt="expansion" /></p>
+
+<h3 id="the-memory-map-window">The Memory Map Window</h3>
+
+<p>Visualizes the current memory bank mapping, what memory banks currently 
+exist in the system, which banks are activated, and which banks are
+actually visible to the CPU:</p>
+
+<p><img src="images/memory_map.png" alt="memory_map" /></p>
+
+<p>The screenshot shows the memory map of a KC85/4 with its deeply stacked
+video memory banks, there’s also a ROM module inserted which is mapped to 
+address C000.</p>
+
+<p>The memory bank colors are as follows:</p>
+
+<ul>
+  <li><strong>bright green</strong>: the memory bank is activate and visible to the CPU</li>
+  <li><strong>dark green</strong>: the memory bank is active, but is not accessible by the
+CPU because it is shadowed by a higher priority active bank</li>
+  <li><strong>dark grey</strong>: the memory bank exists but is currently switched off</li>
+</ul>
+
+<p>The memory mapping visualization updates at 60fps, when keeping the
+window open while performing operations in the emulator, it is actually
+possible to watch how the memory banks are mapped in and out of the CPUs
+address space.</p>
+
+<h3 id="the-pio-and-ctc-windows">The PIO and CTC Windows</h3>
+
+<p>These two windows visualize the current state of the PIO and CTC registers.
+The PIO data registers can also directly be modified in the UI:</p>
+
+<p><img src="images/pio_ctc.png" alt="pio_ctc" /></p>
+
+<h3 id="the-settings-menu">The Settings Menu</h3>
+
+<p>This allows you to switch various image post-effects on and off, and increase
+the speed of the emulated CPU.</p>
+
+<p><img src="images/settings.png" alt="settings" /></p>
+
+
+  </article>
+
+</div>
+
+    </div>
+
+  </body>
+
+</html>

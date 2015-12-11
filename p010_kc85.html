@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>The KC85</title>
+  <title>The KC85 Computers</title>
   <meta name="description" content="portable KC85 emulator written in C++
 ">
 
@@ -35,13 +35,19 @@
     
         
         <li class="nav-item">
-            <a href="/virtualkc/p010_kc85.html">The KC85</a>
+            <a href="/virtualkc/p010_kc85.html">The KC85 Computers</a>
         </li>
         
     
         
         <li class="nav-item">
-            <a href="/virtualkc/p020_emulator.html">The Emulator</a>
+            <a href="/virtualkc/p020_emulator.html">Emulator Internals</a>
+        </li>
+        
+    
+        
+        <li class="nav-item">
+            <a href="/virtualkc/p025_debuggerui.html">The Debugger UI</a>
         </li>
         
     
@@ -107,7 +113,17 @@ a unique hardware and operating system design, detailed below.
 From here on, the name ‘KC85’ will be used for the KC85/2, /3 and /4 line
 of computers only.</p>
 
-<p>(TODO: photos)</p>
+<p>This is a KC85/3 at the Vintage Computing Festival with a fairly mysterious 
+floppy disk expansion prototype on top:</p>
+
+<p><img src="images/vintage_computing_festival_3.jpg" alt="KC85/3 with floppy disk prototype" /></p>
+
+<p>And at the same event, a KC85/4 with a breadboard expansion module and a
+thematically matching cassette tape recorder (the computer in the background
+is an Atari 800XL if I’m not mistaken):</p>
+
+<p><img src="images/vintage_computing_festival_4.jpg" alt="KC85/4" />
+<br /><br /></p>
 
 <h3 id="hardware-specs">Hardware Specs</h3>
 
@@ -175,6 +191,11 @@ scrolling</li>
 tricks were not possible, all rendering had to be done ‘manually’ through 
 the CPU.</p>
 
+<p>This is what my KC85/4 looks like when opened:</p>
+
+<p><img src="images/kc85_4_inside.jpg" alt="KC85/4 opened" />
+<br /><br /></p>
+
 <h3 id="modular-hardware-and-software">Modular Hardware and Software</h3>
 
 <p>The KC85/2 based series has a fairly unique modular hardware and software
@@ -183,6 +204,19 @@ modules, and additional slots could be added by stacking ‘bus-driver’ device
 on top of the base device, each adding 4 more slots. Up to 4MByte RAM could 
 be managed with this system, but as far as I know this could not be achieved
 in reality because of signal degradation or timing problems.</p>
+
+<p>This photo of an KC85/4 at a little forgotten computer-room at the HWT 
+Berlin Schoeneweide demonstrates the hardware-expansion concept pretty well:</p>
+
+<p><img src="images/hwt_schoeneweide.jpg" alt="Stacked KC85/4" /></p>
+
+<p>At the bottom is the KC85/4 base device (the actual computer), standing on it
+is a ‘D002 Busdriver’ with 4 expansion slots, above a ‘D004 Floppy Disk Basis’
+device with it’s own U880 CPU running at full 4MHz speed, followed by the
+actual ‘D004 Floppy Disk Drive’, up to 4 of thos drives those could be attached
+to one D004 Floppy Disk Basis device. The monitor is a Soviet black-and-white
+portable TV called Junost (‘Youth’). This was the typical KC computer monitor
+because it was relatively cheap.</p>
 
 <p>The most popular expansion modules were 16 and 64 KByte RAM modules, 
 ROM modules for BASIC, FORTH and assembler development (each only 8 Kbyte big), 
