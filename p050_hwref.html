@@ -28,6 +28,9 @@
 
 
     <ul class="navigation">
+    <li class="nav-item">
+        <a href="index.html">Back To Emulator</a>
+    </li>
     
         
     
@@ -91,7 +94,85 @@
   <article>
     <h2 id="hardware-programming-reference">Hardware Programming Reference</h2>
 
-<p>(TODO: PIO, CTC, IO ports, video memory layout)</p>
+<h3 id="z80-pio-registers">Z80 PIO Registers</h3>
+
+<p>The PIO registers are mapped to the following IO ports:</p>
+
+<ul>
+  <li><strong>0x88</strong>: PIO-A data</li>
+  <li><strong>0x89</strong>: PIO-B data</li>
+  <li><strong>0x8A</strong>: PIO-A control</li>
+  <li><strong>0x8B</strong>: PIO-B control</li>
+</ul>
+
+<p>The interrupt vectors are located at 0x01E4 and 0x01E6:</p>
+
+<ul>
+  <li><strong>0x01E4</strong>: PIO-A interrupt vector (used for cassette tape input)</li>
+  <li><strong>0x01E6</strong>: PIO-B interrupt vector (used for keyboard input)</li>
+</ul>
+
+<p>The <strong>PIO-A data register 0x88</strong> is used to control internal memory banks, and
+the tape status LED and tape monitor:</p>
+
+<ul>
+  <li><strong>PIO-A bit 0</strong>: CAOS ROM at address 0xE000 on/off</li>
+  <li><strong>PIO-A bit 1</strong>: RAM bank at address 0x0000 on/off</li>
+  <li><strong>PIO-A bit 2</strong>: video memory at address 0x8000 on/off</li>
+  <li><strong>PIO-A bit 3</strong>: write-protection for RAM bank at address 0x0000 (1: write-protection off)</li>
+  <li><strong>PIO-A bit 4</strong>: unused</li>
+  <li><strong>PIO-A bit 5</strong>: tape LED on/off</li>
+  <li><strong>PIO-A bit 6</strong>: tape motor on/off</li>
+  <li><strong>PIO-A bit 7</strong>: BASIC ROM at address 0xC000 on/off</li>
+</ul>
+
+<p>The <strong>PIO-B data register 0x89</strong> is used to control sound volume and to 
+globally enable or disable the foreground color blinking. On the KC85/4,
+2 previously unused bits are used to control the RAM banks at address 0x8000:</p>
+
+<ul>
+  <li><strong>KC85/3: PIO-B bits 0..4</strong>: sound volume</li>
+  <li><strong>KC85/4: PIO-B bit 0</strong>: reset symmetry flip-flop for sound output</li>
+  <li><strong>KC85/4: PIO-B bits 1..3</strong>: sound volume</li>
+  <li><strong>KC85/4: PIO-B bit 4</strong>: unused</li>
+  <li><strong>KC85/4: PIO-B bit 5</strong>: RAM banks at address 0x8000 on/off</li>
+  <li><strong>KC85/4: PIO-B bit 6</strong>: write-protection for RAM banks at address 0x8000 (1: write-protection off)</li>
+  <li><strong>PIO-B bit 7</strong>: globally enable/disable foreground color blinking</li>
+</ul>
+
+<h3 id="kc854-ports-0x84-and-0x86">KC85/4 Ports 0x84 and 0x86</h3>
+
+<p>The KC85/4 has 2 additional IO ports which are not backed by the PIO and 
+cannot be read-back with an IN instruction, instead the values for
+port 0x84 and 0x86 are backed at memory addresses at (IX+1) and (IX+4):</p>
+
+<ul>
+  <li><strong>0x84 bit 0</strong>: display image 0 or 1</li>
+  <li><strong>0x84 bit 1</strong>: CPU access to pixel or color video memory bank (0: pixels, 1: color)</li>
+  <li><strong>0x84 bit 2</strong>: CPU access to image 0 or 1</li>
+  <li><strong>0x84 bit 3</strong>: hicolor mode (0: hicolor off, 1: hicolor on)</li>
+  <li><strong>0x84 bit 4</strong>: select RAM bank at address 0x8000 (0: bank0, 1: bank1)</li>
+  <li><strong>0x84 bit 5</strong>: block select for RAM at address 0x8000 (FIXME: no idea what that does?!)</li>
+  <li>
+    <p><strong>0x84 bits 6..7</strong>: reserved</p>
+  </li>
+  <li><strong>0x86 bit 0</strong>: RAM bank at address 0x4000 on/off</li>
+  <li><strong>0x86 bit 1</strong>: write-protection for RAM bank at address 0x4000 (1: write-protection off)</li>
+  <li><strong>0x86 bits 2..6</strong>: unused/reserved</li>
+  <li><strong>0x86 bit 7</strong>: CAOS ROM at address 0xC000 on/off</li>
+</ul>
+
+<h3 id="z80-ctc-registers">Z80 CTC Registers</h3>
+
+<p>(FIXME!)</p>
+
+<h3 id="kc853-video-memory-layout">KC85/3 Video Memory Layout</h3>
+
+<p>(FIXME!)</p>
+
+<h3 id="kc854-video-memory-layout">KC85/4 Video Memory Layout</h3>
+
+<p>(FIXME!)</p>
 
 
   </article>

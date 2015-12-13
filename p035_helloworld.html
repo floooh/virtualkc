@@ -28,6 +28,9 @@
 
 
     <ul class="navigation">
+    <li class="nav-item">
+        <a href="index.html">Back To Emulator</a>
+    </li>
     
         
     
@@ -89,9 +92,381 @@
         <div>
 
   <article>
-    <h2 id="hello-world">Hello World</h2>
+    <h2 class="no_toc" id="hello-world">Hello World</h2>
+<ul id="markdown-toc">
+  <li><a href="#hello-world-in-basic">Hello World in BASIC</a></li>
+  <li><a href="#hello-world-in-machine-code">Hello World in Machine Code</a></li>
+  <li><a href="#hello-world-in-forth">Hello World in FORTH</a></li>
+  <li><a href="#hello-world-in-assembler">Hello World in Assembler</a></li>
+</ul>
 
-<p>(TODO: hello world in machine code, BASIC, FORTH, Assembler)</p>
+<p>How to write a simple Hello World program in
+BASIC, machine code, and assembler on a KC85/3.</p>
+
+<h3 id="hello-world-in-basic">Hello World in BASIC</h3>
+
+<p>The KC85/3 and KC85/4 came with a built-in BASIC in ROM, for the 
+KC85/2, a BASIC ROM expansion module was offered.</p>
+
+<p>First start the BASIC interpreter by typing <strong>BASIC</strong> into the command
+prompts (if you’re currently on the KC85/2, first reboot into KC85/3 or
+KC85/4). On start, the BASIC interpreter asks for the ‘MEMORY END’, simply
+hit Enter there. After the interpreter has figured out how much memory is 
+available, you should see the BASIC prompt:</p>
+
+<p><img src="images/basic_prompt.png" alt="basic_prompt" /></p>
+
+<p>For the BASIC Hello World, we’ll go fancy and print HELLO WORLD in 
+a loop, changing the foreground color. </p>
+
+<p>Simply type the following, at the end of each line, press Enter. Note that
+the BASIC interpreter doesn’t support backspace to delete the character
+before the cursor, you’ll have to move the cursor left and overwrite.</p>
+
+<pre><code>AUTO
+CLS
+FOR I=0 TO 15
+COLOR I
+PRINT "HELLO WORLD!"
+NEXT
+[press Escape key]
+</code></pre>
+
+<p>The command <strong>AUTO</strong> goes into editor mode. Each line is started with a number
+at 10-increments. To leave editor mode, press the Escape key. </p>
+
+<p>You should now see this:</p>
+
+<p><img src="images/basic_hello.png" alt="basic_hello" /></p>
+
+<p>Enter the <strong>RUN</strong> command to execute the current program, the result should look
+like this:</p>
+
+<p><img src="images/basic_hello_result.png" alt="basic_hello_result" /></p>
+
+<p>Other useful commands are <strong>LIST</strong> to print the current program, and 
+<strong>EDIT [line-nr]</strong> to start editor mode at a line number.</p>
+
+<p>When done, leave the BASIC interpreter with the <strong>BYE</strong> command.</p>
+
+<h3 id="hello-world-in-machine-code">Hello World in Machine Code</h3>
+
+<p>Most performance-critical KC games were written in machine code before the 
+assembler ROM module was available (or if one couldn’t get ahold of one):</p>
+
+<ul>
+  <li>write down the assembler statements (called mnemonics) on paper</li>
+  <li>manually translate those to machine code</li>
+  <li>type the machine code into memory using the MODIFY command</li>
+  <li>test and repeat</li>
+</ul>
+
+<p>There was no way to step through the instructions or directly inspect the CPU
+state, step-debugging happened in the programmer’s head and on paper.</p>
+
+<p>Let’s dive right in, type the following into the KC85 emu, at the
+end of each line, press Enter:</p>
+
+<pre><code>MODIFY 200
+7F 7F ,H ,E ,L ,L ,O 01
+CD 03 F0
+23
+,H ,E ,L ,L ,O 20
+,W ,O ,R ,L ,D ,!
+0D 0A
+00
+C9
+.
+</code></pre>
+
+<p>After entering the dot and presseing Enter, you should be back at the
+command prompt.</p>
+
+<p>Now enter MENU (and Enter), there should be a new command called ‘HELLO’
+either at the top or bottom of the usual menu commands.</p>
+
+<p>Type HELLO (+Enter), and a ‘HELLO WORLD!’ should be printed on the screen.</p>
+
+<p><img src="images/hello_mc.png" alt="hello_mc" /></p>
+
+<p>Here’s a line-by-line explanation:</p>
+
+<pre><code>MODIFY 200
+</code></pre>
+<p>This starts memory editing at address 0x200 which is the typical start 
+address for user code. The area below 0x200 is used mostly by the operating
+system.
+<br /><br /></p>
+
+<pre><code>7F 7F ,H ,E ,L ,L ,O 01
+</code></pre>
+<p>This is the ‘magic header’ with two 7F lead-bytes which identifies the command 
+to the operating system. The ‘comma plus character’ is a special input
+mode of the MODIFY command to simplify the input of ASCII characters. What
+will be written to memory is the ASCII character code. The final 01 terminates
+the header meaning the command will be visible in the command list displayed
+by the MENU command, the other possible value is the rarely used 00 which
+is used for ‘hidden’ commands.
+<br /><br /></p>
+
+<pre><code>CD 03 F0
+</code></pre>
+<p>CD is the opcode for the <em>CALL nnnn</em> instruction, which calls a subroutine
+at address nnnn (in this case: 0xF003, which is one of the system call entry
+points). The 0xF003 entry point expects the system call number after 
+the CALL instruction:</p>
+
+<pre><code>23
+</code></pre>
+<p>0x23 is the system call number for the OSTR (Output String) function
+which outputs a string on the screen. The string must be embedded in
+the instruction stream and is terminated by a 0-byte:</p>
+
+<pre><code>,H ,E ,L ,L ,O 20
+,W ,O ,R ,L ,D ,!
+0D 0A
+00
+</code></pre>
+<p>This is the 0-terminated string. 0x20 is the ASCII code of the space-
+character, and 0D 0A are the ASCII codes for ‘Enter’ and ‘Cursor Down’, 
+basically ‘new line’ and ‘carriage return’.
+<br /><br /></p>
+
+<pre><code>C9
+</code></pre>
+<p>This is the Z80 RET instruction (return from subroutine), this returns
+control back to the operating system.</p>
+
+<p>And that’s it for the machine-code Hello World. The only thing to keep in
+mind for low-level programming on the KC85 systems is to leave the
+IX register alone (at least while interrupts are enabled), since IX
+is used as base-pointer to operating system variables located at 0x01F0.</p>
+
+<h3 id="hello-world-in-forth">Hello World in FORTH</h3>
+
+<p>FORTH is a stack-based language with very low resource requirements
+and a good balance between performance and productivity. On the KC85,
+FORTH was available as a ROM module, so first thing is to insert
+and activate the FORTH module:</p>
+
+<p>Open the Expansion Slot window, and insert the FORTH module into slot 0x08:</p>
+
+<p><img src="images/forth_module2.png" alt="forth_module2" /></p>
+
+<p>Now the FORTH module must be switched active to address C000, and the
+BASIC ROM must be switched off, since this is also mapped at C000 and
+has higher priority.</p>
+
+<p>To switch on the FORTH module in slot 8 and map it to address C000, type
+<strong>SWITCH 8 C1</strong>, and to switch off the built-in BASIC ROM type <strong>SWITCH 2 0</strong>:</p>
+
+<p><img src="images/forth_activate.png" alt="forth_activate" /></p>
+
+<p>Typing <strong>MENU</strong> should now show 2 new entries (<strong>FORTH</strong> and <strong>REFORTH</strong>):</p>
+
+<p><img src="images/forth_cmds.png" alt="forth_cmds" /></p>
+
+<p>Ok, now start <strong>FORTH</strong>, the screen should clear, a message <strong>KC - FORTH 3.1</strong>
+should show up and the FORTH system is waiting for input.</p>
+
+<p>FORTH is a stack-based language, this means that data items are pushed on
+a stack, and operations work on items on the stack (often removing input data
+items from the stack and pushing result data items back on the stack). It is
+basically like a reverse LISP, for instance, adding the numbers 3 and 2
+and writing the result to the console would look like this in LISP:</p>
+
+<pre><code>(write (+ 3 2))[press Enter]
+5
+</code></pre>
+
+<p>In FORTH, the it looks like this:</p>
+
+<pre><code>3 2 + . [press Enter] 5 OK
+</code></pre>
+
+<p>What happens here is that first, the numbers <strong>3</strong> and <strong>2</strong>
+are pushed on the stack, then the operation <strong>+</strong> (add) takes the two top-most 
+numbers from the stack, adds them together and puts the result back on the
+stack. Then the dot-operation <strong>.</strong> takes the top-most number from the stack
+and prints it on the console.</p>
+
+<p>Now back to the HELLO WORLD sample in FORTH. We want the same colorful 
+output as in the BASIC sample, so some sort of loop and setting the text
+color is involved.</p>
+
+<p>Enter the following in the FORTH console, at the end of each line, press Enter,
+please pay special attention to the space-characters, the spaces between
+character sequences are important, because FORTH only has a very primitive
+parser (everything is a word, separated by spaces).</p>
+
+<pre><code>: HELLO
+CR
+16 0 DO
+I 1 COLOR 
+." HELLO WORLD!" CR
+LOOP ;
+</code></pre>
+
+<p>What we’ve done here is extend FORTH by a new command (or ‘word’ in FORTH lingo)
+called <strong>HELLO</strong> (a new word is introduced with <strong>:</strong> (colon), and finished
+with <strong>;</strong> (semicolon), both <strong>:</strong> and <strong>;</strong> are FORTH words themselves.</p>
+
+<p><strong>CR</strong> prints a newline to the console. </p>
+
+<p><strong>16 0 DO</strong> starts a loop with the loop counter <strong>I</strong> going from 0 to 15.</p>
+
+<p>On the next line <strong>I 1 COLOR</strong> the foreground and background color for text
+output is set. <strong>I</strong> puts the current loop counter on the stack, and <strong>1</strong>
+is the standard blue background color.</p>
+
+<p>The next line starting with the ‘dot-quote’ word <strong>.”</strong> prints all
+following characters to the next quote character to screen.</p>
+
+<p>Finally the <strong>LOOP</strong> finish the loop, and the <strong>;</strong> (semicolon) finishes
+the new word definition.</p>
+
+<p>We have now created a new word <strong>HELLO</strong> in the FORTH dictionary. You can
+print the entire dictionary with <strong>VLIST</strong> (press Escape to stop early).</p>
+
+<p>Time to test the new word. Type <strong>HELLO</strong> and Enter, and you should 
+see this:</p>
+
+<p><img src="images/forth_hello.png" alt="forth_hello" /></p>
+
+<p>Voila :)</p>
+
+<p>To leave the FORTH system and go back to CAOS, type <strong>BYE</strong>.</p>
+
+<h3 id="hello-world-in-assembler">Hello World in Assembler</h3>
+
+<p>Let’s create the colorful Hello World program in assembly.</p>
+
+<p>First insert the module ‘M027 DEVELOPMENT’ into slot 0x08:</p>
+
+<p><img src="images/edas_module.png" alt="edas_module" /></p>
+
+<p>Just like the FORTH module, the DEVELOPMENT module must be activated
+at address C000, and the built-in BASIC ROM must be switched off:</p>
+
+<p><img src="images/edas_activate.png" alt="edas_activate" /></p>
+
+<p>Type <strong>MENU</strong> to see what the DEVELOPMENT module has to offer:</p>
+
+<p><img src="images/edas_menu.png" alt="edas_menu" /></p>
+
+<p>Quite a number of new commands! The only important one for now is <strong>EDAS</strong>
+however, this enters the assembler development system. </p>
+
+<p>Type <strong>EDAS</strong> to start the assembler system, when the assembler asks for
+the memory end, simply press Enter.</p>
+
+<p>The assembler system is actually a whole IDE, with its own set of 
+commands:</p>
+
+<p><img src="images/edas_system.png" alt="edas_system" /></p>
+
+<p>Start the editor with the <strong>EDIT</strong> command, and enter the following assembler
+source code. </p>
+
+<blockquote>
+  <p>NOTE: Use <strong>F1</strong> to set the cursor to the next Tab position (the KC85
+didn’t have a Tab key), at the end of each line, press Escape, and when
+done press Escape to leave the editor.</p>
+</blockquote>
+
+<pre><code>        DEFW 7F7FH
+        DEFM 'HELLO'
+        DEFB 01
+        LD A,01
+        LD (0B781H),A
+        XOR A
+LOOP:   PUSH AF
+        LD L,A
+        CALL 0F003H
+        DEFB 0FH
+        CALL 0F003H
+        DEFB 23H
+        DEFM 'HELLO WORLD!'
+        DEFW 0D0AH
+        DEFB 00
+        POP AF
+        INC A
+        CP 10H
+        JR NZ,LOOP
+        RET
+[press Escape]
+</code></pre>
+
+<p>Let’s go through the code:</p>
+
+<pre><code>        DEFW 7F7FH
+        DEFM 'HELLO'
+        DEFB 01
+</code></pre>
+<p>This defines the magic command header so that the operating system finds
+the new command called ‘HELLO’.</p>
+
+<pre><code>        LD A,01
+        LD (0B781H),A
+</code></pre>
+<p>This loads the value 01 into the special operating system address 0B781H
+(called ARGN), this is an input parameter for the call to the system function
+<strong>0F COLOR</strong> further down and tells the function that we only want to 
+set the foreground color, but not the background color.</p>
+
+<pre><code>        XOR A
+LOOP:   PUSH AF
+</code></pre>
+<p>This clears the register A to zero, and saves it on the stack. A will become
+our foreground color value and loop counter. The <strong>LOOP:</strong> marks the 
+beginning of our loop.</p>
+
+<pre><code>        LD L,A
+        CALL 0F003H
+        DEFB 0FH
+</code></pre>
+<p>This calls the system call <strong>0F COLOR</strong> which is used to set the foreground,
+and optionally background color. We told the function to only set the foreground
+color before when writing the value 01 to address 0B781H, and the foreground
+color value is expected in L, so load L with the current loop counter A.</p>
+
+<pre><code>        CALL 0F003H
+        DEFB 23H
+        DEFM 'HELLO WORLD!'
+        DEFW 0D0A
+        DEFB 0
+</code></pre>
+<p>This calls the system function <strong>23 OSTR</strong> which outputs the following 
+zero-terminated string to the screen.</p>
+
+<pre><code>        POP AF
+        INC A
+        CP 10H
+        JR NZ,LOOP
+        RET
+</code></pre>
+<p>This is the end of the loop. First the loop counter is popped back from the
+stack into A, incremented by one and compared against 10H. As long as A hasn’t
+reached the value of 10H yet, the loop will repeat. Otherwise the RET
+will be executed which returns control back to the operating system.</p>
+
+<p>Now that the source code has been entered, it must be translated into
+machine code and tested.</p>
+
+<p>In the editor, press [Escape] to go back into the assembler IDE menu.</p>
+
+<p>Now type <strong>ASM</strong> to ‘assemble’ the code, when asked for options, press
+<strong>O</strong> (meaning Output):</p>
+
+<p><img src="images/edas_asm.png" alt="edas_asm" /></p>
+
+<p>To test, leave the assembler IDE with <strong>EXIT</strong> to return to the CAOS command
+prompt, and type <strong>MENU</strong> to show the system menu. There should be a new
+command <strong>HELLO</strong>, which when executed produces the following output:</p>
+
+<p><img src="images/edas_output.png" alt="edas_output" /></p>
+
+<p>And that’s it :)</p>
 
 
   </article>

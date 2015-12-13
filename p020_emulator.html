@@ -28,6 +28,9 @@
 
 
     <ul class="navigation">
+    <li class="nav-item">
+        <a href="index.html">Back To Emulator</a>
+    </li>
     
         
     
@@ -102,7 +105,7 @@ possible to build native versions for OSX, Linux, Windows, Android and iOS.</p>
 
 <p>Extra care has been taken to keep the client size small for the 
 web browser platform. The compressed size for the complete emulator
-with debugging UI is under 450 kBytes, without the debugging UI
+with debugging UI is under 400 kBytes, without the debugging UI
 the compressed size is under 200 kBytes.</p>
 
 <p>The emulator consists of 4 main components:</p>
@@ -218,9 +221,7 @@ RGBA8 image (which is then usually copied into an OpenGL texture)</li>
   <li><strong>kc85_audio</strong>: this is a simple interface class to the KC85 sound generation
 hardware (which is just a CTC-driven oscillator connected to an internal speaker),
 it provides callbacks to control start/stop/frequency and volume of sound</li>
-  <li><strong>kc85_expansion and kc85_module</strong>: these 2 classes emulate the expansion
-slot system of the KC85, only RAM and ROM expansion modules are currently
-implemented</li>
+  <li><strong>kc85_exp</strong>: emulates the expansion slot system of the KC85</li>
   <li><strong>kc85</strong>: this is the emulators main class which embeds, connects and 
 controls all previously described components</li>
 </ul>
