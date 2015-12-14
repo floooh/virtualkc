@@ -109,7 +109,7 @@ BASIC, machine code, FORTH and assembler on a KC85/3.</p>
 KC85/2, a BASIC ROM expansion module was offered.</p>
 
 <p>First start the BASIC interpreter by typing <strong>BASIC</strong> into the command
-prompts (if you’re currently on the KC85/2, first reboot into KC85/3 or
+prompt (if you’re currently on the KC85/2, first reboot into KC85/3 or
 KC85/4). On start, the BASIC interpreter asks for the ‘MEMORY END’, simply
 hit Enter there. After the interpreter has figured out how much memory is 
 available, you should see the BASIC prompt:</p>
@@ -281,7 +281,7 @@ and writing the result to the console would look like this in LISP:</p>
 5
 </code></pre>
 
-<p>In FORTH, the it looks like this:</p>
+<p>In FORTH it looks like this:</p>
 
 <pre><code>3 2 + . [press Enter] 5 OK
 </code></pre>
@@ -322,10 +322,10 @@ output is set. <strong>I</strong> puts the current loop counter on the stack, an
 is the standard blue background color.</p>
 
 <p>The next line starting with the ‘dot-quote’ word <strong>.”</strong> prints all
-following characters to the next quote character to screen.</p>
+following characters until the next quote character to screen.</p>
 
-<p>Finally the <strong>LOOP</strong> finish the loop, and the <strong>;</strong> (semicolon) finishes
-the new word definition.</p>
+<p>Finally the <strong>LOOP</strong> word finishes the do-loop block, and the <strong>;</strong> (semicolon) 
+finishes the new word definition.</p>
 
 <p>We have now created a new word <strong>HELLO</strong> in the FORTH dictionary. You can
 print the entire dictionary with <strong>VLIST</strong> (press Escape to stop early).</p>
@@ -372,7 +372,7 @@ source code. </p>
 
 <blockquote>
   <p>NOTE: Use <strong>F1</strong> to set the cursor to the next Tab position (the KC85
-didn’t have a Tab key), at the end of each line, press Escape, and when
+didn’t have a Tab key), at the end of each line, press Enter, and when
 done press Escape to leave the editor.</p>
 </blockquote>
 
