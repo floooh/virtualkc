@@ -29,7 +29,7 @@
 
     <ul class="navigation">
     <li class="nav-item">
-        <a href="index.html">Back To Emulator</a>
+        <a href="index.html">Back To The Emulator</a>
     </li>
     
         
@@ -101,7 +101,7 @@
 </ul>
 
 <p>How to write a simple Hello World program in
-BASIC, machine code, and assembler on a KC85/3.</p>
+BASIC, machine code, FORTH and assembler on a KC85/3.</p>
 
 <h3 id="hello-world-in-basic">Hello World in BASIC</h3>
 
@@ -151,12 +151,14 @@ like this:</p>
 
 <h3 id="hello-world-in-machine-code">Hello World in Machine Code</h3>
 
-<p>Most performance-critical KC games were written in machine code before the 
-assembler ROM module was available (or if one couldn’t get ahold of one):</p>
+<p>Most performance-critical KC games were written directly in machine code, at
+least before the assembler ROM module was available (or if one couldn’t get
+ahold of one). The process was a bit tricky since it involved a manual
+translation step from assembler code to machine code:</p>
 
 <ul>
   <li>write down the assembler statements (called mnemonics) on paper</li>
-  <li>manually translate those to machine code</li>
+  <li>manually translate those to machine code using a lookup table</li>
   <li>type the machine code into memory using the MODIFY command</li>
   <li>test and repeat</li>
 </ul>
@@ -179,7 +181,7 @@ C9
 .
 </code></pre>
 
-<p>After entering the dot and presseing Enter, you should be back at the
+<p>After entering the dot and pressing Enter, you should be back at the
 command prompt.</p>
 
 <p>Now enter MENU (and Enter), there should be a new command called ‘HELLO’
@@ -339,7 +341,7 @@ see this:</p>
 
 <h3 id="hello-world-in-assembler">Hello World in Assembler</h3>
 
-<p>Let’s create the colorful Hello World program in assembly.</p>
+<p>Let’s write the fancy Hello World program in assembly.</p>
 
 <p>First insert the module ‘M027 DEVELOPMENT’ into slot 0x08:</p>
 
@@ -418,8 +420,8 @@ set the foreground color, but not the background color.</p>
 LOOP:   PUSH AF
 </code></pre>
 <p>This clears the register A to zero, and saves it on the stack. A will become
-our foreground color value and loop counter. The <strong>LOOP:</strong> marks the 
-beginning of our loop.</p>
+the foreground color value and loop counter. The <strong>LOOP:</strong> label marks the
+beginning of the loop.</p>
 
 <pre><code>        LD L,A
         CALL 0F003H
