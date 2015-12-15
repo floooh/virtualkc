@@ -178,6 +178,15 @@ also controls the video foreground color blinking frequency</li>
 between two serial impulses from the keyboard</li>
 </ul>
 
+<p>The interrupt vectors for CTC channel 0 to 3 start at 0x01E8:</p>
+
+<ul>
+  <li><strong>0x01E8</strong>: CTC-0 interrupt vector (unused)</li>
+  <li><strong>0x01EA</strong>: CTC-1 interrupt vector (cassette tape output)</li>
+  <li><strong>0x01EC</strong>: CTC-2 interrupt vector (sound duration)</li>
+  <li><strong>0x01EE</strong>: CTC-3 interrupt vector (keyboard input)</li>
+</ul>
+
 <h3 id="color-buffer-byte-structure">Color Buffer Byte Structure</h3>
 
 <p>A byte in color buffer uses 3 bits for the background color,
