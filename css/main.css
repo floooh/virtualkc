@@ -360,7 +360,6 @@ td {
   background: #e54c54; }
 
 .game-border {
-  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   display: block; }
@@ -389,6 +388,7 @@ td {
   margin-top: 8px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
   height: auto;
   background-color: #fee950;
   outline: black solid thin; }
