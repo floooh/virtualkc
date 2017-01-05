@@ -10,13 +10,13 @@
 ">
 
   <link rel="stylesheet" href="/virtualkc/css/main.css">
-  <link rel="canonical" href="/virtualkc/">
+  <link rel="canonical" href="/virtualkc/index_wasm.html">
 </head>
 
   <body>
     <div class="kc-top-padding"></div>
 <div class="kc-title-border"></div>
-<div class="kc-title">KLEINCOMPUTER KC85 asm.js</div>
+<div class="kc-title">KLEINCOMPUTER KC85 wasm</div>
 <div class="kc-title-border"></div>
 
 
@@ -39,7 +39,18 @@
     </div>
 
     <script type="text/javascript" src="emsc.js"></script>
-    <script async type="text/javascript" src="yakcapp.js"></script>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'yakcapp.wasm.txt', true)
+        xhr.responseType = 'arraybuffer';
+        xhr.onload = function() {
+          Module.wasmBinary = xhr.response;
+          var script = document.createElement('script');
+          script.src = "yakcapp.wasm.js";
+          document.body.appendChild(script);
+        };
+        xhr.send(null);
+    </script>
 
   </body>
 </html>
