@@ -1339,14 +1339,14 @@ Module["preloadedAudios"] = {};
 var memoryInitializer = null;
 var ASM_CONSTS = [];
 STATIC_BASE = 1024;
-STATICTOP = STATIC_BASE + 113840;
+STATICTOP = STATIC_BASE + 114256;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_imgui_cpp();
  })
 });
 memoryInitializer = Module["wasmJSMethod"].indexOf("asmjs") >= 0 || Module["wasmJSMethod"].indexOf("interpret-asm2wasm") >= 0 ? "yakcapp.html.mem" : null;
-var STATIC_BUMP = 113840;
+var STATIC_BUMP = 114256;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -6437,8 +6437,8 @@ STACK_MAX = STACK_BASE + TOTAL_STACK;
 DYNAMIC_BASE = Runtime.alignMemory(STACK_MAX);
 HEAP32[DYNAMICTOP_PTR >> 2] = DYNAMIC_BASE;
 staticSealed = true;
-Module["wasmTableSize"] = 579;
-Module["wasmMaxTableSize"] = 579;
+Module["wasmTableSize"] = 611;
+Module["wasmMaxTableSize"] = 611;
 function invoke_iiii(index, a1, a2, a3) {
  try {
   return Module["dynCall_iiii"](index, a1, a2, a3);
