@@ -392,7 +392,7 @@ td {
 
 .main-nav-bar {
   position: absolute;
-  top: 50px;
+  top: 60px;
   left: -100px;
   width: 92px;
   z-index: 1;
@@ -426,7 +426,7 @@ a.main-nav-link:hover, a.main-nav-link:active {
 
 .hamcontainer {
   position: absolute;
-  top: 5px;
+  top: 20px;
   left: 10px;
   display: inline-block;
   cursor: pointer;
