@@ -1339,14 +1339,14 @@ Module["preloadedAudios"] = {};
 var memoryInitializer = null;
 var ASM_CONSTS = [];
 STATIC_BASE = 1024;
-STATICTOP = STATIC_BASE + 116576;
+STATICTOP = STATIC_BASE + 116592;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_imgui_cpp();
  })
 });
 memoryInitializer = Module["wasmJSMethod"].indexOf("asmjs") >= 0 || Module["wasmJSMethod"].indexOf("interpret-asm2wasm") >= 0 ? "yakcapp.html.mem" : null;
-var STATIC_BUMP = 116576;
+var STATIC_BUMP = 116592;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -1618,6 +1618,10 @@ function _glGetString(name_) {
  }
  GL.stringCache[name_] = ret;
  return ret;
+}
+function _pthread_mutex_init() {}
+function _emscripten_get_now() {
+ abort();
 }
 var JSEvents = {
  keyEvent: 0,
@@ -2488,16 +2492,6 @@ var JSEvents = {
   JSEvents.registerOrRemoveHandler(eventHandler);
  })
 };
-var __restoreOldWindowedStyle = null;
-function _emscripten_exit_soft_fullscreen() {
- if (__restoreOldWindowedStyle) __restoreOldWindowedStyle();
- __restoreOldWindowedStyle = null;
- return 0;
-}
-function _pthread_mutex_init() {}
-function _emscripten_get_now() {
- abort();
-}
 function _emscripten_set_mouseup_callback(target, userData, useCapture, callbackfunc) {
  JSEvents.registerMouseEventCallback(target, userData, useCapture, callbackfunc, 6, "mouseup");
  return 0;
@@ -5260,6 +5254,110 @@ function _emscripten_async_wget_data(url, arg, onload, onerror) {
   if (onerror) Runtime.dynCall("vi", onerror, [ arg ]);
  }), true);
 }
+function emscriptenWebGLGet(name_, p, type) {
+ if (!p) {
+  GL.recordError(1281);
+  return;
+ }
+ var ret = undefined;
+ switch (name_) {
+ case 36346:
+  ret = 1;
+  break;
+ case 36344:
+  if (type !== "Integer" && type !== "Integer64") {
+   GL.recordError(1280);
+  }
+  return;
+ case 36345:
+  ret = 0;
+  break;
+ case 34466:
+  var formats = GLctx.getParameter(34467);
+  ret = formats.length;
+  break;
+ }
+ if (ret === undefined) {
+  var result = GLctx.getParameter(name_);
+  switch (typeof result) {
+  case "number":
+   ret = result;
+   break;
+  case "boolean":
+   ret = result ? 1 : 0;
+   break;
+  case "string":
+   GL.recordError(1280);
+   return;
+  case "object":
+   if (result === null) {
+    switch (name_) {
+    case 34964:
+    case 35725:
+    case 34965:
+    case 36006:
+    case 36007:
+    case 32873:
+    case 34068:
+     {
+      ret = 0;
+      break;
+     }
+    default:
+     {
+      GL.recordError(1280);
+      return;
+     }
+    }
+   } else if (result instanceof Float32Array || result instanceof Uint32Array || result instanceof Int32Array || result instanceof Array) {
+    for (var i = 0; i < result.length; ++i) {
+     switch (type) {
+     case "Integer":
+      HEAP32[p + i * 4 >> 2] = result[i];
+      break;
+     case "Float":
+      HEAPF32[p + i * 4 >> 2] = result[i];
+      break;
+     case "Boolean":
+      HEAP8[p + i >> 0] = result[i] ? 1 : 0;
+      break;
+     default:
+      throw "internal glGet error, bad type: " + type;
+     }
+    }
+    return;
+   } else if (result instanceof WebGLBuffer || result instanceof WebGLProgram || result instanceof WebGLFramebuffer || result instanceof WebGLRenderbuffer || result instanceof WebGLTexture) {
+    ret = result.name | 0;
+   } else {
+    GL.recordError(1280);
+    return;
+   }
+   break;
+  default:
+   GL.recordError(1280);
+   return;
+  }
+ }
+ switch (type) {
+ case "Integer64":
+  tempI64 = [ ret >>> 0, (tempDouble = ret, +Math_abs(tempDouble) >= +1 ? tempDouble > +0 ? (Math_min(+Math_floor(tempDouble / +4294967296), +4294967295) | 0) >>> 0 : ~~+Math_ceil((tempDouble - +(~~tempDouble >>> 0)) / +4294967296) >>> 0 : 0) ], HEAP32[p >> 2] = tempI64[0], HEAP32[p + 4 >> 2] = tempI64[1];
+  break;
+ case "Integer":
+  HEAP32[p >> 2] = ret;
+  break;
+ case "Float":
+  HEAPF32[p >> 2] = ret;
+  break;
+ case "Boolean":
+  HEAP8[p >> 0] = ret ? 1 : 0;
+  break;
+ default:
+  throw "internal glGet error, bad type: " + type;
+ }
+}
+function _glGetIntegerv(name_, p) {
+ emscriptenWebGLGet(name_, p, "Integer");
+}
 function _glGetUniformLocation(program, name) {
  name = Pointer_stringify(name);
  var arrayOffset = 0;
@@ -5609,6 +5707,9 @@ function _emscripten_request_fullscreen_strategy(target, deferUntilInEventHandle
  __currentFullscreenStrategy = strategy;
  return _emscripten_do_request_fullscreen(target, strategy);
 }
+function ___atomic_load_8(ptr, memmodel) {
+ return (asm["setTempRet0"](HEAP32[ptr + 4 >> 2]), HEAP32[ptr >> 2]) | 0;
+}
 function _glShaderSource(shader, count, string, length) {
  var source = GL.getSource(shader, count, string, length);
  GLctx.shaderSource(GL.shaders[shader], source);
@@ -5673,8 +5774,9 @@ function _nanosleep(rqtp, rmtp) {
 function _glClear(x0) {
  GLctx["clear"](x0);
 }
-function ___atomic_load_8(ptr, memmodel) {
- return (asm["setTempRet0"](HEAP32[ptr + 4 >> 2]), HEAP32[ptr >> 2]) | 0;
+function _emscripten_set_resize_callback(target, userData, useCapture, callbackfunc) {
+ JSEvents.registerUiEventCallback(target, userData, useCapture, callbackfunc, 10, "resize");
+ return 0;
 }
 function _glUniform2f(location, v0, v1) {
  location = GL.uniforms[location];
@@ -5830,109 +5932,22 @@ function _emscripten_set_keydown_callback(target, userData, useCapture, callback
  JSEvents.registerKeyEventCallback(target, userData, useCapture, callbackfunc, 2, "keydown");
  return 0;
 }
-function emscriptenWebGLGet(name_, p, type) {
- if (!p) {
-  GL.recordError(1281);
-  return;
+function _emscripten_get_element_css_size(target, width, height) {
+ if (!target) {
+  target = Module["canvas"];
+ } else {
+  target = JSEvents.findEventTarget(target);
  }
- var ret = undefined;
- switch (name_) {
- case 36346:
-  ret = 1;
-  break;
- case 36344:
-  if (type !== "Integer" && type !== "Integer64") {
-   GL.recordError(1280);
-  }
-  return;
- case 36345:
-  ret = 0;
-  break;
- case 34466:
-  var formats = GLctx.getParameter(34467);
-  ret = formats.length;
-  break;
+ if (!target) return -4;
+ if (target.getBoundingClientRect) {
+  var rect = target.getBoundingClientRect();
+  HEAPF64[width >> 3] = rect.right - rect.left;
+  HEAPF64[height >> 3] = rect.bottom - rect.top;
+ } else {
+  HEAPF64[width >> 3] = target.clientWidth;
+  HEAPF64[height >> 3] = target.clientHeight;
  }
- if (ret === undefined) {
-  var result = GLctx.getParameter(name_);
-  switch (typeof result) {
-  case "number":
-   ret = result;
-   break;
-  case "boolean":
-   ret = result ? 1 : 0;
-   break;
-  case "string":
-   GL.recordError(1280);
-   return;
-  case "object":
-   if (result === null) {
-    switch (name_) {
-    case 34964:
-    case 35725:
-    case 34965:
-    case 36006:
-    case 36007:
-    case 32873:
-    case 34068:
-     {
-      ret = 0;
-      break;
-     }
-    default:
-     {
-      GL.recordError(1280);
-      return;
-     }
-    }
-   } else if (result instanceof Float32Array || result instanceof Uint32Array || result instanceof Int32Array || result instanceof Array) {
-    for (var i = 0; i < result.length; ++i) {
-     switch (type) {
-     case "Integer":
-      HEAP32[p + i * 4 >> 2] = result[i];
-      break;
-     case "Float":
-      HEAPF32[p + i * 4 >> 2] = result[i];
-      break;
-     case "Boolean":
-      HEAP8[p + i >> 0] = result[i] ? 1 : 0;
-      break;
-     default:
-      throw "internal glGet error, bad type: " + type;
-     }
-    }
-    return;
-   } else if (result instanceof WebGLBuffer || result instanceof WebGLProgram || result instanceof WebGLFramebuffer || result instanceof WebGLRenderbuffer || result instanceof WebGLTexture) {
-    ret = result.name | 0;
-   } else {
-    GL.recordError(1280);
-    return;
-   }
-   break;
-  default:
-   GL.recordError(1280);
-   return;
-  }
- }
- switch (type) {
- case "Integer64":
-  tempI64 = [ ret >>> 0, (tempDouble = ret, +Math_abs(tempDouble) >= +1 ? tempDouble > +0 ? (Math_min(+Math_floor(tempDouble / +4294967296), +4294967295) | 0) >>> 0 : ~~+Math_ceil((tempDouble - +(~~tempDouble >>> 0)) / +4294967296) >>> 0 : 0) ], HEAP32[p >> 2] = tempI64[0], HEAP32[p + 4 >> 2] = tempI64[1];
-  break;
- case "Integer":
-  HEAP32[p >> 2] = ret;
-  break;
- case "Float":
-  HEAPF32[p >> 2] = ret;
-  break;
- case "Boolean":
-  HEAP8[p >> 0] = ret ? 1 : 0;
-  break;
- default:
-  throw "internal glGet error, bad type: " + type;
- }
-}
-function _glGetIntegerv(name_, p) {
- emscriptenWebGLGet(name_, p, "Integer");
+ return 0;
 }
 Module["_sbrk"] = _sbrk;
 Module["_bitshift64Shl"] = _bitshift64Shl;
@@ -6172,6 +6187,7 @@ function __hideEverythingExceptGivenElement(onlyVisibleElement) {
  }
  return hiddenElements;
 }
+var __restoreOldWindowedStyle = null;
 function __restoreHiddenElements(hiddenElements) {
  for (var i = 0; i < hiddenElements.length; ++i) {
   hiddenElements[i].node.style.display = hiddenElements[i].displayState;
@@ -6652,7 +6668,7 @@ Module.asmLibraryArg = {
  "_glFramebufferRenderbuffer": _glFramebufferRenderbuffer,
  "_pthread_cleanup_push": _pthread_cleanup_push,
  "_Mix_HaltMusic": _Mix_HaltMusic,
- "___syscall140": ___syscall140,
+ "_llvm_trap": _llvm_trap,
  "___syscall145": ___syscall145,
  "___syscall146": ___syscall146,
  "_pthread_cleanup_pop": _pthread_cleanup_pop,
@@ -6676,7 +6692,7 @@ Module.asmLibraryArg = {
  "_nanosleep": _nanosleep,
  "_glCompressedTexImage2D": _glCompressedTexImage2D,
  "_glEnable": _glEnable,
- "_llvm_trap": _llvm_trap,
+ "___syscall140": ___syscall140,
  "_glGenTextures": _glGenTextures,
  "_glGetIntegerv": _glGetIntegerv,
  "_glGetString": _glGetString,
@@ -6694,6 +6710,7 @@ Module.asmLibraryArg = {
  "_glGenFramebuffers": _glGenFramebuffers,
  "_SDL_UpperBlitScaled": _SDL_UpperBlitScaled,
  "_glUniform2f": _glUniform2f,
+ "_emscripten_set_resize_callback": _emscripten_set_resize_callback,
  "_putenv": _putenv,
  "_glCullFace": _glCullFace,
  "_emscripten_set_keypress_callback": _emscripten_set_keypress_callback,
@@ -6745,6 +6762,7 @@ Module.asmLibraryArg = {
  "_glLinkProgram": _glLinkProgram,
  "_emscripten_set_touchend_callback": _emscripten_set_touchend_callback,
  "_SDL_FreeRW": _SDL_FreeRW,
+ "_emscripten_get_element_css_size": _emscripten_get_element_css_size,
  "_glGenRenderbuffers": _glGenRenderbuffers,
  "_glGetUniformLocation": _glGetUniformLocation,
  "_emscripten_cancel_main_loop": _emscripten_cancel_main_loop,
@@ -6759,7 +6777,6 @@ Module.asmLibraryArg = {
  "_emscripten_enter_soft_fullscreen": _emscripten_enter_soft_fullscreen,
  "_TTF_SizeText": _TTF_SizeText,
  "_emscripten_set_wheel_callback": _emscripten_set_wheel_callback,
- "_emscripten_exit_soft_fullscreen": _emscripten_exit_soft_fullscreen,
  "___syscall54": ___syscall54,
  "___unlock": ___unlock,
  "_glFramebufferTexture2D": _glFramebufferTexture2D,
