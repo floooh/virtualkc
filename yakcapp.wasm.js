@@ -1339,14 +1339,14 @@ Module["preloadedAudios"] = {};
 var memoryInitializer = null;
 var ASM_CONSTS = [];
 STATIC_BASE = 1024;
-STATICTOP = STATIC_BASE + 116592;
+STATICTOP = STATIC_BASE + 116656;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_imgui_cpp();
  })
 });
 memoryInitializer = Module["wasmJSMethod"].indexOf("asmjs") >= 0 || Module["wasmJSMethod"].indexOf("interpret-asm2wasm") >= 0 ? "yakcapp.html.mem" : null;
-var STATIC_BUMP = 116592;
+var STATIC_BUMP = 116656;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -6831,6 +6831,7 @@ var ___muldsi3 = Module["___muldsi3"] = asm["___muldsi3"];
 var _free = Module["_free"] = asm["_free"];
 var runPostSets = Module["runPostSets"] = asm["runPostSets"];
 var _memmove = Module["_memmove"] = asm["_memmove"];
+var _emsc_put_msg = Module["_emsc_put_msg"] = asm["_emsc_put_msg"];
 var _malloc = Module["_malloc"] = asm["_malloc"];
 var _pthread_mutex_lock = Module["_pthread_mutex_lock"] = asm["_pthread_mutex_lock"];
 var dynCall_iiii = Module["dynCall_iiii"] = asm["dynCall_iiii"];
