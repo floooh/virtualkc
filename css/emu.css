@@ -1,0 +1,312 @@
+/**
+ * Reset some basic elements
+ */
+body, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, hr,
+dl, dd, ol, ul, figure {
+  margin: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none; }
+
+/**
+ * Basic styling
+ */
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #000000;
+  background-color: #111111;
+  -webkit-text-size-adjust: 100%; }
+
+/**
+ * Set `margin-bottom` to maintain vertical rhythm
+ */
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+ul, ol, dl, figure {
+  margin-bottom: 15px; }
+
+/**
+ * Images
+ */
+img {
+  max-width: 100%;
+  vertical-align: middle; }
+
+/**
+ * Figures
+ */
+figure > img {
+  display: block; }
+
+figcaption {
+  font-size: 14px; }
+
+/**
+ * Lists
+ */
+ul, ol {
+  margin-left: 30px; }
+
+li > ul,
+li > ol {
+  margin-bottom: 0; }
+
+/**
+ * Headings
+ */
+h1, h2, h3, h4, h5, h6 {
+  /*    font-weight: $font-weight;*/ }
+
+/**
+ * Blockquotes
+ */
+blockquote {
+  color: #666666;
+  border-left: 4px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+/**
+ * Code formatting
+ */
+pre,
+code {
+  font-size: 15px;
+  border: 1px solid #e8e8e8;
+  background-color: #eeeeee; }
+
+code {
+  padding: 1px 5px; }
+
+pre {
+  padding: 8px 12px;
+  overflow-x: scroll; }
+  pre > code {
+    border: 0;
+    padding-right: 0;
+    padding-left: 0; }
+
+/**
+ * Icons
+ */
+.icon > svg {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle; }
+  .icon > svg path {
+    fill: #828282; }
+
+.game-border {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  display: block; }
+
+/* the emscripten canvas must not have any border or padding, or mouse coords will be wrong */
+.game {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  background-color: #222222;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor; }
+
+.nav-btn {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  display: inline-block;
+  cursor: pointer;
+  z-index: 1; }
+
+.nav-btn-bar1, .nav-btn-bar2, .nav-btn-bar3 {
+  width: 35px;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #EEEEEE;
+  margin: 6px 0; }
+
+.toggle .nav-btn-bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px); }
+
+.toggle .nav-btn-bar2 {
+  opacity: 0; }
+
+.toggle .nav-btn-bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px); }
+
+.main-nav-bar {
+  position: absolute;
+  top: 60px;
+  left: -180px;
+  width: 120px;
+  z-index: 1;
+  background-color: #FF5722;
+  transition: 0.25s ease-out; }
+
+.toggle .main-nav-bar {
+  left: 0px; }
+
+.main-nav-list {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  list-style-type: none;
+  padding: 2px; }
+
+.main-nav-item {
+  margin: 5px; }
+
+.main-nav-link, .main-nav-link:link, .main-nav-link:visited {
+  padding-left: 5px;
+  font-family: "Arial", Gadget, sans-serif;
+  font-size: 14px;
+  display: block;
+  color: #EEEEEE;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer; }
+
+.main-nav-link:hover, .main-nav-link:active {
+  color: #EEEEEE;
+  background-color: #E64A19; }
+
+.floating-bottom {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 1;
+  cursor: default; }
+
+.floating-button {
+  background-color: #424242;
+  opacity: 0.5;
+  min-width: 25px;
+  display: block;
+  cursor: pointer;
+  padding: 5px;
+  margin: 2px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-family: "Arial", Gadget, sans-serif;
+  font-size: 10px;
+  color: white;
+  text-align: center; }
+
+.floating-button.enabled {
+  background-color: #006600; }
+
+.panel {
+  position: absolute;
+  background-color: transparent;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+  z-index: 1;
+  cursor: default; }
+
+.panel.hidden {
+  display: none; }
+
+.panel-content {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0px;
+  overflow-y: auto; }
+
+.panel-list {
+  margin: 5px; }
+
+.panel-list.hidden {
+  display: none; }
+
+.panel-list-item {
+  background-color: #FF5722;
+  display: inline-block;
+  cursor: pointer;
+  padding: 5px;
+  margin: 2px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  font-family: "Arial", Gadget, sans-serif;
+  font-size: 12px;
+  color: #EEEEEE;
+  text-align: center; }
+
+.panel-list-item:hover {
+  background-color: #E64A19; }
+
+.panel-list-item.mpm {
+  background-color: #1976D2; }
+
+.panel-list-item.mpm:hover {
+  background-color: #145ca4; }
+
+.panel-list-item.robotron-dresden {
+  background-color: #3F51B5; }
+
+.panel-list-item.robotron-dresden:hover {
+  background-color: #32408f; }
+
+.panel-list-item.robotron-riesa {
+  background-color: #00C853; }
+
+.panel-list-item.robotron-riesa:hover {
+  background-color: #00953e; }
+
+.panel-list-item.sinclair {
+  background-color: #0097A7; }
+
+.panel-list-item.sinclair:hover {
+  background-color: #006974; }
+
+.panel-list-item.amstrad {
+  background-color: #E91E63; }
+
+.panel-list-item.amstrad:hover {
+  background-color: #c1134e; }
+
+.panel-list-item.acorn {
+  background-color: #388E3C; }
+
+.panel-list-item.acorn:hover {
+  background-color: #2a692d; }

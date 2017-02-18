@@ -1339,14 +1339,14 @@ Module["preloadedAudios"] = {};
 var memoryInitializer = null;
 var ASM_CONSTS = [];
 STATIC_BASE = 1024;
-STATICTOP = STATIC_BASE + 117008;
+STATICTOP = STATIC_BASE + 117088;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_imgui_cpp();
  })
 });
 memoryInitializer = Module["wasmJSMethod"].indexOf("asmjs") >= 0 || Module["wasmJSMethod"].indexOf("interpret-asm2wasm") >= 0 ? "yakcapp.html.mem" : null;
-var STATIC_BUMP = 117008;
+var STATIC_BUMP = 117088;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -5609,104 +5609,6 @@ function _emscripten_set_touchend_callback(target, userData, useCapture, callbac
 function _glDisableVertexAttribArray(index) {
  GLctx.disableVertexAttribArray(index);
 }
-function __setLetterbox(element, topBottom, leftRight) {
- if (JSEvents.isInternetExplorer()) {
-  element.style.marginLeft = element.style.marginRight = leftRight + "px";
-  element.style.marginTop = element.style.marginBottom = topBottom + "px";
- } else {
-  element.style.paddingLeft = element.style.paddingRight = leftRight + "px";
-  element.style.paddingTop = element.style.paddingBottom = topBottom + "px";
- }
-}
-function _emscripten_do_request_fullscreen(target, strategy) {
- if (typeof JSEvents.fullscreenEnabled() === "undefined") return -1;
- if (!JSEvents.fullscreenEnabled()) return -3;
- if (!target) target = "#canvas";
- target = JSEvents.findEventTarget(target);
- if (!target) return -4;
- if (!target.requestFullscreen && !target.msRequestFullscreen && !target.mozRequestFullScreen && !target.mozRequestFullscreen && !target.webkitRequestFullscreen) {
-  return -3;
- }
- var canPerformRequests = JSEvents.canPerformEventHandlerRequests();
- if (!canPerformRequests) {
-  if (strategy.deferUntilInEventHandler) {
-   JSEvents.deferCall(JSEvents.requestFullscreen, 1, [ target, strategy ]);
-   return 1;
-  } else {
-   return -2;
-  }
- }
- return JSEvents.requestFullscreen(target, strategy);
-}
-var __currentFullscreenStrategy = {};
-function __registerRestoreOldStyle(canvas) {
- var oldWidth = canvas.width;
- var oldHeight = canvas.height;
- var oldCssWidth = canvas.style.width;
- var oldCssHeight = canvas.style.height;
- var oldBackgroundColor = canvas.style.backgroundColor;
- var oldDocumentBackgroundColor = document.body.style.backgroundColor;
- var oldPaddingLeft = canvas.style.paddingLeft;
- var oldPaddingRight = canvas.style.paddingRight;
- var oldPaddingTop = canvas.style.paddingTop;
- var oldPaddingBottom = canvas.style.paddingBottom;
- var oldMarginLeft = canvas.style.marginLeft;
- var oldMarginRight = canvas.style.marginRight;
- var oldMarginTop = canvas.style.marginTop;
- var oldMarginBottom = canvas.style.marginBottom;
- var oldDocumentBodyMargin = document.body.style.margin;
- var oldDocumentOverflow = document.documentElement.style.overflow;
- var oldDocumentScroll = document.body.scroll;
- var oldImageRendering = canvas.style.imageRendering;
- function restoreOldStyle() {
-  var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-  if (!fullscreenElement) {
-   document.removeEventListener("fullscreenchange", restoreOldStyle);
-   document.removeEventListener("mozfullscreenchange", restoreOldStyle);
-   document.removeEventListener("webkitfullscreenchange", restoreOldStyle);
-   document.removeEventListener("MSFullscreenChange", restoreOldStyle);
-   canvas.width = oldWidth;
-   canvas.height = oldHeight;
-   canvas.style.width = oldCssWidth;
-   canvas.style.height = oldCssHeight;
-   canvas.style.backgroundColor = oldBackgroundColor;
-   if (!oldDocumentBackgroundColor) document.body.style.backgroundColor = "white";
-   document.body.style.backgroundColor = oldDocumentBackgroundColor;
-   canvas.style.paddingLeft = oldPaddingLeft;
-   canvas.style.paddingRight = oldPaddingRight;
-   canvas.style.paddingTop = oldPaddingTop;
-   canvas.style.paddingBottom = oldPaddingBottom;
-   canvas.style.marginLeft = oldMarginLeft;
-   canvas.style.marginRight = oldMarginRight;
-   canvas.style.marginTop = oldMarginTop;
-   canvas.style.marginBottom = oldMarginBottom;
-   document.body.style.margin = oldDocumentBodyMargin;
-   document.documentElement.style.overflow = oldDocumentOverflow;
-   document.body.scroll = oldDocumentScroll;
-   canvas.style.imageRendering = oldImageRendering;
-   if (canvas.GLctxObject) canvas.GLctxObject.GLctx.viewport(0, 0, oldWidth, oldHeight);
-   if (__currentFullscreenStrategy.canvasResizedCallback) {
-    Runtime.dynCall("iiii", __currentFullscreenStrategy.canvasResizedCallback, [ 37, 0, __currentFullscreenStrategy.canvasResizedCallbackUserData ]);
-   }
-  }
- }
- document.addEventListener("fullscreenchange", restoreOldStyle);
- document.addEventListener("mozfullscreenchange", restoreOldStyle);
- document.addEventListener("webkitfullscreenchange", restoreOldStyle);
- document.addEventListener("MSFullscreenChange", restoreOldStyle);
- return restoreOldStyle;
-}
-function _emscripten_request_fullscreen_strategy(target, deferUntilInEventHandler, fullscreenStrategy) {
- var strategy = {};
- strategy.scaleMode = HEAP32[fullscreenStrategy >> 2];
- strategy.canvasResolutionScaleMode = HEAP32[fullscreenStrategy + 4 >> 2];
- strategy.filteringMode = HEAP32[fullscreenStrategy + 8 >> 2];
- strategy.deferUntilInEventHandler = deferUntilInEventHandler;
- strategy.canvasResizedCallback = HEAP32[fullscreenStrategy + 12 >> 2];
- strategy.canvasResizedCallbackUserData = HEAP32[fullscreenStrategy + 16 >> 2];
- __currentFullscreenStrategy = strategy;
- return _emscripten_do_request_fullscreen(target, strategy);
-}
 function ___atomic_load_8(ptr, memmodel) {
  return (asm["setTempRet0"](HEAP32[ptr + 4 >> 2]), HEAP32[ptr >> 2]) | 0;
 }
@@ -6167,6 +6069,15 @@ Module["_llvm_bswap_i16"] = _llvm_bswap_i16;
 function _glViewport(x0, x1, x2, x3) {
  GLctx["viewport"](x0, x1, x2, x3);
 }
+function __setLetterbox(element, topBottom, leftRight) {
+ if (JSEvents.isInternetExplorer()) {
+  element.style.marginLeft = element.style.marginRight = leftRight + "px";
+  element.style.marginTop = element.style.marginBottom = topBottom + "px";
+ } else {
+  element.style.paddingLeft = element.style.paddingRight = leftRight + "px";
+  element.style.paddingTop = element.style.paddingBottom = topBottom + "px";
+ }
+}
 function __hideEverythingExceptGivenElement(onlyVisibleElement) {
  var child = onlyVisibleElement;
  var parent = child.parentNode;
@@ -6188,11 +6099,69 @@ function __hideEverythingExceptGivenElement(onlyVisibleElement) {
  return hiddenElements;
 }
 var __restoreOldWindowedStyle = null;
+function __registerRestoreOldStyle(canvas) {
+ var oldWidth = canvas.width;
+ var oldHeight = canvas.height;
+ var oldCssWidth = canvas.style.width;
+ var oldCssHeight = canvas.style.height;
+ var oldBackgroundColor = canvas.style.backgroundColor;
+ var oldDocumentBackgroundColor = document.body.style.backgroundColor;
+ var oldPaddingLeft = canvas.style.paddingLeft;
+ var oldPaddingRight = canvas.style.paddingRight;
+ var oldPaddingTop = canvas.style.paddingTop;
+ var oldPaddingBottom = canvas.style.paddingBottom;
+ var oldMarginLeft = canvas.style.marginLeft;
+ var oldMarginRight = canvas.style.marginRight;
+ var oldMarginTop = canvas.style.marginTop;
+ var oldMarginBottom = canvas.style.marginBottom;
+ var oldDocumentBodyMargin = document.body.style.margin;
+ var oldDocumentOverflow = document.documentElement.style.overflow;
+ var oldDocumentScroll = document.body.scroll;
+ var oldImageRendering = canvas.style.imageRendering;
+ function restoreOldStyle() {
+  var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+  if (!fullscreenElement) {
+   document.removeEventListener("fullscreenchange", restoreOldStyle);
+   document.removeEventListener("mozfullscreenchange", restoreOldStyle);
+   document.removeEventListener("webkitfullscreenchange", restoreOldStyle);
+   document.removeEventListener("MSFullscreenChange", restoreOldStyle);
+   canvas.width = oldWidth;
+   canvas.height = oldHeight;
+   canvas.style.width = oldCssWidth;
+   canvas.style.height = oldCssHeight;
+   canvas.style.backgroundColor = oldBackgroundColor;
+   if (!oldDocumentBackgroundColor) document.body.style.backgroundColor = "white";
+   document.body.style.backgroundColor = oldDocumentBackgroundColor;
+   canvas.style.paddingLeft = oldPaddingLeft;
+   canvas.style.paddingRight = oldPaddingRight;
+   canvas.style.paddingTop = oldPaddingTop;
+   canvas.style.paddingBottom = oldPaddingBottom;
+   canvas.style.marginLeft = oldMarginLeft;
+   canvas.style.marginRight = oldMarginRight;
+   canvas.style.marginTop = oldMarginTop;
+   canvas.style.marginBottom = oldMarginBottom;
+   document.body.style.margin = oldDocumentBodyMargin;
+   document.documentElement.style.overflow = oldDocumentOverflow;
+   document.body.scroll = oldDocumentScroll;
+   canvas.style.imageRendering = oldImageRendering;
+   if (canvas.GLctxObject) canvas.GLctxObject.GLctx.viewport(0, 0, oldWidth, oldHeight);
+   if (__currentFullscreenStrategy.canvasResizedCallback) {
+    Runtime.dynCall("iiii", __currentFullscreenStrategy.canvasResizedCallback, [ 37, 0, __currentFullscreenStrategy.canvasResizedCallbackUserData ]);
+   }
+  }
+ }
+ document.addEventListener("fullscreenchange", restoreOldStyle);
+ document.addEventListener("mozfullscreenchange", restoreOldStyle);
+ document.addEventListener("webkitfullscreenchange", restoreOldStyle);
+ document.addEventListener("MSFullscreenChange", restoreOldStyle);
+ return restoreOldStyle;
+}
 function __restoreHiddenElements(hiddenElements) {
  for (var i = 0; i < hiddenElements.length; ++i) {
   hiddenElements[i].node.style.display = hiddenElements[i].displayState;
  }
 }
+var __currentFullscreenStrategy = {};
 function __softFullscreenResizeWebGLRenderTarget() {
  var inHiDPIFullscreenMode = __currentFullscreenStrategy.canvasResolutionScaleMode == 2;
  var inAspectRatioFixedFullscreenMode = __currentFullscreenStrategy.scaleMode == 2;
@@ -6640,7 +6609,6 @@ Module.asmLibraryArg = {
  "__softFullscreenResizeWebGLRenderTarget": __softFullscreenResizeWebGLRenderTarget,
  "_glUniformMatrix3fv": _glUniformMatrix3fv,
  "_glUniformMatrix2fv": _glUniformMatrix2fv,
- "_glTexSubImage2D": _glTexSubImage2D,
  "_glStencilFunc": _glStencilFunc,
  "_glUniformMatrix4fv": _glUniformMatrix4fv,
  "_glStencilOp": _glStencilOp,
@@ -6648,7 +6616,6 @@ Module.asmLibraryArg = {
  "_glDeleteProgram": _glDeleteProgram,
  "_glBindBuffer": _glBindBuffer,
  "_glCreateProgram": _glCreateProgram,
- "_emscripten_webgl_make_context_current": _emscripten_webgl_make_context_current,
  "_emscripten_set_touchmove_callback": _emscripten_set_touchmove_callback,
  "_emscripten_set_main_loop_timing": _emscripten_set_main_loop_timing,
  "_glDepthFunc": _glDepthFunc,
@@ -6662,7 +6629,7 @@ Module.asmLibraryArg = {
  "_glUniform4f": _glUniform4f,
  "_Mix_LoadWAV_RW": _Mix_LoadWAV_RW,
  "_emscripten_get_canvas_size": _emscripten_get_canvas_size,
- "_emscripten_request_fullscreen_strategy": _emscripten_request_fullscreen_strategy,
+ "_emscripten_webgl_make_context_current": _emscripten_webgl_make_context_current,
  "_glGenBuffers": _glGenBuffers,
  "_glShaderSource": _glShaderSource,
  "_glFramebufferRenderbuffer": _glFramebufferRenderbuffer,
@@ -6673,7 +6640,6 @@ Module.asmLibraryArg = {
  "___syscall146": ___syscall146,
  "_pthread_cleanup_pop": _pthread_cleanup_pop,
  "_emscripten_set_keyup_callback": _emscripten_set_keyup_callback,
- "_glRenderbufferStorage": _glRenderbufferStorage,
  "__restoreHiddenElements": __restoreHiddenElements,
  "_SDL_GetTicks": _SDL_GetTicks,
  "_glBindRenderbuffer": _glBindRenderbuffer,
@@ -6690,14 +6656,14 @@ Module.asmLibraryArg = {
  "_emscripten_set_canvas_size": _emscripten_set_canvas_size,
  "_glUniform3f": _glUniform3f,
  "_nanosleep": _nanosleep,
- "_glCompressedTexImage2D": _glCompressedTexImage2D,
+ "_glBlendFuncSeparate": _glBlendFuncSeparate,
  "_glEnable": _glEnable,
  "___syscall140": ___syscall140,
  "_glGenTextures": _glGenTextures,
  "_glGetIntegerv": _glGetIntegerv,
  "_glGetString": _glGetString,
  "emscriptenWebGLGet": emscriptenWebGLGet,
- "_glStencilMaskSeparate": _glStencilMaskSeparate,
+ "_emscripten_set_mouseup_callback": _emscripten_set_mouseup_callback,
  "_emscripten_get_now": _emscripten_get_now,
  "_glAttachShader": _glAttachShader,
  "__registerRestoreOldStyle": __registerRestoreOldStyle,
@@ -6719,12 +6685,12 @@ Module.asmLibraryArg = {
  "_TTF_FontHeight": _TTF_FontHeight,
  "_glCheckFramebufferStatus": _glCheckFramebufferStatus,
  "_emscripten_webgl_create_context": _emscripten_webgl_create_context,
- "_glClearColor": _glClearColor,
+ "_emscripten_set_deviceorientation_callback": _emscripten_set_deviceorientation_callback,
  "_glVertexAttribPointer": _glVertexAttribPointer,
  "___buildEnvironment": ___buildEnvironment,
- "_glBlendFuncSeparate": _glBlendFuncSeparate,
- "_emscripten_set_mouseup_callback": _emscripten_set_mouseup_callback,
- "_emscripten_set_deviceorientation_callback": _emscripten_set_deviceorientation_callback,
+ "_glCompressedTexImage2D": _glCompressedTexImage2D,
+ "_glStencilMaskSeparate": _glStencilMaskSeparate,
+ "_glClearColor": _glClearColor,
  "_glBindTexture": _glBindTexture,
  "_glUniform1f": _glUniform1f,
  "_glUniform1i": _glUniform1i,
@@ -6741,6 +6707,7 @@ Module.asmLibraryArg = {
  "_emscripten_exit_pointerlock": _emscripten_exit_pointerlock,
  "_glEnableVertexAttribArray": _glEnableVertexAttribArray,
  "_abort": _abort,
+ "_Mix_FreeChunk": _Mix_FreeChunk,
  "___atomic_fetch_add_8": ___atomic_fetch_add_8,
  "_glDeleteBuffers": _glDeleteBuffers,
  "_glBufferData": _glBufferData,
@@ -6768,7 +6735,7 @@ Module.asmLibraryArg = {
  "_emscripten_cancel_main_loop": _emscripten_cancel_main_loop,
  "_glClear": _glClear,
  "_glUniform4fv": _glUniform4fv,
- "_Mix_FreeChunk": _Mix_FreeChunk,
+ "_glRenderbufferStorage": _glRenderbufferStorage,
  "_IMG_Load_RW": _IMG_Load_RW,
  "_glBindAttribLocation": _glBindAttribLocation,
  "_glGetShaderiv": _glGetShaderiv,
@@ -6794,7 +6761,7 @@ Module.asmLibraryArg = {
  "_glBlendEquationSeparate": _glBlendEquationSeparate,
  "_SDL_RWFromConstMem": _SDL_RWFromConstMem,
  "_glStencilFuncSeparate": _glStencilFuncSeparate,
- "_emscripten_do_request_fullscreen": _emscripten_do_request_fullscreen,
+ "_glTexSubImage2D": _glTexSubImage2D,
  "DYNAMICTOP_PTR": DYNAMICTOP_PTR,
  "tempDoublePtr": tempDoublePtr,
  "ABORT": ABORT,
@@ -6806,24 +6773,31 @@ Module.asmLibraryArg = {
 
 var asm =Module["asm"]// EMSCRIPTEN_END_ASM
 (Module.asmGlobalArg, Module.asmLibraryArg, buffer);
+var _yakc_quickload = Module["_yakc_quickload"] = asm["_yakc_quickload"];
 var _main = Module["_main"] = asm["_main"];
+var _yakc_get_system = Module["_yakc_get_system"] = asm["_yakc_get_system"];
+var _yakc_toggle_joystick = Module["_yakc_toggle_joystick"] = asm["_yakc_toggle_joystick"];
 var ___udivdi3 = Module["___udivdi3"] = asm["___udivdi3"];
-var _enter_soft_fullscreen = Module["_enter_soft_fullscreen"] = asm["_enter_soft_fullscreen"];
 var _bitshift64Lshr = Module["_bitshift64Lshr"] = asm["_bitshift64Lshr"];
 var _bitshift64Shl = Module["_bitshift64Shl"] = asm["_bitshift64Shl"];
 var _bitshift64Ashr = Module["_bitshift64Ashr"] = asm["_bitshift64Ashr"];
 var _memset = Module["_memset"] = asm["_memset"];
 var _sbrk = Module["_sbrk"] = asm["_sbrk"];
-var _enter_fullscreen = Module["_enter_fullscreen"] = asm["_enter_fullscreen"];
 var _memcpy = Module["_memcpy"] = asm["_memcpy"];
 var ___muldi3 = Module["___muldi3"] = asm["___muldi3"];
 var _emsc_pass_data = Module["_emsc_pass_data"] = asm["_emsc_pass_data"];
 var ___uremdi3 = Module["___uremdi3"] = asm["___uremdi3"];
+var _yakc_power = Module["_yakc_power"] = asm["_yakc_power"];
 var ___divdi3 = Module["___divdi3"] = asm["___divdi3"];
+var _yakc_reset = Module["_yakc_reset"] = asm["_yakc_reset"];
 var _i64Subtract = Module["_i64Subtract"] = asm["_i64Subtract"];
+var _yakc_toggle_keyboard = Module["_yakc_toggle_keyboard"] = asm["_yakc_toggle_keyboard"];
+var _yakc_boot = Module["_yakc_boot"] = asm["_yakc_boot"];
 var ___udivmoddi4 = Module["___udivmoddi4"] = asm["___udivmoddi4"];
 var _i64Add = Module["_i64Add"] = asm["_i64Add"];
+var _yakc_toggle_crt = Module["_yakc_toggle_crt"] = asm["_yakc_toggle_crt"];
 var _pthread_self = Module["_pthread_self"] = asm["_pthread_self"];
+var _yakc_toggle_ui = Module["_yakc_toggle_ui"] = asm["_yakc_toggle_ui"];
 var _pthread_mutex_unlock = Module["_pthread_mutex_unlock"] = asm["_pthread_mutex_unlock"];
 var _llvm_bswap_i16 = Module["_llvm_bswap_i16"] = asm["_llvm_bswap_i16"];
 var __GLOBAL__sub_I_imgui_cpp = Module["__GLOBAL__sub_I_imgui_cpp"] = asm["__GLOBAL__sub_I_imgui_cpp"];
@@ -6831,7 +6805,6 @@ var ___muldsi3 = Module["___muldsi3"] = asm["___muldsi3"];
 var _free = Module["_free"] = asm["_free"];
 var runPostSets = Module["runPostSets"] = asm["runPostSets"];
 var _memmove = Module["_memmove"] = asm["_memmove"];
-var _emsc_put_msg = Module["_emsc_put_msg"] = asm["_emsc_put_msg"];
 var _malloc = Module["_malloc"] = asm["_malloc"];
 var _pthread_mutex_lock = Module["_pthread_mutex_lock"] = asm["_pthread_mutex_lock"];
 var dynCall_iiii = Module["dynCall_iiii"] = asm["dynCall_iiii"];
