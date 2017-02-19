@@ -206,7 +206,7 @@ pre {
   color: #EEEEEE;
   background-color: #E64A19; }
 
-.floating-bottom {
+.floating-bottom-left {
   position: absolute;
   left: 10px;
   bottom: 0;
@@ -253,11 +253,46 @@ pre {
   padding: 0px;
   overflow-y: auto; }
 
+.panel-text-area {
+  background-color: #FF5722;
+  display: block;
+  cursor: default;
+  padding: 5px;
+  border-radius: 5px;
+  font-family: "Arial", Gadget, sans-serif;
+  font-size: 12px;
+  color: #EEEEEE;
+  text-align: center; }
+
+.panel-text-area.highlight {
+  background-color: #ffa588; }
+
 .panel-list {
   margin: 5px; }
 
 .panel-list.hidden {
   display: none; }
+
+.panel-button-row {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: default; }
+
+.panel-button {
+  background-color: #1976D2;
+  display: inline-block;
+  cursor: pointer;
+  padding: 5px;
+  margin: 2px;
+  border-radius: 3px;
+  font-family: "Arial", Gadget, sans-serif;
+  font-size: 12px;
+  color: #EEEEEE;
+  text-align: center; }
+
+.panel-button:hover {
+  background-color: #145ca4; }
 
 .panel-list-item {
   background-color: #FF5722;

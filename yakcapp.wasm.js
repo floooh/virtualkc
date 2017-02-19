@@ -1339,14 +1339,14 @@ Module["preloadedAudios"] = {};
 var memoryInitializer = null;
 var ASM_CONSTS = [];
 STATIC_BASE = 1024;
-STATICTOP = STATIC_BASE + 117088;
+STATICTOP = STATIC_BASE + 117152;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_imgui_cpp();
  })
 });
 memoryInitializer = Module["wasmJSMethod"].indexOf("asmjs") >= 0 || Module["wasmJSMethod"].indexOf("interpret-asm2wasm") >= 0 ? "yakcapp.html.mem" : null;
-var STATIC_BUMP = 117088;
+var STATIC_BUMP = 117152;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -6778,6 +6778,7 @@ var _main = Module["_main"] = asm["_main"];
 var _yakc_get_system = Module["_yakc_get_system"] = asm["_yakc_get_system"];
 var _yakc_toggle_joystick = Module["_yakc_toggle_joystick"] = asm["_yakc_toggle_joystick"];
 var ___udivdi3 = Module["___udivdi3"] = asm["___udivdi3"];
+var _yakc_loadfile = Module["_yakc_loadfile"] = asm["_yakc_loadfile"];
 var _bitshift64Lshr = Module["_bitshift64Lshr"] = asm["_bitshift64Lshr"];
 var _bitshift64Shl = Module["_bitshift64Shl"] = asm["_bitshift64Shl"];
 var _bitshift64Ashr = Module["_bitshift64Ashr"] = asm["_bitshift64Ashr"];
@@ -6785,7 +6786,6 @@ var _memset = Module["_memset"] = asm["_memset"];
 var _sbrk = Module["_sbrk"] = asm["_sbrk"];
 var _memcpy = Module["_memcpy"] = asm["_memcpy"];
 var ___muldi3 = Module["___muldi3"] = asm["___muldi3"];
-var _emsc_pass_data = Module["_emsc_pass_data"] = asm["_emsc_pass_data"];
 var ___uremdi3 = Module["___uremdi3"] = asm["___uremdi3"];
 var _yakc_power = Module["_yakc_power"] = asm["_yakc_power"];
 var ___divdi3 = Module["___divdi3"] = asm["___divdi3"];
