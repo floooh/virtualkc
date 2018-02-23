@@ -10,7 +10,7 @@
 ">
 
   <link rel="stylesheet" href="/virtualkc/css/emu.css">
-  <link rel="canonical" href="/virtualkc/">
+  <link rel="canonical" href="/virtualkc/index_asmjs.html">
 </head>
 
   <body>
@@ -45,7 +45,7 @@
             </li>
             
             <li class="main-nav-item">
-                <a class="main-nav-link" onclick="nav_toggle()" href="index_asmjs.html">asm.js version</a>
+                <a class="main-nav-link" onclick="nav_toggle()" href="index.html">wasm version</a>
             </li>
             
             <li class="main-nav-item">
@@ -114,18 +114,7 @@
     <canvas class="game" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
     <script type="text/javascript" src="emsc.js"></script>
     
-    <script>
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'yakcapp.wasm.txt', true)
-        xhr.responseType = 'arraybuffer';
-        xhr.onload = function() {
-          Module.wasmBinary = xhr.response;
-          var script = document.createElement('script');
-          script.src = "yakcapp.wasm.js";
-          document.body.appendChild(script);
-        };
-        xhr.send(null);
-    </script>
+    <script async type="text/javascript" src="yakcapp.js"></script>
     
   </body>
 </html>

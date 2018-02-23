@@ -106,79 +106,79 @@
   <li><a href="#system-memory-locations-below-0200" id="markdown-toc-system-memory-locations-below-0200">System Memory Locations below 0200</a></li>
   <li><a href="#interrupt-table" id="markdown-toc-interrupt-table">Interrupt Table</a></li>
   <li><a href="#system-calls" id="markdown-toc-system-calls">System Calls</a>    <ul>
-      <li><a href="#crt----print-character" id="markdown-toc-crt----print-character">00 CRT – print character</a></li>
-      <li><a href="#mbo----tape-output" id="markdown-toc-mbo----tape-output">01 MBO – tape output</a></li>
-      <li><a href="#uot1----output-user-channel-1" id="markdown-toc-uot1----output-user-channel-1">02 UOT1 – output user channel 1</a></li>
-      <li><a href="#uot2----output-user-channel-2" id="markdown-toc-uot2----output-user-channel-2">03 UOT2 – output user channel 2</a></li>
-      <li><a href="#kbd----keyboard-input-with-cursor" id="markdown-toc-kbd----keyboard-input-with-cursor">04 KBD – keyboard input with cursor</a></li>
-      <li><a href="#mbi----tape-input" id="markdown-toc-mbi----tape-input">05 MBI – tape input</a></li>
-      <li><a href="#usin1----input-user-channel-1" id="markdown-toc-usin1----input-user-channel-1">06 USIN1 – input user channel 1</a></li>
-      <li><a href="#usin2----input-user-channel-2" id="markdown-toc-usin2----input-user-channel-2">07 USIN2 – input user channel 2</a></li>
-      <li><a href="#isro----initialize-tape-output" id="markdown-toc-isro----initialize-tape-output">08 ISRO – initialize tape output</a></li>
-      <li><a href="#csro----finalize-tape-output" id="markdown-toc-csro----finalize-tape-output">09 CSRO – finalize tape output</a></li>
-      <li><a href="#a-isri----initialize-tape-input" id="markdown-toc-a-isri----initialize-tape-input">0A ISRI – initialize tape input</a></li>
-      <li><a href="#b-csri----finalize-tape-input" id="markdown-toc-b-csri----finalize-tape-input">0B CSRI – finalize tape input</a></li>
-      <li><a href="#c-kbds----get-pressed-key-without-ack" id="markdown-toc-c-kbds----get-pressed-key-without-ack">0C KBDS – get pressed key without ack</a></li>
-      <li><a href="#d-bye----warmstart" id="markdown-toc-d-bye----warmstart">0D BYE – warmstart</a></li>
-      <li><a href="#e-kbdz----get-pressed-key-with-ack" id="markdown-toc-e-kbdz----get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</a></li>
-      <li><a href="#f-color----set-color" id="markdown-toc-f-color----set-color">0F COLOR – set color</a></li>
-      <li><a href="#load----load-file" id="markdown-toc-load----load-file">10 LOAD – load file</a></li>
-      <li><a href="#verif----verify-a-file-on-tape" id="markdown-toc-verif----verify-a-file-on-tape">11 VERIF – verify a file on tape</a></li>
-      <li><a href="#loop----return-control-to-caos" id="markdown-toc-loop----return-control-to-caos">12 LOOP – return control to CAOS</a></li>
-      <li><a href="#norm----reset-io-channels" id="markdown-toc-norm----reset-io-channels">13 NORM – reset I/O channels</a></li>
-      <li><a href="#wait----waiting-loop" id="markdown-toc-wait----waiting-loop">14 WAIT – waiting loop</a></li>
-      <li><a href="#larg----load-arguments" id="markdown-toc-larg----load-arguments">15 LARG – load arguments</a></li>
-      <li><a href="#intb----character-from-input-channel" id="markdown-toc-intb----character-from-input-channel">16 INTB – character from input channel</a></li>
-      <li><a href="#inlin----line-input" id="markdown-toc-inlin----line-input">17 INLIN – line input</a></li>
-      <li><a href="#rhex----parse-hex-number-string" id="markdown-toc-rhex----parse-hex-number-string">18 RHEX – parse hex number string</a></li>
-      <li><a href="#errm----print-error" id="markdown-toc-errm----print-error">19 ERRM – print ERROR</a></li>
-      <li><a href="#a-hlhx----print-hl" id="markdown-toc-a-hlhx----print-hl">1A HLHX – print HL</a></li>
-      <li><a href="#b-hlde----print-hl-de" id="markdown-toc-b-hlde----print-hl-de">1B HLDE – print HL DE</a></li>
-      <li><a href="#c-ahex----print-a" id="markdown-toc-c-ahex----print-a">1C AHEX – print A</a></li>
-      <li><a href="#d-zsuch----find-command" id="markdown-toc-d-zsuch----find-command">1D ZSUCH – find command</a></li>
-      <li><a href="#e-sout----set-output-table" id="markdown-toc-e-sout----set-output-table">1E SOUT – set output table</a></li>
-      <li><a href="#f-sin----set-input-table" id="markdown-toc-f-sin----set-input-table">1F SIN – set input table</a></li>
-      <li><a href="#nout----reset-output-channel-to-screen" id="markdown-toc-nout----reset-output-channel-to-screen">20 NOUT – reset output channel to screen</a></li>
-      <li><a href="#nin----reset-input-channel-to-keyboard" id="markdown-toc-nin----reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</a></li>
-      <li><a href="#garg----parse-arguments" id="markdown-toc-garg----parse-arguments">22 GARG – parse arguments</a></li>
-      <li><a href="#ostr----output-string" id="markdown-toc-ostr----output-string">23 OSTR – output string</a></li>
-      <li><a href="#ochr----output-character-on-output-channel" id="markdown-toc-ochr----output-character-on-output-channel">24 OCHR – output character on output channel</a></li>
-      <li><a href="#cucp----complement-cursor" id="markdown-toc-cucp----complement-cursor">25 CUCP – complement cursor</a></li>
-      <li><a href="#modu----expansion-module-control" id="markdown-toc-modu----expansion-module-control">26 MODU – expansion module control</a></li>
-      <li><a href="#jump----jump-to-alternate-os" id="markdown-toc-jump----jump-to-alternate-os">27 JUMP – jump to alternate OS</a></li>
-      <li><a href="#ldma----ld-hla" id="markdown-toc-ldma----ld-hla">28 LDMA – LD (HL),A</a></li>
-      <li><a href="#ldam----ld-ahl" id="markdown-toc-ldam----ld-ahl">29 LDAM – LD A,(HL)</a></li>
-      <li><a href="#a-brkt----test-for-brk-key" id="markdown-toc-a-brkt----test-for-brk-key">2A BRKT – test for BRK key</a></li>
-      <li><a href="#b-space----output-a-space-character" id="markdown-toc-b-space----output-a-space-character">2B SPACE – output a space character</a></li>
-      <li><a href="#c-crlf----output-newline" id="markdown-toc-c-crlf----output-newline">2C CRLF – output newline</a></li>
-      <li><a href="#d-home----output-home" id="markdown-toc-d-home----output-home">2D HOME – output HOME</a></li>
-      <li><a href="#e-modi----call-modify" id="markdown-toc-e-modi----call-modify">2E MODI – call MODIFY</a></li>
-      <li><a href="#f-pude----clear-pixel" id="markdown-toc-f-pude----clear-pixel">2F PUDE – clear pixel</a></li>
-      <li><a href="#puse----set-a-pixel" id="markdown-toc-puse----set-a-pixel">30 PUSE – set a pixel</a></li>
-      <li><a href="#sixd----move-and-reset-caos-working-memory" id="markdown-toc-sixd----move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</a></li>
-      <li><a href="#dabr----compute-character-buffer-address" id="markdown-toc-dabr----compute-character-buffer-address">32 DABR – compute character buffer address</a></li>
-      <li><a href="#tcif----test-if-cursor-pos-inside-window" id="markdown-toc-tcif----test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</a></li>
-      <li><a href="#padr----compute-pixel--and-color-address" id="markdown-toc-padr----compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</a></li>
-      <li><a href="#ton----sound-output" id="markdown-toc-ton----sound-output">35 TON – sound output</a></li>
-      <li><a href="#save----save-program" id="markdown-toc-save----save-program">36 SAVE – save program</a></li>
-      <li><a href="#mbin----byte-input-from-tape" id="markdown-toc-mbin----byte-input-from-tape">37 MBIN – byte-input from tape</a></li>
-      <li><a href="#mbout----byte-output-to-tape" id="markdown-toc-mbout----byte-output-to-tape">38 MBOUT – byte-output to tape</a></li>
-      <li><a href="#key----assign-function-key" id="markdown-toc-key----assign-function-key">39 KEY – assign function key</a></li>
-      <li><a href="#a-keyli----print-function-key-assignment" id="markdown-toc-a-keyli----print-function-key-assignment">3A KEYLI – print function key assignment</a></li>
-      <li><a href="#b-disp----hexascii-dump" id="markdown-toc-b-disp----hexascii-dump">3B DISP – hex/ascii dump</a></li>
-      <li><a href="#c-winin----initialize-a-window" id="markdown-toc-c-winin----initialize-a-window">3C WININ – initialize a window</a></li>
-      <li><a href="#d-winak----select-window" id="markdown-toc-d-winak----select-window">3D WINAK – select window</a></li>
-      <li><a href="#e-line----draw-a-line" id="markdown-toc-e-line----draw-a-line">3E LINE – draw a line</a></li>
-      <li><a href="#f-circle----draw-a-circle" id="markdown-toc-f-circle----draw-a-circle">3F CIRCLE – draw a circle</a></li>
-      <li><a href="#sqr----square-root" id="markdown-toc-sqr----square-root">40 SQR – square root</a></li>
-      <li><a href="#mult----multiplication" id="markdown-toc-mult----multiplication">41 MULT – multiplication</a></li>
-      <li><a href="#cstbt----toggle-ascii-control-code-mode" id="markdown-toc-cstbt----toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</a></li>
-      <li><a href="#iniea----initialize-io-channel" id="markdown-toc-iniea----initialize-io-channel">43 INIEA – initialize I/O channel</a></li>
-      <li><a href="#inime----initialize-multiple-io-channels" id="markdown-toc-inime----initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</a></li>
-      <li><a href="#zkout----output-string-at-hl" id="markdown-toc-zkout----output-string-at-hl">45 ZKOUT – output string at HL</a></li>
-      <li><a href="#menu----call-menu-system-command" id="markdown-toc-menu----call-menu-system-command">46 MENU – call MENU system command</a></li>
-      <li><a href="#v24out----initialize-printer-output" id="markdown-toc-v24out----initialize-printer-output">47 V24OUT – initialize printer output</a></li>
-      <li><a href="#v24dup----initialize-v24-duplex" id="markdown-toc-v24dup----initialize-v24-duplex">48 V24DUP – initialize V24 duplex</a></li>
+      <li><a href="#00-crt--print-character" id="markdown-toc-00-crt--print-character">00 CRT – print character</a></li>
+      <li><a href="#01-mbo--tape-output" id="markdown-toc-01-mbo--tape-output">01 MBO – tape output</a></li>
+      <li><a href="#02-uot1--output-user-channel-1" id="markdown-toc-02-uot1--output-user-channel-1">02 UOT1 – output user channel 1</a></li>
+      <li><a href="#03-uot2--output-user-channel-2" id="markdown-toc-03-uot2--output-user-channel-2">03 UOT2 – output user channel 2</a></li>
+      <li><a href="#04-kbd--keyboard-input-with-cursor" id="markdown-toc-04-kbd--keyboard-input-with-cursor">04 KBD – keyboard input with cursor</a></li>
+      <li><a href="#05-mbi--tape-input" id="markdown-toc-05-mbi--tape-input">05 MBI – tape input</a></li>
+      <li><a href="#06-usin1--input-user-channel-1" id="markdown-toc-06-usin1--input-user-channel-1">06 USIN1 – input user channel 1</a></li>
+      <li><a href="#07-usin2--input-user-channel-2" id="markdown-toc-07-usin2--input-user-channel-2">07 USIN2 – input user channel 2</a></li>
+      <li><a href="#08-isro--initialize-tape-output" id="markdown-toc-08-isro--initialize-tape-output">08 ISRO – initialize tape output</a></li>
+      <li><a href="#09-csro--finalize-tape-output" id="markdown-toc-09-csro--finalize-tape-output">09 CSRO – finalize tape output</a></li>
+      <li><a href="#0a-isri--initialize-tape-input" id="markdown-toc-0a-isri--initialize-tape-input">0A ISRI – initialize tape input</a></li>
+      <li><a href="#0b-csri--finalize-tape-input" id="markdown-toc-0b-csri--finalize-tape-input">0B CSRI – finalize tape input</a></li>
+      <li><a href="#0c-kbds--get-pressed-key-without-ack" id="markdown-toc-0c-kbds--get-pressed-key-without-ack">0C KBDS – get pressed key without ack</a></li>
+      <li><a href="#0d-bye--warmstart" id="markdown-toc-0d-bye--warmstart">0D BYE – warmstart</a></li>
+      <li><a href="#0e-kbdz--get-pressed-key-with-ack" id="markdown-toc-0e-kbdz--get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</a></li>
+      <li><a href="#0f-color--set-color" id="markdown-toc-0f-color--set-color">0F COLOR – set color</a></li>
+      <li><a href="#10-load--load-file" id="markdown-toc-10-load--load-file">10 LOAD – load file</a></li>
+      <li><a href="#11-verif--verify-a-file-on-tape" id="markdown-toc-11-verif--verify-a-file-on-tape">11 VERIF – verify a file on tape</a></li>
+      <li><a href="#12-loop--return-control-to-caos" id="markdown-toc-12-loop--return-control-to-caos">12 LOOP – return control to CAOS</a></li>
+      <li><a href="#13-norm--reset-io-channels" id="markdown-toc-13-norm--reset-io-channels">13 NORM – reset I/O channels</a></li>
+      <li><a href="#14-wait--waiting-loop" id="markdown-toc-14-wait--waiting-loop">14 WAIT – waiting loop</a></li>
+      <li><a href="#15-larg--load-arguments" id="markdown-toc-15-larg--load-arguments">15 LARG – load arguments</a></li>
+      <li><a href="#16-intb--character-from-input-channel" id="markdown-toc-16-intb--character-from-input-channel">16 INTB – character from input channel</a></li>
+      <li><a href="#17-inlin--line-input" id="markdown-toc-17-inlin--line-input">17 INLIN – line input</a></li>
+      <li><a href="#18-rhex--parse-hex-number-string" id="markdown-toc-18-rhex--parse-hex-number-string">18 RHEX – parse hex number string</a></li>
+      <li><a href="#19-errm--print-error" id="markdown-toc-19-errm--print-error">19 ERRM – print ERROR</a></li>
+      <li><a href="#1a-hlhx--print-hl" id="markdown-toc-1a-hlhx--print-hl">1A HLHX – print HL</a></li>
+      <li><a href="#1b-hlde--print-hl-de" id="markdown-toc-1b-hlde--print-hl-de">1B HLDE – print HL DE</a></li>
+      <li><a href="#1c-ahex--print-a" id="markdown-toc-1c-ahex--print-a">1C AHEX – print A</a></li>
+      <li><a href="#1d-zsuch--find-command" id="markdown-toc-1d-zsuch--find-command">1D ZSUCH – find command</a></li>
+      <li><a href="#1e-sout--set-output-table" id="markdown-toc-1e-sout--set-output-table">1E SOUT – set output table</a></li>
+      <li><a href="#1f-sin--set-input-table" id="markdown-toc-1f-sin--set-input-table">1F SIN – set input table</a></li>
+      <li><a href="#20-nout--reset-output-channel-to-screen" id="markdown-toc-20-nout--reset-output-channel-to-screen">20 NOUT – reset output channel to screen</a></li>
+      <li><a href="#21-nin--reset-input-channel-to-keyboard" id="markdown-toc-21-nin--reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</a></li>
+      <li><a href="#22-garg--parse-arguments" id="markdown-toc-22-garg--parse-arguments">22 GARG – parse arguments</a></li>
+      <li><a href="#23-ostr--output-string" id="markdown-toc-23-ostr--output-string">23 OSTR – output string</a></li>
+      <li><a href="#24-ochr--output-character-on-output-channel" id="markdown-toc-24-ochr--output-character-on-output-channel">24 OCHR – output character on output channel</a></li>
+      <li><a href="#25-cucp--complement-cursor" id="markdown-toc-25-cucp--complement-cursor">25 CUCP – complement cursor</a></li>
+      <li><a href="#26-modu--expansion-module-control" id="markdown-toc-26-modu--expansion-module-control">26 MODU – expansion module control</a></li>
+      <li><a href="#27-jump--jump-to-alternate-os" id="markdown-toc-27-jump--jump-to-alternate-os">27 JUMP – jump to alternate OS</a></li>
+      <li><a href="#28-ldma--ld-hla" id="markdown-toc-28-ldma--ld-hla">28 LDMA – LD (HL),A</a></li>
+      <li><a href="#29-ldam--ld-ahl" id="markdown-toc-29-ldam--ld-ahl">29 LDAM – LD A,(HL)</a></li>
+      <li><a href="#2a-brkt--test-for-brk-key" id="markdown-toc-2a-brkt--test-for-brk-key">2A BRKT – test for BRK key</a></li>
+      <li><a href="#2b-space--output-a-space-character" id="markdown-toc-2b-space--output-a-space-character">2B SPACE – output a space character</a></li>
+      <li><a href="#2c-crlf--output-newline" id="markdown-toc-2c-crlf--output-newline">2C CRLF – output newline</a></li>
+      <li><a href="#2d-home--output-home" id="markdown-toc-2d-home--output-home">2D HOME – output HOME</a></li>
+      <li><a href="#2e-modi--call-modify" id="markdown-toc-2e-modi--call-modify">2E MODI – call MODIFY</a></li>
+      <li><a href="#2f-pude--clear-pixel" id="markdown-toc-2f-pude--clear-pixel">2F PUDE – clear pixel</a></li>
+      <li><a href="#30-puse--set-a-pixel" id="markdown-toc-30-puse--set-a-pixel">30 PUSE – set a pixel</a></li>
+      <li><a href="#31-sixd--move-and-reset-caos-working-memory" id="markdown-toc-31-sixd--move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</a></li>
+      <li><a href="#32-dabr--compute-character-buffer-address" id="markdown-toc-32-dabr--compute-character-buffer-address">32 DABR – compute character buffer address</a></li>
+      <li><a href="#33-tcif--test-if-cursor-pos-inside-window" id="markdown-toc-33-tcif--test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</a></li>
+      <li><a href="#34-padr--compute-pixel--and-color-address" id="markdown-toc-34-padr--compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</a></li>
+      <li><a href="#35-ton--sound-output" id="markdown-toc-35-ton--sound-output">35 TON – sound output</a></li>
+      <li><a href="#36-save--save-program" id="markdown-toc-36-save--save-program">36 SAVE – save program</a></li>
+      <li><a href="#37-mbin--byte-input-from-tape" id="markdown-toc-37-mbin--byte-input-from-tape">37 MBIN – byte-input from tape</a></li>
+      <li><a href="#38-mbout--byte-output-to-tape" id="markdown-toc-38-mbout--byte-output-to-tape">38 MBOUT – byte-output to tape</a></li>
+      <li><a href="#39-key--assign-function-key" id="markdown-toc-39-key--assign-function-key">39 KEY – assign function key</a></li>
+      <li><a href="#3a-keyli--print-function-key-assignment" id="markdown-toc-3a-keyli--print-function-key-assignment">3A KEYLI – print function key assignment</a></li>
+      <li><a href="#3b-disp--hexascii-dump" id="markdown-toc-3b-disp--hexascii-dump">3B DISP – hex/ascii dump</a></li>
+      <li><a href="#3c-winin--initialize-a-window" id="markdown-toc-3c-winin--initialize-a-window">3C WININ – initialize a window</a></li>
+      <li><a href="#3d-winak--select-window" id="markdown-toc-3d-winak--select-window">3D WINAK – select window</a></li>
+      <li><a href="#3e-line--draw-a-line" id="markdown-toc-3e-line--draw-a-line">3E LINE – draw a line</a></li>
+      <li><a href="#3f-circle--draw-a-circle" id="markdown-toc-3f-circle--draw-a-circle">3F CIRCLE – draw a circle</a></li>
+      <li><a href="#40-sqr--square-root" id="markdown-toc-40-sqr--square-root">40 SQR – square root</a></li>
+      <li><a href="#41-mult--multiplication" id="markdown-toc-41-mult--multiplication">41 MULT – multiplication</a></li>
+      <li><a href="#42-cstbt--toggle-ascii-control-code-mode" id="markdown-toc-42-cstbt--toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</a></li>
+      <li><a href="#43-iniea--initialize-io-channel" id="markdown-toc-43-iniea--initialize-io-channel">43 INIEA – initialize I/O channel</a></li>
+      <li><a href="#44-inime--initialize-multiple-io-channels" id="markdown-toc-44-inime--initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</a></li>
+      <li><a href="#45-zkout--output-string-at-hl" id="markdown-toc-45-zkout--output-string-at-hl">45 ZKOUT – output string at HL</a></li>
+      <li><a href="#46-menu--call-menu-system-command" id="markdown-toc-46-menu--call-menu-system-command">46 MENU – call MENU system command</a></li>
+      <li><a href="#47-v24out--initialize-printer-output" id="markdown-toc-47-v24out--initialize-printer-output">47 V24OUT – initialize printer output</a></li>
+      <li><a href="#48-v24dup--initialize-v24-duplex" id="markdown-toc-48-v24dup--initialize-v24-duplex">48 V24DUP – initialize V24 duplex</a></li>
     </ul>
   </li>
 </ul>
@@ -665,7 +665,7 @@ stack pointer.</p>
 
 <h2 id="system-calls">System Calls</h2>
 
-<h3 id="crt----print-character">00 CRT – print character</h3>
+<h3 id="00-crt--print-character">00 CRT – print character</h3>
 
 <pre><code>Desc:       Print a character on screen
 In:         A - character code (ASCII)
@@ -673,7 +673,7 @@ Out,Change: -
 Stack:      11
 </code></pre>
 
-<h3 id="mbo----tape-output">01 MBO – tape output</h3>
+<h3 id="01-mbo--tape-output">01 MBO – tape output</h3>
 
 <pre><code>Desc:      Output a data block to cassette tape
 In:        BC     - length of leading sound
@@ -686,7 +686,7 @@ Change:    AF, BC, DE, HL
 Stack:     4
 </code></pre>
 
-<h3 id="uot1----output-user-channel-1">02 UOT1 – output user channel 1</h3>
+<h3 id="02-uot1--output-user-channel-1">02 UOT1 – output user channel 1</h3>
 
 <pre><code>Desc:       call user function for output to user channel 1
 In:         A   - character code 
@@ -696,14 +696,14 @@ Note:       the address of the user-provided function must be set
             in UOUT1 (B7BE)
 </code></pre>
 
-<h3 id="uot2----output-user-channel-2">03 UOT2 – output user channel 2</h3>
+<h3 id="03-uot2--output-user-channel-2">03 UOT2 – output user channel 2</h3>
 
 <pre><code>Desc:       see UOT1
 Note:       the address of the user-provided function must be set
             in UOUT2 (B7C4)
 </code></pre>
 
-<h3 id="kbd----keyboard-input-with-cursor">04 KBD – keyboard input with cursor</h3>
+<h3 id="04-kbd--keyboard-input-with-cursor">04 KBD – keyboard input with cursor</h3>
 
 <pre><code>Desc:       show cursor and wait for keyboard input or return
             code sequence from previously pressed function key
@@ -713,7 +713,7 @@ Change:     AF, HL
 Stack:      9
 </code></pre>
 
-<h3 id="mbi----tape-input">05 MBI – tape input</h3>
+<h3 id="05-mbi--tape-input">05 MBI – tape input</h3>
 
 <pre><code>Desc:       read a data block from cassette tape
 In:         (IX+5)  - L (buffer address)
@@ -724,7 +724,7 @@ Change:     AF, BC
 Stack:      4
 </code></pre>
 
-<h3 id="usin1----input-user-channel-1">06 USIN1 – input user channel 1</h3>
+<h3 id="06-usin1--input-user-channel-1">06 USIN1 – input user channel 1</h3>
 
 <pre><code>Desc:       call user function for input from user channel 1
 In:         depends on function
@@ -734,35 +734,35 @@ Note:       the address of the user-provided function must be set
             in UIN1 (B7C1)
 </code></pre>
 
-<h3 id="usin2----input-user-channel-2">07 USIN2 – input user channel 2</h3>
+<h3 id="07-usin2--input-user-channel-2">07 USIN2 – input user channel 2</h3>
 
 <pre><code>Desc:       see USIN1
 Note:       the address of the user-provided function must be set
             in UIN2 (B7C7)
 </code></pre>
 
-<h3 id="isro----initialize-tape-output">08 ISRO – initialize tape output</h3>
+<h3 id="08-isro--initialize-tape-output">08 ISRO – initialize tape output</h3>
 
 <pre><code>Desc:           initialize cassette tape output, writes the 1st data block
 In,Out,Change:  see 01 MBO
 Stack:          4
 </code></pre>
 
-<h3 id="csro----finalize-tape-output">09 CSRO – finalize tape output</h3>
+<h3 id="09-csro--finalize-tape-output">09 CSRO – finalize tape output</h3>
 
 <pre><code>Desc:           finalize cassette tape output, writes the last data block
 In,Out,Change:  see 01 MBO
 Stack:          10
 </code></pre>
 
-<h3 id="a-isri----initialize-tape-input">0A ISRI – initialize tape input</h3>
+<h3 id="0a-isri--initialize-tape-input">0A ISRI – initialize tape input</h3>
 
 <pre><code>Desc:           initialize cassette tape input, reads the 1st data block
 In,Out,Change:  see 05 MBI
 Stack:          5
 </code></pre>
 
-<h3 id="b-csri----finalize-tape-input">0B CSRI – finalize tape input</h3>
+<h3 id="0b-csri--finalize-tape-input">0B CSRI – finalize tape input</h3>
 
 <pre><code>Desc:       finalize cassette tape input.
 In,Out:     -
@@ -770,7 +770,7 @@ Change:     AF,HL
 Stack:      1
 </code></pre>
 
-<h3 id="c-kbds----get-pressed-key-without-ack">0C KBDS – get pressed key without ack</h3>
+<h3 id="0c-kbds--get-pressed-key-without-ack">0C KBDS – get pressed key without ack</h3>
 
 <pre><code>Desc:       gets pressed key without acknowledge
 In:         -
@@ -780,13 +780,13 @@ Change:     AF
 Stack:      0
 </code></pre>
 
-<h3 id="d-bye----warmstart">0D BYE – warmstart</h3>
+<h3 id="0d-bye--warmstart">0D BYE – warmstart</h3>
 
 <pre><code>Desc:           jumps to RESET address E000
 In,Out,Change:  -
 </code></pre>
 
-<h3 id="e-kbdz----get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</h3>
+<h3 id="0e-kbdz--get-pressed-key-with-ack">0E KBDZ – get pressed key with ack</h3>
 
 <pre><code>Desc:       get pressed key with acknowledge and autorepeat
 In:         -
@@ -796,7 +796,7 @@ Change:     AF
 Stack:      1
 </code></pre>
 
-<h3 id="f-color----set-color">0F COLOR – set color</h3>
+<h3 id="0f-color--set-color">0F COLOR – set color</h3>
 
 <pre><code>Desc:       sets the current color
 In:         E - background color (0..7)
@@ -808,7 +808,7 @@ Change:     AF,L
 Stack:      1
 </code></pre>
 
-<h3 id="load----load-file">10 LOAD – load file</h3>
+<h3 id="10-load--load-file">10 LOAD – load file</h3>
 
 <pre><code>Desc:       loads a file from cassette tape
 In:         (ARGN)  = 0 - load without offset
@@ -819,7 +819,7 @@ Change:     AF,BC,DE,HL
 Stack:      14
 </code></pre>
 
-<h3 id="verif----verify-a-file-on-tape">11 VERIF – verify a file on tape</h3>
+<h3 id="11-verif--verify-a-file-on-tape">11 VERIF – verify a file on tape</h3>
 
 <pre><code>Desc:       verifies a file on cassette tape by checking
             the data block checksums
@@ -828,7 +828,7 @@ Change:     AF,BC,DE,HL
 Stack:      14
 </code></pre>
 
-<h3 id="loop----return-control-to-caos">12 LOOP – return control to CAOS</h3>
+<h3 id="12-loop--return-control-to-caos">12 LOOP – return control to CAOS</h3>
 
 <pre><code>Desc:           returns control to CAOS without memory initialization,
                 can be used by menu programs if a RET instruction is
@@ -836,7 +836,7 @@ Stack:      14
 In,Out,Change:  -
 </code></pre>
 
-<h3 id="norm----reset-io-channels">13 NORM – reset I/O channels</h3>
+<h3 id="13-norm--reset-io-channels">13 NORM – reset I/O channels</h3>
 
 <pre><code>Desc:       sets the input and output channel handler functions to 
             CRT and KBD
@@ -846,7 +846,7 @@ Change:     HL
 Stack:      2
 </code></pre>
 
-<h3 id="wait----waiting-loop">14 WAIT – waiting loop</h3>
+<h3 id="14-wait--waiting-loop">14 WAIT – waiting loop</h3>
 
 <pre><code>Desc:       implements a simple waiting loop without interrupts
 In:         A - t=(A) * 6ms
@@ -855,7 +855,7 @@ Change:     AF,B
 Stack:      2
 </code></pre>
 
-<h3 id="larg----load-arguments">15 LARG – load arguments</h3>
+<h3 id="15-larg--load-arguments">15 LARG – load arguments</h3>
 
 <pre><code>Desc:       load arguments into registers
 In:         -
@@ -867,7 +867,7 @@ Change:     A,BC,DE,HL
 Stack:      0
 </code></pre>
 
-<h3 id="intb----character-from-input-channel">16 INTB – character from input channel</h3>
+<h3 id="16-intb--character-from-input-channel">16 INTB – character from input channel</h3>
 
 <pre><code>Desc:       returns character from current input channel
             (defined by INTAB)
@@ -877,7 +877,7 @@ Change:     -
 Stack:      12 (if input channel is set to keyboard)
 </code></pre>
 
-<h3 id="inlin----line-input">17 INLIN – line input</h3>
+<h3 id="17-inlin--line-input">17 INLIN – line input</h3>
 
 <pre><code>Desc:       input a complete line until [ENTER]
 In:         -
@@ -886,7 +886,7 @@ Change:     AF,DE
 Stack:      12
 </code></pre>
 
-<h3 id="rhex----parse-hex-number-string">18 RHEX – parse hex number string</h3>
+<h3 id="18-rhex--parse-hex-number-string">18 RHEX – parse hex number string</h3>
 
 <pre><code>Desc:       converts a hex number string into a number
 In:         DE - points to number string
@@ -898,14 +898,14 @@ Change:     AF,DE,HL
 Stack:      0
 </code></pre>
 
-<h3 id="errm----print-error">19 ERRM – print ERROR</h3>
+<h3 id="19-errm--print-error">19 ERRM – print ERROR</h3>
 
 <pre><code>Desc:           outputs the text "ERROR"
 In,Out,Change:  -
 Stack:          13
 </code></pre>
 
-<h3 id="a-hlhx----print-hl">1A HLHX – print HL</h3>
+<h3 id="1a-hlhx--print-hl">1A HLHX – print HL</h3>
 
 <pre><code>Desc:       outputs the register HL as hex number
 In:         HL
@@ -914,7 +914,7 @@ Change:     AF
 Stack:      17
 </code></pre>
 
-<h3 id="b-hlde----print-hl-de">1B HLDE – print HL DE</h3>
+<h3 id="1b-hlde--print-hl-de">1B HLDE – print HL DE</h3>
 
 <pre><code>Desc:       outputs the registers HL and DE as hex numbers
 In:         HL,DE
@@ -923,7 +923,7 @@ Change:     AF
 Stack:      19
 </code></pre>
 
-<h3 id="c-ahex----print-a">1C AHEX – print A</h3>
+<h3 id="1c-ahex--print-a">1C AHEX – print A</h3>
 
 <pre><code>Desc:       outputs the register A as hex number
 In:         A
@@ -932,7 +932,7 @@ Change:     AF
 Stack:      16
 </code></pre>
 
-<h3 id="d-zsuch----find-command">1D ZSUCH – find command</h3>
+<h3 id="1d-zsuch--find-command">1D ZSUCH – find command</h3>
 
 <pre><code>Desc:       find a menu command by name
 In:         A   - prolog byte (e.g. for CAOS menu: 7F)
@@ -946,7 +946,7 @@ Change:     AF,BC,DE,HL
 Stack:      2
 </code></pre>
 
-<h3 id="e-sout----set-output-table">1E SOUT – set output table</h3>
+<h3 id="1e-sout--set-output-table">1E SOUT – set output table</h3>
 
 <pre><code>Desc:       updates the OUTAB pointer to HL
 In:         HL - new OUTAB pointer
@@ -955,7 +955,7 @@ Change:     HL
 Stack:      1
 </code></pre>
 
-<h3 id="f-sin----set-input-table">1F SIN – set input table</h3>
+<h3 id="1f-sin--set-input-table">1F SIN – set input table</h3>
 
 <pre><code>Desc:       updates the INTAB pointer to HL
 In:         HL - new INTAB pointer
@@ -964,7 +964,7 @@ Change:     HL
 Stack:      1
 </code></pre>
 
-<h3 id="nout----reset-output-channel-to-screen">20 NOUT – reset output channel to screen</h3>
+<h3 id="20-nout--reset-output-channel-to-screen">20 NOUT – reset output channel to screen</h3>
 
 <pre><code>Desc:       resets the character output handler to screen (00 CRT)
 In:         -
@@ -973,7 +973,7 @@ Change:     HL
 Stack:      1
 </code></pre>
 
-<h3 id="nin----reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</h3>
+<h3 id="21-nin--reset-input-channel-to-keyboard">21 NIN – reset input channel to keyboard</h3>
 
 <pre><code>Desc:       resets the character input handler to keyboard (04 KBD)
 In:         -
@@ -982,7 +982,7 @@ Change:     HL
 Stack:      1
 </code></pre>
 
-<h3 id="garg----parse-arguments">22 GARG – parse arguments</h3>
+<h3 id="22-garg--parse-arguments">22 GARG – parse arguments</h3>
 
 <pre><code>Desc:       parse up to 10 hex numbers string
 In:         DE - address of first character
@@ -995,7 +995,7 @@ Stack:      1
 Note:       valid characters are 0..9, A..F, space, end: 0
 </code></pre>
 
-<h3 id="ostr----output-string">23 OSTR – output string</h3>
+<h3 id="23-ostr--output-string">23 OSTR – output string</h3>
 
 <pre><code>Desc:       print embedded string following the subroutine call
 In/Out:     -
@@ -1003,7 +1003,7 @@ Change:     AF
 Stack:      16
 </code></pre>
 
-<h3 id="ochr----output-character-on-output-channel">24 OCHR – output character on output channel</h3>
+<h3 id="24-ochr--output-character-on-output-channel">24 OCHR – output character on output channel</h3>
 
 <pre><code>Desc:       write a character to device defined by OUTAB
 In:         A - character code (ASCII)
@@ -1012,7 +1012,7 @@ Change:     AF
 Stack:      15
 </code></pre>
 
-<h3 id="cucp----complement-cursor">25 CUCP – complement cursor</h3>
+<h3 id="25-cucp--complement-cursor">25 CUCP – complement cursor</h3>
 
 <pre><code>Desc:       sets the cursor image to shift-lock mode(???)
 In:         (CURSO) - cursor position
@@ -1020,7 +1020,7 @@ Out,Change  -
 Stack:      8
 </code></pre>
 
-<h3 id="modu----expansion-module-control">26 MODU – expansion module control</h3>
+<h3 id="26-modu--expansion-module-control">26 MODU – expansion module control</h3>
 
 <pre><code>Desc:       read module type or send modul control byte
 In:         A = 1   - read module type
@@ -1033,7 +1033,7 @@ Change:     AF,H,C,B
 Stack:      0
 </code></pre>
 
-<h3 id="jump----jump-to-alternate-os">27 JUMP – jump to alternate OS</h3>
+<h3 id="27-jump--jump-to-alternate-os">27 JUMP – jump to alternate OS</h3>
 
 <pre><code>Desc:       jump into a new operating system, switch off built-in ROM banks
 In:         A - module slot
@@ -1042,7 +1042,7 @@ Note:       the start address of the new operating system must be F012,
             FF will be written as module control byte
 </code></pre>
 
-<h3 id="ldma----ld-hla">28 LDMA – LD (HL),A</h3>
+<h3 id="28-ldma--ld-hla">28 LDMA – LD (HL),A</h3>
 
 <pre><code>Desc:       LD (HL),A
 In:         A - value
@@ -1051,7 +1051,7 @@ Out,Change: -
 Note:       only useful with entry points 4 to 6
 </code></pre>
 
-<h3 id="ldam----ld-ahl">29 LDAM – LD A,(HL)</h3>
+<h3 id="29-ldam--ld-ahl">29 LDAM – LD A,(HL)</h3>
 
 <pre><code>Desc:       LD A,(HL)
 In:         HL - address
@@ -1061,7 +1061,7 @@ Stack:      0
 Note:       Only useful with entry points 4 to 6
 </code></pre>
 
-<h3 id="a-brkt----test-for-brk-key">2A BRKT – test for BRK key</h3>
+<h3 id="2a-brkt--test-for-brk-key">2A BRKT – test for BRK key</h3>
 
 <pre><code>Desc:       test whether the BRK key was pressed
 In:         -
@@ -1071,7 +1071,7 @@ Change:     -
 Stack:      1
 </code></pre>
 
-<h3 id="b-space----output-a-space-character">2B SPACE – output a space character</h3>
+<h3 id="2b-space--output-a-space-character">2B SPACE – output a space character</h3>
 
 <pre><code>Desc:       outputs a space character via 24 OCHR
 In,Out:     -
@@ -1079,7 +1079,7 @@ Change:     AF
 Stack:      15
 </code></pre>
 
-<h3 id="c-crlf----output-newline">2C CRLF – output newline</h3>
+<h3 id="2c-crlf--output-newline">2C CRLF – output newline</h3>
 
 <pre><code>Desc:       outputs a newline (0A + 0D)
 In,Out:     -
@@ -1087,7 +1087,7 @@ Change:     AF
 Stack:      17
 </code></pre>
 
-<h3 id="d-home----output-home">2D HOME – output HOME</h3>
+<h3 id="2d-home--output-home">2D HOME – output HOME</h3>
 
 <pre><code>Desc:       outputs the HOME character control code
 In,Out:     -
@@ -1095,7 +1095,7 @@ Change:     AF
 Stack:      15
 </code></pre>
 
-<h3 id="e-modi----call-modify">2E MODI – call MODIFY</h3>
+<h3 id="2e-modi--call-modify">2E MODI – call MODIFY</h3>
 
 <pre><code>Desc:       this calls the MODIFY system command
 In:         HL - start address
@@ -1104,7 +1104,7 @@ Change:     AF,BC,DE,HL
 Stack:      18
 </code></pre>
 
-<h3 id="f-pude----clear-pixel">2F PUDE – clear pixel</h3>
+<h3 id="2f-pude--clear-pixel">2F PUDE – clear pixel</h3>
 
 <pre><code>Desc:       clear pixel at position (HOR),(VERT)
 In:         (HOR)   - horizontal position (0..13FH)
@@ -1115,7 +1115,7 @@ Out:        A       - color byte
 Note:       position (0,0) is lower-left corner
 </code></pre>
 
-<h3 id="puse----set-a-pixel">30 PUSE – set a pixel</h3>
+<h3 id="30-puse--set-a-pixel">30 PUSE – set a pixel</h3>
 
 <pre><code>Desc:       set pixel at position (HOR),(VERT)
 In:         (HOR)   - horizontal position (0..13FH)
@@ -1129,7 +1129,7 @@ Change:     AF
 Stack:      4
 </code></pre>
 
-<h3 id="sixd----move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</h3>
+<h3 id="31-sixd--move-and-reset-caos-working-memory">31 SIXD – move and reset CAOS working memory</h3>
 
 <pre><code>Desc:       moves the CAOS working memory area (default location: 01F0):
             - initialize the interrupt table
@@ -1144,7 +1144,7 @@ Change:     AF,BC,DE,HL,IX
 Stack       6
 </code></pre>
 
-<h3 id="dabr----compute-character-buffer-address">32 DABR – compute character buffer address</h3>
+<h3 id="32-dabr--compute-character-buffer-address">32 DABR – compute character buffer address</h3>
 
 <pre><code>Desc:       computes the character buffer address relativ to the
             currently set window
@@ -1157,7 +1157,7 @@ Stack:      2
 Note:       can be used to read-back ASCII codes from the character buffer
 </code></pre>
 
-<h3 id="tcif----test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</h3>
+<h3 id="33-tcif--test-if-cursor-pos-inside-window">33 TCIF – test if cursor pos inside window</h3>
 
 <pre><code>Desc:       tests if cursor position is inside current window
 In:         D   - line in current window
@@ -1167,7 +1167,7 @@ Change:     AF
 Stack:      0
 </code></pre>
 
-<h3 id="padr----compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</h3>
+<h3 id="34-padr--compute-pixel--and-color-address">34 PADR – compute pixel- and color-address</h3>
 
 <pre><code>Desc:       computes the pixel- and color-buffer address from a charcter position
 In:         H   - vertical position (0..FFH ??)
@@ -1179,7 +1179,7 @@ Note:       can only be called through entry point 1 (F003)
             on KC85/4, pixel and color buffer address is identical!
 </code></pre>
 
-<h3 id="ton----sound-output">35 TON – sound output</h3>
+<h3 id="35-ton--sound-output">35 TON – sound output</h3>
 
 <pre><code>Desc:       emits a sound
 In:         (ARG1+0)    - sound pitch 1 (timer constant for CTC0)
@@ -1193,7 +1193,7 @@ Stack:      1
 Note:       the sound duration is controlled via CTC interrupr
 </code></pre>
 
-<h3 id="save----save-program">36 SAVE – save program</h3>
+<h3 id="36-save--save-program">36 SAVE – save program</h3>
 
 <pre><code>Desc:       save a machine-code program to cassette tape
 In:         HL      - start address of filename (as 8.3 name.type)
@@ -1207,7 +1207,7 @@ Stack:      16
 Note:       auto-start programs use (ARGN)=3
 </code></pre>
 
-<h3 id="mbin----byte-input-from-tape">37 MBIN – byte-input from tape</h3>
+<h3 id="37-mbin--byte-input-from-tape">37 MBIN – byte-input from tape</h3>
 
 <pre><code>Desc:       read bytes from cassette tape with name check in first block
 In:         A   - data (?)
@@ -1222,7 +1222,7 @@ Note:       the documentation doesn't make a lot of sense for this function :/
             only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="mbout----byte-output-to-tape">38 MBOUT – byte-output to tape</h3>
+<h3 id="38-mbout--byte-output-to-tape">38 MBOUT – byte-output to tape</h3>
 
 <pre><code>Desc:       write bytes to cassette tape
 In:         A   - data (?)
@@ -1237,7 +1237,7 @@ Note:       the documentation doesn't make a lot of sense for this function :/
             only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="key----assign-function-key">39 KEY – assign function key</h3>
+<h3 id="39-key--assign-function-key">39 KEY – assign function key</h3>
 
 <pre><code>Desc:       calls the KEY system command to interactively assign a function key
 In:         A   - function key number (1..0CH)
@@ -1247,7 +1247,7 @@ Stack:      18
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="a-keyli----print-function-key-assignment">3A KEYLI – print function key assignment</h3>
+<h3 id="3a-keyli--print-function-key-assignment">3A KEYLI – print function key assignment</h3>
 
 <pre><code>Desc:       calls the KEYLIST system command to output the current 
             function key assignment
@@ -1257,7 +1257,7 @@ Stack:      18
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="b-disp----hexascii-dump">3B DISP – hex/ascii dump</h3>
+<h3 id="3b-disp--hexascii-dump">3B DISP – hex/ascii dump</h3>
 
 <pre><code>Desc:       calls the DISPLAY system command
 In KC85/3:  (ARGN)  - number of arguments
@@ -1276,7 +1276,7 @@ Note:       key BRK: cancel
             only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="c-winin----initialize-a-window">3C WININ – initialize a window</h3>
+<h3 id="3c-winin--initialize-a-window">3C WININ – initialize a window</h3>
 
 <pre><code>Desc:       initialize or a new window 
 In:         A   - window number (0..9)
@@ -1288,7 +1288,7 @@ Stack:      5
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="d-winak----select-window">3D WINAK – select window</h3>
+<h3 id="3d-winak--select-window">3D WINAK – select window</h3>
 
 <pre><code>Desc:       sets the current window 
 In:         A   - window number (0..9)
@@ -1298,7 +1298,7 @@ Stack:      2
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="e-line----draw-a-line">3E LINE – draw a line</h3>
+<h3 id="3e-line--draw-a-line">3E LINE – draw a line</h3>
 
 <pre><code>Desc:       draws a pixel line from X0/Y0 to X1/Y1
 In:         (ARG1)  - X0
@@ -1315,7 +1315,7 @@ Stack:      8
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="f-circle----draw-a-circle">3F CIRCLE – draw a circle</h3>
+<h3 id="3f-circle--draw-a-circle">3F CIRCLE – draw a circle</h3>
 
 <pre><code>Desc:       draw a circle at XM/YM and radius R
 In:         (ARG1) - XM
@@ -1328,7 +1328,7 @@ Stack:      8
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="sqr----square-root">40 SQR – square root</h3>
+<h3 id="40-sqr--square-root">40 SQR – square root</h3>
 
 <pre><code>Desc:       compute 8-bit square root from 16-bit value
 In:         HL  - 16-bit value
@@ -1338,7 +1338,7 @@ Stack:      1
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="mult----multiplication">41 MULT – multiplication</h3>
+<h3 id="41-mult--multiplication">41 MULT – multiplication</h3>
 
 <pre><code>Desc:       multiply 2 8-bit numbers into a 16-bit result
 In:         D, C    - 8-bit factors
@@ -1348,7 +1348,7 @@ Stack:      1
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="cstbt----toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</h3>
+<h3 id="42-cstbt--toggle-ascii-control-code-mode">42 CSTBT – toggle ASCII control code mode</h3>
 
 <pre><code>Desc:       toggles between rendering or executing an ASCII control code
             by inverting bit 4 of (STBT)
@@ -1359,7 +1359,7 @@ Stack:      1
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="iniea----initialize-io-channel">43 INIEA – initialize I/O channel</h3>
+<h3 id="43-iniea--initialize-io-channel">43 INIEA – initialize I/O channel</h3>
 
 <pre><code>Desc:       initialize an I/O channel via table
 In:         HL  - start address of init table
@@ -1377,7 +1377,7 @@ Note:       only CAOS 3.1 and up
             Nth byte
 </code></pre>
 
-<h3 id="inime----initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</h3>
+<h3 id="44-inime--initialize-multiple-io-channels">44 INIME – initialize multiple I/O channels</h3>
 
 <pre><code>Desc:       initialize multiple I/O channels via table
 In:         HL  - start address of init table
@@ -1390,7 +1390,7 @@ Note:       only CAOS 3.1 and up
             as described in 43 INIEA
 </code></pre>
 
-<h3 id="zkout----output-string-at-hl">45 ZKOUT – output string at HL</h3>
+<h3 id="45-zkout--output-string-at-hl">45 ZKOUT – output string at HL</h3>
 
 <pre><code>Desc:       output a null-terminated string at HL
 In:         HL  - points to null-terminated string
@@ -1400,7 +1400,7 @@ Stack:      22
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="menu----call-menu-system-command">46 MENU – call MENU system command</h3>
+<h3 id="46-menu--call-menu-system-command">46 MENU – call MENU system command</h3>
 
 <pre><code>Desc:       outputs the current menu and enters interactive command mode
 In:         (IX+9)  - prolog byte
@@ -1408,7 +1408,7 @@ Out,Change: -
 Note:       only CAOS 3.1 and up
 </code></pre>
 
-<h3 id="v24out----initialize-printer-output">47 V24OUT – initialize printer output</h3>
+<h3 id="47-v24out--initialize-printer-output">47 V24OUT – initialize printer output</h3>
 
 <pre><code>Desc:       initializes printer output
 In:         (ARG1)  - module slot with M003 module
@@ -1427,7 +1427,7 @@ Note:       CAOS 4.1 and up
             documentation is unclear
 </code></pre>
 
-<h3 id="v24dup----initialize-v24-duplex">48 V24DUP – initialize V24 duplex</h3>
+<h3 id="48-v24dup--initialize-v24-duplex">48 V24DUP – initialize V24 duplex</h3>
 
 <pre><code>Desc:       initializes V24 duplex routine
 In:         (ARG1)  - module slot with M003 module
