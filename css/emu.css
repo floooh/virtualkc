@@ -334,3 +334,9 @@ pre {
 
 .panel-list-item.acorn:hover {
   background-color: #2a692d; }
+
+.panel-list-item.cbm {
+  background-color: #6C5EB5; }
+
+.panel-list-item.cbm:hover {
+  background-color: #544799; }
